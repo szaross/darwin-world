@@ -23,7 +23,7 @@ public class Animal implements Movable, WorldElement {
         // random direction and active gene
         Random random=new Random();
         this.direction=Direction.randomDirection();
-        this.activeGene=random.nextInt(Direction.values().length);
+        this.activeGene=random.nextInt(genotypeSize);
 
         // random genes
         List<Integer> genes = new ArrayList<>();
