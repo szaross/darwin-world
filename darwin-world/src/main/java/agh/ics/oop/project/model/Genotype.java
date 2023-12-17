@@ -1,6 +1,7 @@
 package agh.ics.oop.project.model;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Genotype {
     private List<Integer> Genes = new ArrayList<>();
@@ -13,12 +14,13 @@ public class Genotype {
         Random random = new Random();
         int n = Genes.size();
         int how_many = random.nextInt(n) + 1;
-        Set<Integer> positions = new HashSet<>();
 
-        while(positions.size() != how_many)
-            positions.add(random.nextInt(n));
+        List<Integer> positions = new ArrayList<>(IntStream.range(0, n).boxed().toList());
+        Collections.shuffle(positions);
+        positions = positions.subList(0,how_many);
 
         int new_gene;
+
         for(Integer position : positions) {
             do new_gene = random.nextInt(8);
                 while (new_gene == Genes.get(position));
