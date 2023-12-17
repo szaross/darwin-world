@@ -4,6 +4,11 @@ import java.util.*;
 
 public class Genotype {
     private List<Integer> Genes = new ArrayList<>();
+
+    public Genotype(List<Integer> Genes) {
+        this.Genes = Genes;
+    }
+
     public void mutate() {
         Random random = new Random();
         int n = Genes.size();
