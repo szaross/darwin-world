@@ -36,6 +36,9 @@ public class Genotype {
         return Genes;
     }
 
+    public void reverse(){
+        Collections.reverse(Genes);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
