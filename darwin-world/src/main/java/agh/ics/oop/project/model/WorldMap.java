@@ -47,28 +47,38 @@ public class WorldMap implements Map {
 
     public void updateMap(){
         Set<Animal> moved = new HashSet<>();
-        for (Tile t : tiles.values()){
-            for (Animal animal : t.getAnimals()){
-                if (!moved.contains(animal)){
-                    // move the animal
-                    t.removeAnimal(animal);
-                    animal.move(this);
+        for (Animal animal : getAnimals()){
+            if (!moved.contains(animal)) {
+                Vector2d old_pos=animal.getPosition();
+                Tile t = tiles.get(old_pos);
 
-                    // create Tile on Vector2d if doesnt exist
-                    if (!tiles.containsKey(animal.getPosition())){
-                        tiles.put(animal.getPosition(),new Tile());
-                    }
+                // move the animal
+                t.removeAnimal(animal);
+                animal.move(this);
 
-                    // put animal on the new tile
-                    tiles.get(animal.getPosition()).addAnimal(animal);
-                    moved.add(animal);
+                // create Tile on Vector2d if doesnt exist
+                if (!tiles.containsKey(animal.getPosition())) {
+                    tiles.put(animal.getPosition(), new Tile());
                 }
+
+                // put animal on the new tile
+                tiles.get(animal.getPosition()).addAnimal(animal);
+                moved.add(animal);
+
+                deleteIfEmpty(old_pos);
             }
         }
 
     }
 
-
+    private void deleteIfEmpty(Vector2d position){
+        if (tiles.containsKey(position)){
+            Tile t = tiles.get(position);
+            if (t.getPlant()==null && t.getAnimals().isEmpty()){
+                tiles.remove(position);
+            }
+        }
+    }
     @Override
     public List<WorldElement> objectsAt(Vector2d position) {
         Tile t = tiles.get(position);
@@ -97,6 +107,13 @@ public class WorldMap implements Map {
         return result;
     }
 
+    public List<Animal> getAnimals(){
+        List<Animal> result = new ArrayList<>();
+        for (Tile t : tiles.values()) {
+            result.addAll(t.getAnimals());
+        }
+        return result;
+    }
     @Override
     public int getHeight() {
         return height;
