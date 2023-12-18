@@ -2,8 +2,8 @@ package agh.ics.oop.project.model;
 import agh.ics.oop.project.interfaces.WorldElement;
 
 public class Plant implements WorldElement{
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private int energy;
 
     public Plant(int x, int y, int energy) {
