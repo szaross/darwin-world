@@ -57,10 +57,19 @@ public class MapVisualizer {
     }
 
     //tu trzeba gigantyczną poprawke napisać w draw Object
+    // narazie jak jest jeden obiekt to sie on wyswietla, jak jest wiecej niz jeden to wyswietla sie ilosc obiektow na tym polu
     private String drawObject(Vector2d currentPosition) {
         if (this.map.isOccupied(currentPosition)) {
             //dla testów
-            Object object = new Plant(5,5,3);
+            int len = this.map.objectsAt(currentPosition).size();
+            Object object;
+            if (len==1){
+                object = this.map.objectsAt(currentPosition).get(0);
+            }
+            else{
+                object = len;
+            }
+
 
             if (object != null) {
                 return object.toString();
