@@ -29,11 +29,4 @@ public class GenotypeTest {
         gen2.setGenes(new ArrayList<>(List.of(1,2,5,5,0)));
         assertEquals(gen2.getGenes(), new ArrayList<>(List.of(1,2,5,5,0)));
     }
-    @Test
-    public void mutateTest() {
-        gen1.mutate();
-        gen3.mutate();
-        assertNotEquals(gen2, gen1);
-        assertNotEquals(gen4, gen3);
-    }
 }

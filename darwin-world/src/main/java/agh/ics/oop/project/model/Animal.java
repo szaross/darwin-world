@@ -37,7 +37,7 @@ public class Animal implements Movable, WorldElement {
         direction.rotate(genotype.getGenes().get(activeGene));
         // bez wariantów
         int genotypeSize = genotype.getGenes().size();
-        activeGene=(activeGene+1)%genotypeSize;
+        activeGene = (activeGene+1)%genotypeSize;
 
         // calculate new pos
         Vector2d new_pos = position.add(direction.toUnitVector());
@@ -51,15 +51,15 @@ public class Animal implements Movable, WorldElement {
         }
         // animal is beyond right wall
         if (new_pos.getX()>boundary.upper_right().getX()) {
-            new_pos=new_pos.subtract(new Vector2d(boundary.upper_right().getX() + 1,0));
+            new_pos = new_pos.subtract(new Vector2d(boundary.upper_right().getX() + 1,0));
         }
         // animal is beyond left wall
         else if (new_pos.getX()<boundary.lower_left().getX()) {
-            new_pos=new_pos.add(new Vector2d(boundary.upper_right().getX() + 1,0));
+            new_pos = new_pos.add(new Vector2d(boundary.upper_right().getX() + 1,0));
         }
 
         if (validator.canMoveTo(new_pos)){
-            position=new_pos;
+            position = new_pos;
         }
     }
     @Override
