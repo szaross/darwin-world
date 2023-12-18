@@ -81,4 +81,9 @@ public class Animal implements Movable, WorldElement {
     public int getChildrenCount() {
         return childrenCount;
     }
+
+    @Override
+    public String toString(){
+        return "A";
+    }
 }

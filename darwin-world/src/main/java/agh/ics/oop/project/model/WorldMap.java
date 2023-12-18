@@ -2,6 +2,7 @@ package agh.ics.oop.project.model;
 
 import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.WorldElement;
+import agh.ics.oop.project.model.util.MapVisualizer;
 
 import java.util.*;
 
@@ -12,12 +13,14 @@ public class WorldMap implements Map {
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
 
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+
     public WorldMap(int width, int height, int id) {
         this.height = height;
         this.width = width;
         this.boundary = new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
         this.id=id;
-
+        this.tiles = new HashMap<>();
     }
 
     @Override
@@ -117,5 +120,10 @@ public class WorldMap implements Map {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
     }
 }

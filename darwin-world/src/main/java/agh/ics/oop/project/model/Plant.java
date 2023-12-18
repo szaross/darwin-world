@@ -20,4 +20,8 @@ public class Plant implements WorldElement{
     public void setEnergy(int energy){
         this.energy = energy;
     }
+    @Override
+    public String toString(){
+        return "*";
+    }
 }
