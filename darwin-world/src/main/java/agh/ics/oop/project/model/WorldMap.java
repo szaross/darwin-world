@@ -21,12 +21,22 @@ public class WorldMap implements Map {
     }
 
     @Override
-    public boolean place(WorldElement element) {
-        Vector2d pos = element.getPosition();
+    public boolean placeAnimal(Animal animal) {
+        Vector2d pos = animal.getPosition();
         if (canMoveTo(pos)) {
             if (!tiles.containsKey(pos)) tiles.put(pos, new Tile());
-            if (element instanceof Animal) tiles.get(pos).addAnimal((Animal) element);
-            else if (element instanceof Plant) tiles.get(pos).setPlant((Plant) element);
+            tiles.get(pos).addAnimal(animal);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean placePlant(Plant plant) {
+        Vector2d pos = plant.getPosition();
+        if (!tiles.containsKey(pos) || tiles.get(pos).getPlant()==null) {
+            if (!tiles.containsKey(pos)) tiles.put(pos, new Tile());
+            tiles.get(pos).setPlant(plant);
             return true;
         }
         return false;
