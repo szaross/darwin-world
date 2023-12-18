@@ -1,8 +1,11 @@
 package agh.ics.oop.project.model;
 
-public enum Direction {
-    NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST;
+import java.util.Random;
 
+public enum Direction {
+    NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST;
+
+    private static final Random random = new Random();
     @Override
     public String toString() {
         return switch(this) {
@@ -15,6 +18,13 @@ public enum Direction {
             case SOUTHEAST -> "SE";
             case SOUTHWEST -> "SW";
         };
+    }
+    public Direction rotate(int rotation){
+        return Direction.values()[(this.ordinal()+rotation)%Direction.values().length];
+    }
+
+    public static Direction randomDirection(){
+        return values()[random.nextInt(values().length)];
     }
 
     public Vector2d toUnitVector(){

@@ -13,7 +13,7 @@ public class Genotype {
     public void mutate() {
         Random random = new Random();
         int n = Genes.size();
-        int how_many = random.nextInt(n) + 1;
+        int how_many = random.nextInt(n + 1);
 
         List<Integer> positions = new ArrayList<>(IntStream.range(0, n).boxed().toList());
         Collections.shuffle(positions);
@@ -36,6 +36,9 @@ public class Genotype {
         return Genes;
     }
 
+    public void reverse(){
+        Collections.reverse(Genes);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
