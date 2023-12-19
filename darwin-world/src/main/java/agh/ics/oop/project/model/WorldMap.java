@@ -1,6 +1,7 @@
 package agh.ics.oop.project.model;
 
 import agh.ics.oop.project.interfaces.Map;
+import agh.ics.oop.project.interfaces.MapListener;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.util.MapVisualizer;
 
@@ -12,6 +13,8 @@ public class WorldMap implements Map {
     private final int width;
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
+
+    private MapListener listener;
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -68,6 +71,7 @@ public class WorldMap implements Map {
                 deleteIfEmpty(old_pos);
             }
         }
+        listener.mapChanged(this);
 
     }
 
@@ -142,5 +146,9 @@ public class WorldMap implements Map {
     @Override
     public String toString() {
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
+    }
+
+    public void addListener(MapListener listener){
+        this.listener = listener;
     }
 }
