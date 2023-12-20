@@ -88,12 +88,16 @@ public class Animal implements Movable, WorldElement {
         return energy;
     }
 
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
     public int getChildrenCount() {
         return childrenCount;
     }
 
     @Override
     public String toString(){
-        return "A";
+        return Integer.toString(this.getEnergy());
     }
 }

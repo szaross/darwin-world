@@ -50,6 +50,9 @@ public class WorldMap implements Map {
 
     public void updateMap(){
         Set<Animal> moved = new HashSet<>();
+
+        //moving process
+
         for (Animal animal : getAnimals()){
             if (!moved.contains(animal)) {
                 Vector2d old_pos=animal.getPosition();
@@ -71,6 +74,35 @@ public class WorldMap implements Map {
                 deleteIfEmpty(old_pos);
             }
         }
+
+        // Eating process
+
+        for(Vector2d position : tiles.keySet()) {
+            Tile t = tiles.get(position);
+            if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
+                List<Animal> animals = t.getAnimals();
+
+                Animal max_animal = animals.get(0);
+                int max_energy = max_animal.getEnergy();
+
+                for(Animal animal : animals) {
+                    if (animal.getEnergy() > max_energy) {
+                        max_energy = animal.getEnergy();
+                        max_animal = animal;
+                    }
+                }
+
+                t.removeAnimal(max_animal);
+                max_animal.setEnergy(max_energy + t.getPlant().getEnergy());
+                t.addAnimal(max_animal);
+                t.removePlant();
+
+                deleteIfEmpty(position);
+            }
+        }
+
+
+
         listener.mapChanged(this);
 
     }
