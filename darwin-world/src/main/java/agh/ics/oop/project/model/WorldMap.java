@@ -110,7 +110,7 @@ public class WorldMap implements Map {
     private void deleteIfEmpty(Vector2d position){
         if (tiles.containsKey(position)){
             Tile t = tiles.get(position);
-            if (t.getPlant()==null && t.getAnimals().isEmpty()){
+            if (t.isEmpty()) {
                 tiles.remove(position);
             }
         }

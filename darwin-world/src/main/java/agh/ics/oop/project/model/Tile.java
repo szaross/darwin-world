@@ -32,5 +32,8 @@ public class Tile {
     public List<Animal> getAnimals(){
         return animals;
     }
+    public boolean isEmpty() {
+        return plant == null && animals.isEmpty();
+    }
 
 }
