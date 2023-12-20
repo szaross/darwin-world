@@ -4,16 +4,18 @@ public class SimulationConfiguration {
     private final int mapSizeX;
     private final int mapSizeY;
     private final int initialPlantCount;
+    private final int initialPlantEnergy;
     private final int numberOfPlantsGrowingPerDay;
     private final int initialAnimalCount;
     private final int initialAnimalEnergy;
     private final int readyToReproduceEnergy;
     private final int genomeLength;
 
-    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int genomeLength) {
+    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int genomeLength) {
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
         this.initialPlantCount = initialPlantCount;
+        this.initialPlantEnergy = initialPlantEnergy;
         this.numberOfPlantsGrowingPerDay = numberOfPlantsGrowingPerDay;
         this.initialAnimalCount = initialAnimalCount;
         this.initialAnimalEnergy = initialAnimalEnergy;
@@ -51,5 +53,9 @@ public class SimulationConfiguration {
 
     public int getGenomeLength() {
         return genomeLength;
+    }
+
+    public int getInitialPlantEnergy(){
+        return initialPlantEnergy;
     }
 }
