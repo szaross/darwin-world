@@ -48,10 +48,8 @@ public class WorldMap implements Map {
         return false;
     }
 
-    public void updateMap(){
+    public void move(){
         Set<Animal> moved = new HashSet<>();
-
-        //moving process
 
         for (Animal animal : getAnimals()){
             if (!moved.contains(animal)) {
@@ -74,9 +72,9 @@ public class WorldMap implements Map {
                 deleteIfEmpty(old_pos);
             }
         }
+    }
 
-        // Eating process
-
+    public void eat() {
         for(Vector2d position : tiles.keySet()) {
             Tile t = tiles.get(position);
             if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
@@ -100,9 +98,11 @@ public class WorldMap implements Map {
                 deleteIfEmpty(position);
             }
         }
+    }
 
-
-
+    public void updateMap(){
+        move();
+        eat();
         listener.mapChanged(this);
 
     }

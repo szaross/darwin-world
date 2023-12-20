@@ -2,17 +2,15 @@ package agh.ics.oop.project.model;
 import agh.ics.oop.project.interfaces.WorldElement;
 
 public class Plant implements WorldElement{
-    private final int x;
-    private final int y;
+    private final Vector2d position;
     private int energy;
 
-    public Plant(int x, int y, int energy) {
-        this.x = x;
-        this.y = y;
+    public Plant(Vector2d position, int energy) {
+        this.position = position;
         this.energy = energy;
     }
     public Vector2d getPosition(){
-        return new Vector2d(x,y);
+        return position;
     }
     public int getEnergy(){
         return energy;
