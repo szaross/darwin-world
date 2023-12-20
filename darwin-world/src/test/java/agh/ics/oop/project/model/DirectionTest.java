@@ -28,4 +28,13 @@ public class DirectionTest {
         assertEquals(new Vector2d(-1, -1), Direction.SOUTHWEST.toUnitVector());
         assertEquals(new Vector2d(1, 1), Direction.NORTHEAST.toUnitVector());
     }
+
+    @Test
+    public void rotateTest() {
+        assertEquals(Direction.NORTHEAST, Direction.NORTH.rotate(1));
+        assertEquals(Direction.EAST, Direction.NORTH.rotate(2));
+        assertEquals(Direction.SOUTHEAST, Direction.NORTH.rotate(3));
+        assertEquals(Direction.SOUTH, Direction.NORTH.rotate(4));
+        assertEquals(Direction.NORTH, Direction.NORTH.rotate(16));
+    }
 }

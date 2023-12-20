@@ -18,14 +18,14 @@ public class TileTest {
     @Test
     public void addTest(){
         tile.addAnimal(animal);
-        assertTrue(tile.animals.contains(animal));
+        assertTrue(tile.getAnimals().contains(animal));
     }
 
     @Test
     public void removeTest(){
         tile.addAnimal(animal);
         tile.removeAnimal(animal);
-        assertFalse(tile.animals.contains(animal));
+        assertFalse(tile.getAnimals().contains(animal));
     }
 
 }

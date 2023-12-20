@@ -32,9 +32,18 @@ public class Animal implements Movable, WorldElement {
         }
         this.genotype = new Genotype(genes);
     }
+
+    public Animal(Vector2d position,int energy, Genotype genotype,int activeGene, Direction direction){
+        this.position=position;
+        this.energy=energy;
+        this.genotype=genotype;
+        this.direction=direction;
+        this.activeGene=activeGene;
+    }
+
     @Override
     public void move(MoveValidator validator) {
-        direction.rotate(genotype.getGenes().get(activeGene));
+        direction=direction.rotate(genotype.getGenes().get(activeGene));
         // bez wariantów
         int genotypeSize = genotype.getGenes().size();
         activeGene = (activeGene+1)%genotypeSize;
@@ -45,9 +54,10 @@ public class Animal implements Movable, WorldElement {
 
         // bemaj mowil, ze jak zwierze jest w rogu i probuje isc na skos (rownoczesnie wyjsc poza dwie granice), to obie zasady dzialaja tj, zwierze przechodzi na druga strone mapy i sie "odbija"
         // animal is beyond upper or lower wall
-        if (new_pos.getY()>boundary.upper_right().getY() || new_pos.getY()<boundary.lower_left().getY()){
-            direction=direction.rotate(4);
-            new_pos.add(new Vector2d(0,-direction.toUnitVector().getY()));
+        if (new_pos.getY() > boundary.upper_right().getY() || new_pos.getY() < boundary.lower_left().getY()) {
+            new_pos = new_pos.subtract(new Vector2d(0, direction.toUnitVector().getY()));
+            direction = direction.rotate(4);
+
         }
         // animal is beyond right wall
         if (new_pos.getX()>boundary.upper_right().getX()) {
@@ -80,5 +90,10 @@ public class Animal implements Movable, WorldElement {
 
     public int getChildrenCount() {
         return childrenCount;
+    }
+
+    @Override
+    public String toString(){
+        return "A";
     }
 }
