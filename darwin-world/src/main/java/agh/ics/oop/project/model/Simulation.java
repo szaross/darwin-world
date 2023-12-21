@@ -25,19 +25,30 @@ public class Simulation  {
         this.listener=listener;
     }
 
-
     public void run() throws InterruptedException {
         setUp();
         listener.mapChanged(this);
-        while(!isSimulationOver()){
+
+//        while(!isSimulationOver()){
+//            removeDeadAnimals();
+//            map.moveAnimals();
+//            map.eatPlants();
+//            //rozmnazanie
+//            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+//            listener.mapChanged(this);
+//            Thread.sleep(config.getTurnTimeInMs());
+//        }
+
+        for(int i = 0; i < 200; i++) {
             removeDeadAnimals();
             map.moveAnimals();
             map.eatPlants();
-            //rozmnazanie
-//            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
             listener.mapChanged(this);
             Thread.sleep(config.getTurnTimeInMs());
         }
+
+
     }
     private void spawnAnimals(int animalCount){
         Random random = new Random();
@@ -49,10 +60,34 @@ public class Simulation  {
 
     private void spawnPlants(int plantCount){
         List<Vector2d> availablePositions = getPositionsWithoutPlants();
-        Collections.shuffle(availablePositions);
-        availablePositions = availablePositions.subList(0,plantCount);
+        List<Vector2d> centerList = new ArrayList<>();
+        List<Vector2d> outsideList = new ArrayList<>();
 
-        for (Vector2d position : availablePositions){
+        int border = (int) (0.2*config.getMapSizeY());
+        int center = config.getMapSizeY() / 2;
+
+        for(Vector2d position: availablePositions){
+            if(position.getY() > center - border && position.getY() < center + border) {
+                centerList.add(position);
+            } else {
+                outsideList.add(position);
+            }
+        }
+
+
+        Collections.shuffle(centerList);
+        Collections.shuffle(outsideList);
+
+        int how_many = (int) Math.floor((plantCount * 0.8));
+
+        centerList = centerList.subList(0, Math.min(how_many, centerList.size()));
+        outsideList = outsideList.subList(0, Math.min(plantCount - how_many, outsideList.size()));
+
+        for (Vector2d position : centerList){
+            map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
+        }
+
+        for (Vector2d position : outsideList){
             map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
         }
     }
