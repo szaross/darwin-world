@@ -1,7 +1,6 @@
 package agh.ics.oop.project.model;
 
 import agh.ics.oop.project.interfaces.Map;
-import agh.ics.oop.project.interfaces.MapListener;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.util.MapVisualizer;
 
@@ -13,8 +12,6 @@ public class WorldMap implements Map {
     private final int width;
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
-
-    private MapListener listener;
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -37,6 +34,10 @@ public class WorldMap implements Map {
         return false;
     }
 
+    public void removeAnimal(Animal animal){
+        tiles.get(animal.getPosition()).removeAnimal(animal);
+    }
+
     @Override
     public boolean placePlant(Plant plant) {
         Vector2d pos = plant.getPosition();
@@ -48,7 +49,7 @@ public class WorldMap implements Map {
         return false;
     }
 
-    public void move(){
+    public void moveAnimals(){
         Set<Animal> moved = new HashSet<>();
 
         for (Animal animal : getAnimals()){
@@ -74,7 +75,7 @@ public class WorldMap implements Map {
         }
     }
 
-    public void eat() {
+    public void eatPlants() {
         for(Vector2d position : tiles.keySet()) {
             Tile t = tiles.get(position);
             if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
@@ -100,14 +101,8 @@ public class WorldMap implements Map {
         }
     }
 
-    public void updateMap(){
-        move();
-        eat();
-        listener.mapChanged(this);
 
-    }
-
-    private void deleteIfEmpty(Vector2d position){
+    public void deleteIfEmpty(Vector2d position){
         if (tiles.containsKey(position)){
             Tile t = tiles.get(position);
             if (t.isEmpty()) {
@@ -133,6 +128,12 @@ public class WorldMap implements Map {
         return tiles.get(position) != null;
     }
 
+    public Plant getPlant(Vector2d pos){
+        if (isOccupied(pos)){
+            return tiles.get(pos).getPlant();
+        }
+        return null;
+    }
     @Override
     public List<WorldElement> getElements() {
         List<WorldElement> result = new ArrayList<>();
@@ -180,7 +181,5 @@ public class WorldMap implements Map {
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
     }
 
-    public void addListener(MapListener listener){
-        this.listener = listener;
-    }
+
 }

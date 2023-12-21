@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         SimulationConfiguration config = new SimulationConfiguration(10,10,30,
                                                         1,5,8,
-                                                        0,2,5);
+                                                        1,2,5,500);
         Simulation sim = new Simulation(config);
         try {
             sim.run();
