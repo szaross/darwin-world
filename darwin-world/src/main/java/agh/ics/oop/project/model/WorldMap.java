@@ -54,6 +54,10 @@ public class WorldMap implements Map{
         animal.setAge(animal.getAge() + 1);
     }
 
+    public void decreaseEnergy(Animal animal){
+        animal.setEnergy(animal.getEnergy() - 1);
+    }
+
     public void moveAnimals(){
         Set<Animal> moved = new HashSet<>();
 
@@ -76,6 +80,7 @@ public class WorldMap implements Map{
                 moved.add(animal);
 
                 increaseAge(animal);
+                decreaseEnergy(animal);
                 deleteIfEmpty(old_pos);
             }
         }

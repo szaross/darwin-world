@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AnimalComparatorTest {
     @Test
     public void animalCompareTest(){
-
         List<Animal> animals = new ArrayList<>(List.of(new Animal(new Vector2d(2,3), 4, 4),
                                                         new Animal(new Vector2d(4,3), 17, 4),
                                                         new Animal(new Vector2d(1,3), 8, 4),
@@ -23,8 +22,6 @@ public class AnimalComparatorTest {
                 max_animal = animal;
             }
         }
-
-        Animal animal = new Animal(new Vector2d(4,3), 17,4);
-        assertTrue(animal.equals(max_animal));
+        assertEquals(animals.get(1), max_animal);
     }
 }

@@ -101,7 +101,7 @@ public class Animal implements Movable, WorldElement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return energy == animal.energy && Objects.equals(position, animal.position) && direction == animal.direction;
+        return activeGene == animal.activeGene && energy == animal.energy && childrenCount == animal.childrenCount && age == animal.age && Objects.equals(position, animal.position) && direction == animal.direction && Objects.equals(genotype, animal.genotype);
     }
 
     @Override
