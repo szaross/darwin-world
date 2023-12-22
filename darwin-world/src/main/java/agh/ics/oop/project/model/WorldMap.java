@@ -1,12 +1,13 @@
 package agh.ics.oop.project.model;
-
+import agh.ics.oop.project.interfaces.Comparator;
+import agh.ics.oop.project.model.AnimalComparator;
 import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.util.MapVisualizer;
 
 import java.util.*;
 
-public class WorldMap implements Map {
+public class WorldMap implements Map{
     private final Boundary boundary;
     private final int height;
     private final int width;
@@ -87,14 +88,15 @@ public class WorldMap implements Map {
                 List<Animal> animals = t.getAnimals();
 
                 Animal max_animal = animals.get(0);
-                int max_energy = max_animal.getEnergy();
+                AnimalComparator comparator = new AnimalComparator();
 
-                for(Animal animal : animals) {
-                    if (animal.getEnergy() > max_energy) {
-                        max_energy = animal.getEnergy();
+                for(Animal animal : animals){
+                    if (comparator.compare(max_animal, animal) > 0){
                         max_animal = animal;
                     }
                 }
+
+                int max_energy = max_animal.getEnergy();
 
                 t.removeAnimal(max_animal);
                 max_animal.setEnergy(max_energy + t.getPlant().getEnergy());
