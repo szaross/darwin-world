@@ -16,6 +16,8 @@ public class Animal implements Movable, WorldElement {
     private int energy;
     private int childrenCount=0;
 
+    private int age = 0;
+
     public Animal(Vector2d position,int energy, int genotypeSize){
         this.position=position;
         this.energy=energy;
@@ -99,5 +101,13 @@ public class Animal implements Movable, WorldElement {
     @Override
     public String toString(){
         return Integer.toString(this.getEnergy());
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge(){
+        return age;
     }
 }

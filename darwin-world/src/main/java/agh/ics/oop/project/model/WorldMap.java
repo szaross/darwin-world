@@ -49,6 +49,10 @@ public class WorldMap implements Map {
         return false;
     }
 
+    public void increaseAge(Animal animal){
+        animal.setAge(animal.getAge() + 1);
+    }
+
     public void moveAnimals(){
         Set<Animal> moved = new HashSet<>();
 
@@ -70,6 +74,7 @@ public class WorldMap implements Map {
                 tiles.get(animal.getPosition()).addAnimal(animal);
                 moved.add(animal);
 
+                increaseAge(animal);
                 deleteIfEmpty(old_pos);
             }
         }
