@@ -44,6 +44,8 @@ public class Simulation  {
             map.moveAnimals();
             map.eatPlants();
             reproduceAnimals();
+            increaseAge();
+            decreaseEnergy();
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
             listener.mapChanged(this);
             Thread.sleep(config.getTurnTimeInMs());
@@ -171,5 +173,21 @@ public class Simulation  {
     }
     public WorldMap getMap() {
         return map;
+    }
+
+    public void increaseAge(){
+        List<Animal> animals = map.getAnimals();
+
+        for(Animal animal : animals){
+            animal.setAge(animal.getAge() + 1);
+        }
+    }
+
+    public void decreaseEnergy(){
+        List<Animal> animals = map.getAnimals();
+
+        for(Animal animal : animals){
+            animal.setEnergy(animal.getEnergy() - config.getEnergyLossEachDay());
+        }
     }
 }
