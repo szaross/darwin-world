@@ -11,11 +11,10 @@ import java.util.Random;
 public class Animal implements Movable, WorldElement {
     private Vector2d position;
     private Direction direction;
-    private Genotype genotype;
+    private final Genotype genotype;
     private int activeGene;
     private int energy;
     private int childrenCount=0;
-
     private int age = 0;
 
     public Animal(Vector2d position,int energy, int genotypeSize){
@@ -78,36 +77,23 @@ public class Animal implements Movable, WorldElement {
     public Vector2d getPosition() {
         return position;
     }
-    public Direction getDirection() {
-        return direction;
-    }
-
+    public Direction getDirection() { return direction; }
     public Genotype getGenotype() {
         return genotype;
     }
-
     public int getEnergy() {
         return energy;
     }
-
     public void setEnergy(int energy) {
         this.energy = energy;
     }
-
     public int getChildrenCount() {
         return childrenCount;
     }
-
     @Override
-    public String toString(){
-        return Integer.toString(this.getEnergy());
-    }
+    public String toString(){ return Integer.toString(this.getEnergy());}
+    public void setAge(int age) { this.age = age;}
+    public int getAge(){ return age; }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
-    public int getAge(){
-        return age;
-    }
 }
