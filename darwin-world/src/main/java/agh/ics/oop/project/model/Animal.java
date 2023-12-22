@@ -6,6 +6,7 @@ import agh.ics.oop.project.interfaces.WorldElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Animal implements Movable, WorldElement {
@@ -95,5 +96,16 @@ public class Animal implements Movable, WorldElement {
     public void setAge(int age) { this.age = age;}
     public int getAge(){ return age; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return energy == animal.energy && Objects.equals(position, animal.position) && direction == animal.direction;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, direction, genotype, activeGene, energy, childrenCount, age);
+    }
 }
