@@ -7,9 +7,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        SimulationConfiguration config = new SimulationConfiguration(20,20,5,
-                                                        1,3,20,
-                                                        1,2, 5,5,3000);
+        SimulationConfiguration config = new SimulationConfiguration(5,5,5,
+                                                        1,3,10,
+                                                        1,2, 5,5,30);
+
         Simulation sim = new Simulation(config);
         try {
             sim.run();

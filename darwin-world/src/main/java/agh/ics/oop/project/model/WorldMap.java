@@ -1,6 +1,4 @@
 package agh.ics.oop.project.model;
-import agh.ics.oop.project.interfaces.Comparator;
-import agh.ics.oop.project.model.AnimalComparator;
 import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.util.MapVisualizer;
@@ -171,6 +169,11 @@ public class WorldMap implements Map{
     @Override
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public HashMap<Vector2d, Tile> getTiles() {
+        return tiles;
     }
 
     @Override

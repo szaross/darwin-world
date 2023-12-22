@@ -43,6 +43,7 @@ public class Simulation  {
             removeDeadAnimals();
             map.moveAnimals();
             map.eatPlants();
+            reproduceAnimals();
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
             listener.mapChanged(this);
             Thread.sleep(config.getTurnTimeInMs());
@@ -92,14 +93,63 @@ public class Simulation  {
         }
     }
 
+    private void reproduceAnimals() {
+        HashMap<Vector2d, Tile> tiles = map.getTiles();
+
+        for (Vector2d position : tiles.keySet()) {
+            // two strongest animals
+            List<Animal> animalCouple = tiles.get(position).getAnimals().stream()
+                    .filter(animal -> animal.getEnergy() >= config.getReadyToReproduceEnergy())
+                    .sorted(new AnimalComparator())
+                    .limit(2)
+                    .toList();
+
+            if (animalCouple.size() < 2) continue;
+
+            Animal stronger = animalCouple.get(0);
+            Animal weaker = animalCouple.get(1);
+
+            Random random = new Random();
+            int side = random.nextInt(2);
+
+            List<Integer> genes = new ArrayList<>();
+            int stronger_len = (int) Math.ceil(config.getGenomeLength() * ((double) stronger.getEnergy() / (stronger.getEnergy() + weaker.getEnergy())));
+            int weaker_len = config.getGenomeLength() - stronger_len;
+
+            switch (side) {
+                case 0: // taking left side of steonger genes
+                    genes.addAll(stronger.getGenotype().getGenes().subList(0, stronger_len));
+                    genes.addAll(weaker.getGenotype().getGenes().subList(config.getGenomeLength() - weaker_len, config.getGenomeLength()));
+                    break;
+                case 1: // taking left side
+                    genes.addAll(stronger.getGenotype().getGenes().subList(config.getGenomeLength() - stronger_len, config.getGenomeLength()));
+                    genes.addAll(weaker.getGenotype().getGenes().subList(0, weaker_len));
+                    break;
+            }
+
+            Genotype genotype = new Genotype(genes);
+            genotype.mutate();
+
+            Animal newborn = new Animal(position, 2 * config.getReadyToReproduceEnergy(), genotype);
+//            System.out.println("new genotype: "+ genotype.getGenes());
+
+            stronger.setEnergy(stronger.getEnergy() - config.getReadyToReproduceEnergy());
+            weaker.setEnergy(weaker.getEnergy() - config.getReadyToReproduceEnergy());
+
+            map.placeAnimal(newborn);
+        }
+    }
     private void removeDeadAnimals(){
         List<Animal> animals = map.getAnimals();
+        int count =0;
         for(Animal animal : animals){
             if (animal.getEnergy()==0){
+                count++;
                 map.removeAnimal(animal);
                 map.deleteIfEmpty(animal.getPosition());
             }
         }
+        System.out.println("deleted " + count +" animals");
     }
 
     private List<Vector2d> getPositionsWithoutPlants(){

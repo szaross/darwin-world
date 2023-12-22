@@ -35,6 +35,18 @@ public class Animal implements Movable, WorldElement {
         this.genotype = new Genotype(genes);
     }
 
+    public Animal(Vector2d position,int energy, Genotype genotype){
+        this.position=position;
+        this.energy=energy;
+
+        // random direction and active gene
+        Random random=new Random();
+        this.direction=Direction.randomDirection();
+        this.activeGene=random.nextInt(genotype.getGenes().size());
+
+        this.genotype = genotype;
+    }
+
     public Animal(Vector2d position,int energy, Genotype genotype,int activeGene, Direction direction){
         this.position=position;
         this.energy=energy;
