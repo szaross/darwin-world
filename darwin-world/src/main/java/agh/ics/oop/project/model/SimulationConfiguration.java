@@ -9,10 +9,11 @@ public class SimulationConfiguration {
     private final int initialAnimalCount;
     private final int initialAnimalEnergy;
     private final int readyToReproduceEnergy;
+    private final int energyLossEachDay;
     private final int genomeLength;
     private final int turnTimeInMs;
 
-    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int genomeLength,int turnTimeInMs) {
+    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int energyLossEachDay, int genomeLength, int turnTimeInMs) {
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
         this.initialPlantCount = initialPlantCount;
@@ -21,6 +22,7 @@ public class SimulationConfiguration {
         this.initialAnimalCount = initialAnimalCount;
         this.initialAnimalEnergy = initialAnimalEnergy;
         this.readyToReproduceEnergy = readyToReproduceEnergy;
+        this.energyLossEachDay = energyLossEachDay;
         this.genomeLength = genomeLength;
         this.turnTimeInMs=turnTimeInMs;
     }
@@ -62,5 +64,9 @@ public class SimulationConfiguration {
     }
     public int getTurnTimeInMs() {
         return turnTimeInMs;
+    }
+
+    public int getEnergyLossEachDay() {
+        return energyLossEachDay;
     }
 }

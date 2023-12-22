@@ -8,8 +8,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         SimulationConfiguration config = new SimulationConfiguration(20,20,5,
-                                                        1,4,8,
-                                                        1,2,5,1500);
+                                                        1,3,20,
+                                                        1,2, 5,5,500);
         Simulation sim = new Simulation(config);
         try {
             sim.run();
