@@ -4,7 +4,7 @@ import agh.ics.oop.project.interfaces.SimulationListener;
 import java.util.*;
 
 public class Simulation  {
-
+    private int day = 0;
     private final SimulationConfiguration config;
     private WorldMap map;
     private SimulationListener listener;
@@ -29,17 +29,7 @@ public class Simulation  {
         setUp();
         listener.mapChanged(this);
 
-//        while(!isSimulationOver()){
-//            removeDeadAnimals();
-//            map.moveAnimals();
-//            map.eatPlants();
-//            //rozmnazanie
-//            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
-//            listener.mapChanged(this);
-//            Thread.sleep(config.getTurnTimeInMs());
-//        }
-
-        for(int i = 0; i < 200; i++) {
+        while(!isSimulationOver()){
             removeDeadAnimals();
             map.moveAnimals();
             map.eatPlants();
@@ -47,9 +37,23 @@ public class Simulation  {
             increaseAge();
             decreaseEnergy();
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+            increaseDay();
             listener.mapChanged(this);
             Thread.sleep(config.getTurnTimeInMs());
+
         }
+
+//        for(int i = 0; i < 2000; i++) {
+//            removeDeadAnimals();
+//            map.moveAnimals();
+//            map.eatPlants();
+//            reproduceAnimals();
+//            increaseAge();
+//            decreaseEnergy();
+//            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+//            listener.mapChanged(this);
+//            Thread.sleep(config.getTurnTimeInMs());
+//        }
 
 
     }
@@ -132,11 +136,11 @@ public class Simulation  {
             Genotype genotype = new Genotype(genes);
             genotype.mutate();
 
-            Animal newborn = new Animal(position, 2 * config.getReadyToReproduceEnergy(), genotype);
+            Animal newborn = new Animal(position, 2 * config.getReproduceEnergyLoss(), genotype);
 //            System.out.println("new genotype: "+ genotype.getGenes());
 
-            stronger.setEnergy(stronger.getEnergy() - config.getReadyToReproduceEnergy());
-            weaker.setEnergy(weaker.getEnergy() - config.getReadyToReproduceEnergy());
+            stronger.setEnergy(stronger.getEnergy() - config.getReproduceEnergyLoss());
+            weaker.setEnergy(weaker.getEnergy() - config.getReproduceEnergyLoss());
 
             map.placeAnimal(newborn);
         }
@@ -145,7 +149,7 @@ public class Simulation  {
         List<Animal> animals = map.getAnimals();
         int count =0;
         for(Animal animal : animals){
-            if (animal.getEnergy()==0){
+            if (animal.getEnergy()<=0){
                 count++;
                 map.removeAnimal(animal);
                 map.deleteIfEmpty(animal.getPosition());
@@ -189,5 +193,10 @@ public class Simulation  {
         for(Animal animal : animals){
             animal.setEnergy(animal.getEnergy() - config.getEnergyLossEachDay());
         }
+    }
+
+    public void increaseDay(){
+        day = day + 1;
+        System.out.println("Dzień: " + day);
     }
 }
