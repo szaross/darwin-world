@@ -33,19 +33,22 @@ public class Simulation  {
 //        listener.mapChanged(this);
 
 //        while(!isSimulationOver()){
+//            increaseDay();
+//            increaseAge();
+//            decreaseEnergy();
 //            removeDeadAnimals();
 //            map.moveAnimals();
 //            map.eatPlants();
 //            reproduceAnimals();
-//            increaseAge();
-//            decreaseEnergy();
 //            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
-//            increaseDay();
+//            stats.updateStats(map.getTiles(), map.getBoundary());
+//            stats.printStats();
 //            listener.mapChanged(this);
 //            Thread.sleep(config.getTurnTimeInMs());
 //        }
 
-        for(int i = 0; i < 500; i++) {
+        for(int i = 0; i < 3; i++) {
+            increaseDay();
             increaseAge();
             decreaseEnergy();
             removeDeadAnimals();
@@ -53,8 +56,6 @@ public class Simulation  {
             map.eatPlants();
             reproduceAnimals();
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
-            increaseDay();
-
             stats.updateStats(map.getTiles(), map.getBoundary());
             stats.printStats();
             listener.mapChanged(this);
@@ -209,6 +210,6 @@ public class Simulation  {
 
     public void increaseDay(){
         day = day + 1;
-        //System.out.println("Dzień: " + day);
+        System.out.println("Dzień: " + day);
     }
 }

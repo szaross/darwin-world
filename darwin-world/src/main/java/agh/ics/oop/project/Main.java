@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        SimulationConfiguration config = new SimulationConfiguration(20,20,50,3,8,60,9,5, 10, 1, 2,10);
+        SimulationConfiguration config = new SimulationConfiguration(20,20,50,3,7,60,60,5, 10, 1, 3,100);
 
         Simulation sim = new Simulation(config);
         try {

@@ -41,8 +41,8 @@ public class Statistics {
             }
             animalCount += animals.size();
         }
-        averageEnergy = Math.round((averageEnergy / animalCount) * 100.0) / 100.0;
-        averageChildrenCount = Math.round((averageChildrenCount / animalCount) * 100.0) / 100.0;
+        averageEnergy = averageEnergy / animalCount;
+        averageChildrenCount = averageChildrenCount / animalCount;
 
         int width = boundary.upper_right().getX() - boundary.lower_left().getX() + 1;
         int height = boundary.upper_right().getY() - boundary.lower_left().getY() + 1;
@@ -74,8 +74,8 @@ public class Statistics {
         }
 
         System.out.println("Average lifespan: " + formattedNumber);
-        System.out.println("Average energy: " + averageEnergy);
-        System.out.println("Average children count: " + averageChildrenCount);
+        System.out.println("Average energy: " + String.format("%.2f",averageEnergy));
+        System.out.println("Average children count: " + String.format("%.2f",averageChildrenCount));
         if (mostPopularGenotype != null) {
             System.out.println(mostPopularGenotype.getValue() +" animals has the same genotype: " + mostPopularGenotype.getKey().toString());
         }
