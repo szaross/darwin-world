@@ -2,12 +2,14 @@ package agh.ics.oop.project.model;
 
 import agh.ics.oop.project.interfaces.SimulationListener;
 import java.util.*;
+import agh.ics.oop.project.model.Statistics;
 
 public class Simulation  {
     private int day = 0;
     private final SimulationConfiguration config;
     private WorldMap map;
     private SimulationListener listener;
+    private Statistics stats;
 
     public Simulation(SimulationConfiguration config) {
         this.config = config;
@@ -15,6 +17,7 @@ public class Simulation  {
 
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
+        stats = new Statistics();
         this.addListener(new ConsoleSimulationDisplay()); // TODO
 
         spawnPlants(config.getInitialPlantCount());
@@ -27,23 +30,9 @@ public class Simulation  {
 
     public void run() throws InterruptedException {
         setUp();
-        listener.mapChanged(this);
+//        listener.mapChanged(this);
 
-        while(!isSimulationOver()){
-            removeDeadAnimals();
-            map.moveAnimals();
-            map.eatPlants();
-            reproduceAnimals();
-            increaseAge();
-            decreaseEnergy();
-            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
-            increaseDay();
-            listener.mapChanged(this);
-            Thread.sleep(config.getTurnTimeInMs());
-
-        }
-
-//        for(int i = 0; i < 2000; i++) {
+//        while(!isSimulationOver()){
 //            removeDeadAnimals();
 //            map.moveAnimals();
 //            map.eatPlants();
@@ -51,9 +40,27 @@ public class Simulation  {
 //            increaseAge();
 //            decreaseEnergy();
 //            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+//            increaseDay();
 //            listener.mapChanged(this);
 //            Thread.sleep(config.getTurnTimeInMs());
 //        }
+
+        for(int i = 0; i < 500; i++) {
+            increaseAge();
+            decreaseEnergy();
+            removeDeadAnimals();
+            map.moveAnimals();
+            map.eatPlants();
+            reproduceAnimals();
+            spawnPlants(config.getNumberOfPlantsGrowingPerDay());
+            increaseDay();
+
+            stats.updateStats(map.getTiles(), map.getBoundary());
+            stats.printStats();
+            listener.mapChanged(this);
+            Thread.sleep(config.getTurnTimeInMs());
+        }
+
 
 
     }
@@ -137,6 +144,8 @@ public class Simulation  {
             genotype.mutate();
 
             Animal newborn = new Animal(position, 2 * config.getReproduceEnergyLoss(), genotype);
+            stronger.addChildCount();
+            weaker.addChildCount();
 //            System.out.println("new genotype: "+ genotype.getGenes());
 
             stronger.setEnergy(stronger.getEnergy() - config.getReproduceEnergyLoss());
@@ -148,14 +157,17 @@ public class Simulation  {
     private void removeDeadAnimals(){
         List<Animal> animals = map.getAnimals();
         int count =0;
+        int sum_age = 0;
         for(Animal animal : animals){
             if (animal.getEnergy()<=0){
                 count++;
                 map.removeAnimal(animal);
                 map.deleteIfEmpty(animal.getPosition());
+                sum_age += animal.getAge();
             }
         }
-        System.out.println("deleted " + count +" animals");
+        stats.lifespanStats(sum_age, count);
+
     }
 
     private List<Vector2d> getPositionsWithoutPlants(){
@@ -197,6 +209,6 @@ public class Simulation  {
 
     public void increaseDay(){
         day = day + 1;
-        System.out.println("Dzień: " + day);
+        //System.out.println("Dzień: " + day);
     }
 }

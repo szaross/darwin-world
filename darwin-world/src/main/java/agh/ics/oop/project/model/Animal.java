@@ -100,6 +100,8 @@ public class Animal implements Movable, WorldElement {
     public void setEnergy(int energy) {
         this.energy = energy;
     }
+
+    public void addChildCount() {childrenCount += 1;}
     public int getChildrenCount() {
         return childrenCount;
     }
