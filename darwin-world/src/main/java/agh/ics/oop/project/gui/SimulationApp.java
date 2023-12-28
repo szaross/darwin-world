@@ -26,11 +26,12 @@ public class SimulationApp extends Application {
         // setup simulation
         Simulation sim = new Simulation(configuration);
         sim.setUp();
-        presenter.setWorldMap(sim.getMap());
+        presenter.setSimulation(sim);
         sim.addListener(presenter);
-        sim.runAsync();
 
         primaryStage.show();
+        sim.runAsync();
+
     }
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {
         var scene = new Scene(viewRoot);

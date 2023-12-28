@@ -26,20 +26,14 @@ public class SimulationPresenter implements SimulationListener {
     @FXML
     private GridPane mapGrid;
     private int counter=0;
-    private Map map;
-    public void setWorldMap(Map map) {
-        this.map = map;
-    }
+    private Simulation simulation;
 
     public void drawMap(){
+        Map map = simulation.getMap();
         clearGrid();
         counter++;
-//        movesLabel.setText("licznik dni na testy: "+ counter);
-        movesLabel.setText(String.valueOf(map.getElements()));
+        movesLabel.setText("licznik dni na testy: "+ counter);
 
-//        if (counter%2==0){
-//            return;
-//        }
         // corner
         Label corner = new Label("y\\x");
         mapGrid.add(corner,0,0);
@@ -68,9 +62,9 @@ public class SimulationPresenter implements SimulationListener {
         }
 
         // place elements on map
-        for(WorldElement element :map.getElements()){
+        for(WorldElement element : map.getElements()){
             Label label = new Label(element.toString());
-            mapGrid.add(label,element.getPosition().getX()-map.getBoundary().lower_left().getX()+1,map.getBoundary().upper_right().getY() - element.getPosition().getY()+1);
+            mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
@@ -86,5 +80,9 @@ public class SimulationPresenter implements SimulationListener {
     @Override
     public void mapChanged(Simulation simulation) {
         Platform.runLater(this::drawMap);
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
     }
 }
