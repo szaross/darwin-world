@@ -13,6 +13,13 @@
     <top>
         <VBox>
             <Label fx:id="movesLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="animalCountLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="plantCountLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="averageEnergyLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="averageLifespanLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="freeTiles" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="averageChildrenCount" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="popularGenotype" textAlignment="CENTER" alignment="CENTER"/>
         </VBox>
     </top>
     <center>

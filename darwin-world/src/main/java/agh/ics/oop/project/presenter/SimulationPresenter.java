@@ -4,6 +4,7 @@ import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.SimulationListener;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.Simulation;
+import agh.ics.oop.project.model.Statistics;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
@@ -28,11 +29,31 @@ public class SimulationPresenter implements SimulationListener {
     private int counter=0;
     private Simulation simulation;
 
+    @FXML
+    private Label animalCountLabel;
+    @FXML
+    private Label plantCountLabel;
+    @FXML
+    private Label averageEnergyLabel;
+    @FXML
+    private Label averageLifespanLabel;
+    @FXML
+    private Label freeTiles;
+    @FXML
+
+    private Label averageChildrenCount;
+    @FXML
+    private Label popularGenotype;
+    private Statistics statistics;
+
     public void drawMap(){
         Map map = simulation.getMap();
         clearGrid();
         counter++;
         movesLabel.setText("licznik dni na testy: "+ counter);
+
+
+
 
         // corner
         Label corner = new Label("y\\x");
@@ -68,6 +89,8 @@ public class SimulationPresenter implements SimulationListener {
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
+        updateAndDisplayStatistics();
+
     }
 
     private void clearGrid() {
@@ -83,6 +106,20 @@ public class SimulationPresenter implements SimulationListener {
     }
 
     public void setSimulation(Simulation simulation) {
+
         this.simulation = simulation;
+        this.statistics = simulation.getStats();
+    }
+
+    private void updateAndDisplayStatistics() {
+        statistics.updateStats(simulation.getMap().getTiles(), simulation.getMap().getBoundary());
+        animalCountLabel.setText("Liczba zwierzat: " + statistics.getAnimalCount());
+        plantCountLabel.setText("Liczba roslin: " + statistics.getPlantCount());
+        averageEnergyLabel.setText("Srednia energia: " + String.format("%.2f", statistics.getAverageEnergy()));
+        averageLifespanLabel.setText("Srednia dlugosc zycia: " + statistics.getAverageLifespan());
+        freeTiles.setText("Wolne pola: " + statistics.getFreeTiles());
+        averageChildrenCount.setText("Srednia liczba dzieci: " + String.format("%.2f", statistics.getAverageChildrenCount()));
+        popularGenotype.setText(statistics.getGenotype());
+
     }
 }

@@ -8,6 +8,7 @@ public class Simulation  {
     private final SimulationConfiguration config;
     private WorldMap map;
     private List<SimulationListener> listeners = new ArrayList<>();
+
     private Statistics stats;
 
     public Simulation(SimulationConfiguration config) {
@@ -226,5 +227,9 @@ public class Simulation  {
         });
         thread.start();
 
+    }
+
+    public Statistics getStats() {
+        return stats;
     }
 }
