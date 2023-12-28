@@ -44,13 +44,12 @@ public class SimulationPresenter implements SimulationListener {
     private Label averageChildrenCount;
     @FXML
     private Label popularGenotype;
-    private Statistics statistics;
 
     public void drawMap(){
         Map map = simulation.getMap();
         clearGrid();
         counter++;
-        movesLabel.setText("licznik dni na testy: "+ counter);
+//        movesLabel.setText("licznik dni na testy: "+ counter);
 
 
 
@@ -89,8 +88,6 @@ public class SimulationPresenter implements SimulationListener {
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
-        updateAndDisplayStatistics();
-
     }
 
     private void clearGrid() {
@@ -102,24 +99,27 @@ public class SimulationPresenter implements SimulationListener {
 
     @Override
     public void mapChanged(Simulation simulation) {
-        Platform.runLater(this::drawMap);
+        Platform.runLater(()->{
+            drawMap();
+            displayStatistics(simulation.getStats());
+        });
     }
 
     public void setSimulation(Simulation simulation) {
 
         this.simulation = simulation;
-        this.statistics = simulation.getStats();
     }
 
-    private void updateAndDisplayStatistics() {
-        statistics.updateStats(simulation.getMap().getTiles(), simulation.getMap().getBoundary());
-        animalCountLabel.setText("Liczba zwierzat: " + statistics.getAnimalCount());
-        plantCountLabel.setText("Liczba roslin: " + statistics.getPlantCount());
-        averageEnergyLabel.setText("Srednia energia: " + String.format("%.2f", statistics.getAverageEnergy()));
-        averageLifespanLabel.setText("Srednia dlugosc zycia: " + statistics.getAverageLifespan());
-        freeTiles.setText("Wolne pola: " + statistics.getFreeTiles());
-        averageChildrenCount.setText("Srednia liczba dzieci: " + String.format("%.2f", statistics.getAverageChildrenCount()));
-        popularGenotype.setText(statistics.getGenotype());
+    private void displayStatistics(Statistics stats) {
+//        statistics.updateStats(simulation.getMap().getTiles(), simulation.getMap().getBoundary());
+        movesLabel.setText(stats.toString());
+//        animalCountLabel.setText("Liczba zwierzat: " + statistics.getAnimalCount());
+//        plantCountLabel.setText("Liczba roslin: " + statistics.getPlantCount());
+//        averageEnergyLabel.setText("Srednia energia: " + String.format("%.2f", statistics.getAverageEnergy()));
+//        averageLifespanLabel.setText("Srednia dlugosc zycia: " + statistics.getAverageLifespan());
+//        freeTiles.setText("Wolne pola: " + statistics.getFreeTiles());
+//        averageChildrenCount.setText("Srednia liczba dzieci: " + String.format("%.2f", statistics.getAverageChildrenCount()));
+//        popularGenotype.setText(statistics.getGenotype());
 
     }
 }

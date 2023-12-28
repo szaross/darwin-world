@@ -59,29 +59,6 @@ public class Statistics {
         this.deadCount += deadCount;
     }
 
-    public void printStats(){
-        System.out.println("Animal count: " + animalCount);
-        System.out.println("Plant count: " + plantCount);
-        System.out.println("Free tiles: " + freeTiles);
-
-        if(deadCount != 0) {
-            formattedNumber = String.format("%.2f", averageLifespan/deadCount);
-            averageLifespan = averageLifespan/deadCount;
-        }
-        else {
-            formattedNumber = String.format("%.2f", 0.0);
-            averageLifespan = 0.0;
-        }
-
-
-        System.out.println("Average lifespan: " + String.format("%.2f",averageLifespan));
-        System.out.println("Average energy: " + String.format("%.2f",averageEnergy));
-        System.out.println("Average children count: " + String.format("%.2f",averageChildrenCount));
-
-        System.out.println(this.getGenotype());
-
-    }
-
     public int getAnimalCount() {
         return animalCount;
     }
@@ -129,4 +106,28 @@ public class Statistics {
 
     }
 
+    @Override
+    public String toString() {
+        String result="";
+        result +="Animal count: " + animalCount + "\n";
+        result +="Plant count: " + plantCount + "\n";
+        result +="Free tiles: " + freeTiles + "\n";
+
+        if(deadCount != 0) {
+            formattedNumber = String.format("%.2f", averageLifespan/deadCount);
+            averageLifespan = averageLifespan/deadCount;
+        }
+        else {
+            formattedNumber = String.format("%.2f", 0.0);
+            averageLifespan = 0.0;
+        }
+
+
+        result +="Average lifespan: " + String.format("%.2f",averageLifespan)+ "\n";
+        result +="Average energy: " + String.format("%.2f",averageEnergy)+ "\n";
+        result +="Average children count: " + String.format("%.2f",averageChildrenCount)+ "\n";
+
+        result += this.getGenotype()+ "\n";
+        return result;
+    }
 }
