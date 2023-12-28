@@ -1,9 +1,6 @@
 package agh.ics.oop.project.interfaces;
 
-import agh.ics.oop.project.model.Animal;
-import agh.ics.oop.project.model.Plant;
-import agh.ics.oop.project.model.Tile;
-import agh.ics.oop.project.model.Vector2d;
+import agh.ics.oop.project.model.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,4 +20,6 @@ public interface Map extends MoveValidator {
     int getWidth();
 
     HashMap<Vector2d,Tile> getTiles();
+
+    Boundary getBoundary();
 }
