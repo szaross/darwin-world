@@ -1,20 +1,16 @@
 package agh.ics.oop.project.model;
-
 import agh.ics.oop.project.interfaces.Map;
-import agh.ics.oop.project.interfaces.MapListener;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.util.MapVisualizer;
 
 import java.util.*;
 
-public class WorldMap implements Map {
+public class WorldMap implements Map{
     private final Boundary boundary;
     private final int height;
     private final int width;
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
-
-    private MapListener listener;
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -37,6 +33,10 @@ public class WorldMap implements Map {
         return false;
     }
 
+    public void removeAnimal(Animal animal){
+        tiles.get(animal.getPosition()).removeAnimal(animal);
+    }
+
     @Override
     public boolean placePlant(Plant plant) {
         Vector2d pos = plant.getPosition();
@@ -48,8 +48,9 @@ public class WorldMap implements Map {
         return false;
     }
 
-    public void updateMap(){
+    public void moveAnimals(){
         Set<Animal> moved = new HashSet<>();
+
         for (Animal animal : getAnimals()){
             if (!moved.contains(animal)) {
                 Vector2d old_pos=animal.getPosition();
@@ -71,14 +72,40 @@ public class WorldMap implements Map {
                 deleteIfEmpty(old_pos);
             }
         }
-        listener.mapChanged(this);
-
     }
 
-    private void deleteIfEmpty(Vector2d position){
+    public void eatPlants() {
+        for(Vector2d position : tiles.keySet()) {
+            Tile t = tiles.get(position);
+            if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
+                List<Animal> animals = t.getAnimals();
+
+                Animal max_animal = animals.get(0);
+                AnimalComparator comparator = new AnimalComparator();
+
+                for(Animal animal : animals){
+                    if (comparator.compare(max_animal, animal) > 0){
+                        max_animal = animal;
+                    }
+                }
+
+                int max_energy = max_animal.getEnergy();
+
+                t.removeAnimal(max_animal);
+                max_animal.setEnergy(max_energy + t.getPlant().getEnergy());
+                t.addAnimal(max_animal);
+                t.removePlant();
+
+                deleteIfEmpty(position);
+            }
+        }
+    }
+
+
+    public void deleteIfEmpty(Vector2d position){
         if (tiles.containsKey(position)){
             Tile t = tiles.get(position);
-            if (t.getPlant()==null && t.getAnimals().isEmpty()){
+            if (t.isEmpty()) {
                 tiles.remove(position);
             }
         }
@@ -101,6 +128,12 @@ public class WorldMap implements Map {
         return tiles.get(position) != null;
     }
 
+    public Plant getPlant(Vector2d pos){
+        if (isOccupied(pos)){
+            return tiles.get(pos).getPlant();
+        }
+        return null;
+    }
     @Override
     public List<WorldElement> getElements() {
         List<WorldElement> result = new ArrayList<>();
@@ -129,6 +162,11 @@ public class WorldMap implements Map {
     }
 
     @Override
+    public HashMap<Vector2d, Tile> getTiles() {
+        return tiles;
+    }
+
+    @Override
     public boolean canMoveTo(Vector2d position) {
         // domyslnie true - dla wody bedzie false
         return true;
@@ -148,7 +186,5 @@ public class WorldMap implements Map {
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
     }
 
-    public void addListener(MapListener listener){
-        this.listener = listener;
-    }
+
 }

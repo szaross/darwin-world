@@ -51,4 +51,15 @@ public class Genotype {
     public int hashCode() {
         return Objects.hash(Genes);
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int num : Genes) {
+            sb.append(num);
+        }
+
+        String result = sb.toString();
+        return result;
+    }
 }
