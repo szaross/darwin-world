@@ -97,8 +97,18 @@ public class Simulation  {
 
         Collections.shuffle(centerList);
         Collections.shuffle(outsideList);
+        int how_many;
+        if(plantCount == 1) {
+            Random random = new Random();
+            if (random.nextInt(10) > 6) {
+                how_many = 0;
+            } else {
+                how_many = 1;
+            }
+        } else {
+            how_many = Math.max(1,(int) Math.floor((plantCount * 0.8)));
+        }
 
-        int how_many = (int) Math.floor((plantCount * 0.8));
 
         centerList = centerList.subList(0, Math.min(how_many, centerList.size()));
         outsideList = outsideList.subList(0, Math.min(plantCount - how_many, outsideList.size()));
@@ -181,7 +191,7 @@ public class Simulation  {
 
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                if (!map.isOccupied(new Vector2d(i,j)) || map.getPlant(new Vector2d(i,j))==null){
+                if (map.getPlant(new Vector2d(i,j))==null){
                     result.add(new Vector2d(i,j));
                 }
             }

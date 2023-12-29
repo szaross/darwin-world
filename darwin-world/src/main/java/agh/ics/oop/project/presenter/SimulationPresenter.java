@@ -86,7 +86,7 @@ public class SimulationPresenter implements SimulationListener {
 
         // place elements on map
         for(WorldElement element : map.getElements()){
-            Label label = new Label("");
+            Label label = new Label(" ");
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
 
@@ -100,30 +100,28 @@ public class SimulationPresenter implements SimulationListener {
                 .toList();
 
         int max_energy = max_animal.get(0).getEnergy();
-        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX(); x++) {
-            for (int y = map.getBoundary().lower_left().getY(); y <= map.getBoundary().upper_right().getY(); y++) {
+        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1 ; x++) {
+            for (int y = map.getBoundary().lower_left().getY() -1; y <= map.getBoundary().upper_right().getY(); y++) {
                 Pane cellPane = new Pane();
                 cellPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
-                if(map.getPlant(new Vector2d(x-1,y+1)) != null) {
-                    cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
-                }
-                else {
-                    if(map.getTiles() != null){
-                        HashMap<Vector2d, Tile> tile = map.getTiles();
-                        Vector2d position = new Vector2d(x-1, y+1);
-                        Tile t = tile.get(position);
-                        if(t != null && t.getAnimals().size() > 0) {
-                            List<Animal> curr_max_animal = t.getAnimals().stream()
-                                    .sorted(new AnimalComparator())
-                                    .limit(1)
-                                    .toList();
+                if(map.getTiles() != null){
+                    HashMap<Vector2d, Tile> tile = map.getTiles();
+                    Vector2d position = new Vector2d(x-1, y+1);
+                    Tile t = tile.get(position);
+                    if(t != null && t.getAnimals().size() > 0) {
+                        List<Animal> curr_max_animal = t.getAnimals().stream()
+                                .sorted(new AnimalComparator())
+                                .limit(1)
+                                .toList();
 
-                            double curr_energy = (double) curr_max_animal.get(0).getEnergy() / max_energy;
-                            double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
-                            String cssStyle = String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
-                            cellPane.setStyle(cssStyle);
-                        }
+                        double curr_energy = (double) curr_max_animal.get(0).getEnergy() / max_energy;
+                        double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
+                        String cssStyle = String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
+                        cellPane.setStyle(cssStyle);
                     }
+                }
+                if(map.getPlant(new Vector2d(x-1,y+1)) != null && map.getTiles().get(new Vector2d(x-1,y+1)).getAnimals().size() == 0) {
+                    cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
                 }
                 mapGrid.add(cellPane, x - map.getBoundary().lower_left().getX(), map.getBoundary().upper_right().getY() - y);
             }
