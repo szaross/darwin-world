@@ -182,7 +182,7 @@ public class Simulation  {
                 sum_age += animal.getAge();
             }
         }
-        stats.lifespanStats(sum_age, count);
+        stats.updateDead(sum_age, count);
 
     }
 

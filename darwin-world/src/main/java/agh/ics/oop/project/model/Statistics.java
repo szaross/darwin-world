@@ -11,7 +11,8 @@ public class Statistics {
     private int animalCount;
     private int plantCount;
     private int freeTiles;
-    private double averageLifespan = 0;
+    private double currentAge = 0;
+    private double deadAge = 0;
     private double averageEnergy;
     private double averageChildrenCount;
     private int deadCount = 0;
@@ -26,6 +27,7 @@ public class Statistics {
         freeTiles = 0;
         averageChildrenCount = 0;
         averageEnergy = 0;
+        currentAge = 0;
 
         int fullTiles = 0;
         for (Tile tile : tiles.values()) {
@@ -38,6 +40,7 @@ public class Statistics {
             List<Animal> animals = tile.getAnimals();
             for (Animal animal : animals) {
                 averageEnergy += animal.getEnergy();
+                currentAge += animal.getAge();
                 averageChildrenCount += animal.getChildrenCount();
                 Genotype genotype = animal.getGenotype();
                 genotypeCounts.put(genotype, genotypeCounts.getOrDefault(genotype, 0) + 1);
@@ -56,33 +59,9 @@ public class Statistics {
 
     }
 
-    public void lifespanStats(double age, int deadCount) {
-        averageLifespan += age;
-        this.deadCount += deadCount;
-    }
-
-    public int getAnimalCount() {
-        return animalCount;
-    }
-
-    public int getPlantCount() {
-        return plantCount;
-    }
-
-    public int getFreeTiles() {
-        return freeTiles;
-    }
-
-    public double getAverageLifespan() {
-        return averageLifespan;
-    }
-
-    public double getAverageEnergy() {
-        return averageEnergy;
-    }
-
-    public double getAverageChildrenCount() {
-        return averageChildrenCount;
+    public void updateDead(int age, int count) {
+        deadAge += age;
+        deadCount += count;
     }
 
 
@@ -115,18 +94,7 @@ public class Statistics {
         result +="Animal count: " + animalCount + "\n";
         result +="Plant count: " + plantCount + "\n";
         result +="Free tiles: " + freeTiles + "\n";
-
-        if(deadCount != 0) {
-            formattedNumber = String.format("%.2f", averageLifespan/deadCount);
-            averageLifespan = averageLifespan/deadCount;
-        }
-        else {
-            formattedNumber = String.format("%.2f", 0.0);
-            averageLifespan = 0.0;
-        }
-
-
-        result +="Average lifespan: " + String.format("%.2f",averageLifespan)+ "\n";
+        result +="Average lifespan: " + String.format("%.2f", ((currentAge + deadAge) / (animalCount + deadCount))) + "\n";
         result +="Average energy: " + String.format("%.2f",averageEnergy)+ "\n";
         result +="Average children count: " + String.format("%.2f",averageChildrenCount)+ "\n";
 
