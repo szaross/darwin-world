@@ -3,8 +3,7 @@ package agh.ics.oop.project.presenter;
 import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.SimulationListener;
 import agh.ics.oop.project.interfaces.WorldElement;
-import agh.ics.oop.project.model.Simulation;
-import agh.ics.oop.project.model.Statistics;
+import agh.ics.oop.project.model.*;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
@@ -13,10 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class SimulationPresenter implements SimulationListener {
     private static final double CELL_HEIGHT = 35.0;
@@ -47,7 +49,8 @@ public class SimulationPresenter implements SimulationListener {
     private Statistics statistics;
 
     public void drawMap(){
-        Map map = simulation.getMap();
+        WorldMap map = simulation.getMap();
+
         clearGrid();
         counter++;
         movesLabel.setText("licznik dni na testy: "+ counter);
@@ -84,9 +87,47 @@ public class SimulationPresenter implements SimulationListener {
 
         // place elements on map
         for(WorldElement element : map.getElements()){
-            Label label = new Label(element.toString());
+            Label label = new Label("");
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
+
+        }
+
+
+        // adding colors
+        List<Animal> max_animal = map.getAnimals().stream()
+                .sorted(new AnimalComparator())
+                .limit(1)
+                .toList();
+
+        int max_energy = max_animal.get(0).getEnergy();
+        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX(); x++) {
+            for (int y = map.getBoundary().lower_left().getY(); y <= map.getBoundary().upper_right().getY(); y++) {
+                Pane cellPane = new Pane();
+                cellPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
+                if(map.getPlant(new Vector2d(x-1,y+1)) != null) {
+                    cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
+                }
+                else {
+                    if(map.getTiles() != null){
+                        HashMap<Vector2d, Tile> tile = map.getTiles();
+                        Vector2d position = new Vector2d(x-1, y+1);
+                        Tile t = tile.get(position);
+                        if(t != null && t.getAnimals().size() > 0) {
+                            List<Animal> curr_max_animal = t.getAnimals().stream()
+                                    .sorted(new AnimalComparator())
+                                    .limit(1)
+                                    .toList();
+
+                            double curr_energy = (double) curr_max_animal.get(0).getEnergy() / max_energy;
+                            double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
+                            String cssStyle = String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
+                            cellPane.setStyle(cssStyle);
+                        }
+                    }
+                }
+                mapGrid.add(cellPane, x - map.getBoundary().lower_left().getX(), map.getBoundary().upper_right().getY() - y);
+            }
         }
 
         updateAndDisplayStatistics();
