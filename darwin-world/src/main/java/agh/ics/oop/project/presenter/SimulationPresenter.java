@@ -150,15 +150,6 @@ public class SimulationPresenter implements SimulationListener {
     }
 
     private void displayStatistics(Statistics stats) {
-//        statistics.updateStats(simulation.getMap().getTiles(), simulation.getMap().getBoundary());
         movesLabel.setText(stats.toString());
-//        animalCountLabel.setText("Liczba zwierzat: " + statistics.getAnimalCount());
-//        plantCountLabel.setText("Liczba roslin: " + statistics.getPlantCount());
-//        averageEnergyLabel.setText("Srednia energia: " + String.format("%.2f", statistics.getAverageEnergy()));
-//        averageLifespanLabel.setText("Srednia dlugosc zycia: " + statistics.getAverageLifespan());
-//        freeTiles.setText("Wolne pola: " + statistics.getFreeTiles());
-//        averageChildrenCount.setText("Srednia liczba dzieci: " + String.format("%.2f", statistics.getAverageChildrenCount()));
-//        popularGenotype.setText(statistics.getGenotype());
-
     }
 }

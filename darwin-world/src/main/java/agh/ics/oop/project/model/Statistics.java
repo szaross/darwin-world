@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Statistics {
     private String formattedNumber;
+    private int day = 0;
     private int animalCount;
     private int plantCount;
     private int freeTiles;
@@ -18,6 +19,7 @@ public class Statistics {
     private HashMap<Genotype, Integer> genotypeCounts = new HashMap<>();
 
     public void updateStats(HashMap<Vector2d, Tile> tiles, Boundary boundary) {
+        day += 1;
         genotypeCounts.clear();
         animalCount = 0;
         plantCount = 0;
@@ -109,6 +111,7 @@ public class Statistics {
     @Override
     public String toString() {
         String result="";
+        result += "Day: " + day + "\n";
         result +="Animal count: " + animalCount + "\n";
         result +="Plant count: " + plantCount + "\n";
         result +="Free tiles: " + freeTiles + "\n";
