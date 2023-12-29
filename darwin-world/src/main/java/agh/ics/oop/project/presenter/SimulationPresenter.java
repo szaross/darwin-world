@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class SimulationPresenter implements SimulationListener {
-    private static final double CELL_HEIGHT = 35.0/2;
-    private static final double CELL_WIDTH = 35.0/2;
+    private static final double CELL_HEIGHT = 35.0;
+    private static final double CELL_WIDTH = 35.0;
     @FXML
     private Label movesLabel;
 
@@ -47,10 +47,10 @@ public class SimulationPresenter implements SimulationListener {
         WorldMap map = simulation.getMap();
 
         clearGrid();
-        RowConstraints rowConstraints = new RowConstraints(1,CELL_HEIGHT,Integer.MAX_VALUE);
+        RowConstraints rowConstraints = new RowConstraints(1,CELL_HEIGHT,CELL_HEIGHT);
         rowConstraints.setVgrow(Priority.SOMETIMES);
 
-        ColumnConstraints columnConstraints = new ColumnConstraints(1,CELL_WIDTH,Integer.MAX_VALUE);
+        ColumnConstraints columnConstraints = new ColumnConstraints(1,CELL_WIDTH,CELL_WIDTH);
         columnConstraints.setHgrow(Priority.SOMETIMES);
 
         // corner
