@@ -26,23 +26,23 @@ public class WorldMap implements Map{
     public boolean placeAnimal(Animal animal) {
         Vector2d pos = animal.getPosition();
         if (canMoveTo(pos)) {
-            if (!tiles.containsKey(pos)) tiles.put(pos, new Tile());
-            tiles.get(pos).addAnimal(animal);
+            if (!getTiles().containsKey(pos)) getTiles().put(pos, new Tile());
+            getTiles().get(pos).addAnimal(animal);
             return true;
         }
         return false;
     }
 
     public void removeAnimal(Animal animal){
-        tiles.get(animal.getPosition()).removeAnimal(animal);
+        getTiles().get(animal.getPosition()).removeAnimal(animal);
     }
 
     @Override
     public boolean placePlant(Plant plant) {
         Vector2d pos = plant.getPosition();
-        if (!tiles.containsKey(pos) || tiles.get(pos).getPlant()==null) {
-            if (!tiles.containsKey(pos)) tiles.put(pos, new Tile());
-            tiles.get(pos).setPlant(plant);
+        if (!getTiles().containsKey(pos) || getTiles().get(pos).getPlant()==null) {
+            if (!getTiles().containsKey(pos)) getTiles().put(pos, new Tile());
+            getTiles().get(pos).setPlant(plant);
             return true;
         }
         return false;
@@ -54,19 +54,19 @@ public class WorldMap implements Map{
         for (Animal animal : getAnimals()){
             if (!moved.contains(animal)) {
                 Vector2d old_pos=animal.getPosition();
-                Tile t = tiles.get(old_pos);
+                Tile t = getTiles().get(old_pos);
 
                 // move the animal
                 t.removeAnimal(animal);
                 animal.move(this);
 
                 // create Tile on Vector2d if doesnt exist
-                if (!tiles.containsKey(animal.getPosition())) {
-                    tiles.put(animal.getPosition(), new Tile());
+                if (!getTiles().containsKey(animal.getPosition())) {
+                    getTiles().put(animal.getPosition(), new Tile());
                 }
 
                 // put animal on the new tile
-                tiles.get(animal.getPosition()).addAnimal(animal);
+                getTiles().get(animal.getPosition()).addAnimal(animal);
                 moved.add(animal);
 
                 deleteIfEmpty(old_pos);
@@ -75,8 +75,8 @@ public class WorldMap implements Map{
     }
 
     public void eatPlants() {
-        for(Vector2d position : tiles.keySet()) {
-            Tile t = tiles.get(position);
+        for(Vector2d position : getTiles().keySet()) {
+            Tile t = getTiles().get(position);
             if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
                 List<Animal> animals = t.getAnimals();
 
@@ -103,16 +103,16 @@ public class WorldMap implements Map{
 
 
     public void deleteIfEmpty(Vector2d position){
-        if (tiles.containsKey(position)){
-            Tile t = tiles.get(position);
+        if (getTiles().containsKey(position)){
+            Tile t = getTiles().get(position);
             if (t.isEmpty()) {
-                tiles.remove(position);
+                getTiles().remove(position);
             }
         }
     }
     @Override
-    public List<WorldElement> objectsAt(Vector2d position) {
-        Tile t = tiles.get(position);
+    public synchronized List<WorldElement> objectsAt(Vector2d position) {
+        Tile t = getTiles().get(position);
         if (t == null) {
             return new ArrayList<>();
         }
@@ -124,29 +124,29 @@ public class WorldMap implements Map{
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        return tiles.get(position) != null;
+    public synchronized boolean isOccupied(Vector2d position) {
+        return getTiles().get(position) != null;
     }
 
-    public Plant getPlant(Vector2d pos){
+    public synchronized Plant getPlant(Vector2d pos){
         if (isOccupied(pos)){
-            return tiles.get(pos).getPlant();
+            return getTiles().get(pos).getPlant();
         }
         return null;
     }
     @Override
-    public List<WorldElement> getElements() {
+    public synchronized List<WorldElement> getElements() {
         List<WorldElement> result = new ArrayList<>();
-        for (Tile t : tiles.values()) {
+        for (Tile t : getTiles().values()) {
             result.addAll(t.getAnimals());
             if (t.getPlant() != null) result.add(t.getPlant());
         }
         return result;
     }
 
-    public List<Animal> getAnimals(){
+    public synchronized List<Animal> getAnimals(){
         List<Animal> result = new ArrayList<>();
-        for (Tile t : tiles.values()) {
+        for (Tile t : getTiles().values()) {
             result.addAll(t.getAnimals());
         }
         return result;
@@ -162,7 +162,7 @@ public class WorldMap implements Map{
     }
 
     @Override
-    public HashMap<Vector2d, Tile> getTiles() {
+    public synchronized HashMap<Vector2d, Tile> getTiles() {
         return tiles;
     }
 

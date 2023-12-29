@@ -65,7 +65,7 @@ public class Statistics {
     }
 
 
-    public String getGenotype() {
+    public synchronized String getGenotype() {
         Map.Entry<Genotype, Integer> mostPopularGenotype = null;
         for (Map.Entry<Genotype, Integer> entry : genotypeCounts.entrySet()) {
             if (mostPopularGenotype == null || entry.getValue() > mostPopularGenotype.getValue()) {

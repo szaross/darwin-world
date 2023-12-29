@@ -106,6 +106,7 @@ public class SimulationPresenter implements SimulationListener {
                     Vector2d position = new Vector2d(x-1, y+1);
                     Tile t = tile.get(position);
                     if(t != null && t.getAnimals().size() > 0) {
+                        synchronized (this){
                         List<Animal> curr_max_animal = t.getAnimals().stream()
                                 .sorted(new AnimalComparator())
                                 .limit(1)
@@ -115,6 +116,7 @@ public class SimulationPresenter implements SimulationListener {
                         double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
                         String cssStyle = String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
                         cellPane.setStyle(cssStyle);
+                    }
                     }
                 }
                 if(map.getPlant(new Vector2d(x-1,y+1)) != null && map.getTiles().get(new Vector2d(x-1,y+1)).getAnimals().size() == 0) {
