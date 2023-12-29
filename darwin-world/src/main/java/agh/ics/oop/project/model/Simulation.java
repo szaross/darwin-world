@@ -46,7 +46,8 @@ public class Simulation  {
             reproduceAnimals();
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
             stats.updateStats(map.getTiles(), map.getBoundary());
-            stats.printStats();
+//            stats.printStats();
+            System.out.println(stats);
             notifyListeners();
             Thread.sleep(config.getTurnTimeInMs());
         }

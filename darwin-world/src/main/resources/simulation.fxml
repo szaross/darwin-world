@@ -12,7 +12,7 @@
             fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">
     <top>
         <VBox>
-            <Label fx:id="movesLabel" textAlignment="CENTER" alignment="CENTER"/>
+            <Label fx:id="movesLabel" alignment="CENTER"/>
             <Label fx:id="animalCountLabel" textAlignment="CENTER" alignment="CENTER"/>
             <Label fx:id="plantCountLabel" textAlignment="CENTER" alignment="CENTER"/>
             <Label fx:id="averageEnergyLabel" textAlignment="CENTER" alignment="CENTER"/>
