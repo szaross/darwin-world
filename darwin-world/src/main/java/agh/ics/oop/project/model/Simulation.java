@@ -19,7 +19,7 @@ public class Simulation  {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
-        listeners.add(new ConsoleSimulationDisplay());
+//        listeners.add(new ConsoleSimulationDisplay());
         spawnPlants(config.getInitialPlantCount());
         spawnAnimals(config.getInitialAnimalCount());
     }
@@ -47,7 +47,7 @@ public class Simulation  {
             spawnPlants(config.getNumberOfPlantsGrowingPerDay());
             stats.updateStats(map.getTiles(), map.getBoundary());
 //            stats.printStats();
-            System.out.println(stats);
+//            System.out.println(stats);
             notifyListeners();
             Thread.sleep(config.getTurnTimeInMs());
         }
@@ -225,7 +225,7 @@ public class Simulation  {
 
     public void increaseDay(){
         day = day + 1;
-        System.out.println("Dzień: " + day);
+//        System.out.println("Dzień: " + day);
     }
 
     public void runAsync(){

@@ -6,23 +6,29 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            minHeight="550.0" minWidth="850.0"
-            fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">
-    <top>
-        <VBox>
-            <Label fx:id="movesLabel" alignment="CENTER"/>
-            <Label fx:id="animalCountLabel" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="plantCountLabel" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="averageEnergyLabel" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="averageLifespanLabel" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="freeTiles" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="averageChildrenCount" textAlignment="CENTER" alignment="CENTER"/>
-            <Label fx:id="popularGenotype" textAlignment="CENTER" alignment="CENTER"/>
-        </VBox>
-    </top>
-    <center>
-        <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER"/>
-    </center>
-</BorderPane>
+<?import javafx.scene.layout.HBox?>
+<!--<BorderPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            minHeight="550.0" minWidth="850.0"-->
+<!--            fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">-->
+<!--    <top>-->
+<!--        <VBox>-->
+<!--            <Label fx:id="movesLabel" alignment="CENTER"/>-->
+<!--        </VBox>-->
+<!--    </top>-->
+<!--    <center>-->
+<!--        <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"-->
+<!--              prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">-->
+<!--            <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" HBox.hgrow="ALWAYS"/>-->
+<!--        </HBox>-->
+<!--    </center>-->
+<!--</BorderPane>-->
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      minHeight="600"
+      minWidth="850"
+      spacing="10"
+      fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">
+    <Label fx:id="movesLabel" minWidth="250" style="-fx-padding: 5"/>
+    <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-padding: 10"/>
+</HBox>

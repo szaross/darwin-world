@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +18,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class SimulationPresenter implements SimulationListener {
-    private static final double CELL_HEIGHT = 35.0;
-    private static final double CELL_WIDTH = 35.0;
+    private static final double CELL_HEIGHT = 35.0/2;
+    private static final double CELL_WIDTH = 35.0/2;
     @FXML
     private Label movesLabel;
 
     @FXML
     private GridPane mapGrid;
-    private int counter=0;
     private Simulation simulation;
 
     @FXML
@@ -51,18 +47,18 @@ public class SimulationPresenter implements SimulationListener {
         WorldMap map = simulation.getMap();
 
         clearGrid();
-        counter++;
-//        movesLabel.setText("licznik dni na testy: "+ counter);
+        RowConstraints rowConstraints = new RowConstraints(1,CELL_HEIGHT,Integer.MAX_VALUE);
+        rowConstraints.setVgrow(Priority.SOMETIMES);
 
-
-
+        ColumnConstraints columnConstraints = new ColumnConstraints(1,CELL_WIDTH,Integer.MAX_VALUE);
+        columnConstraints.setHgrow(Priority.SOMETIMES);
 
         // corner
         Label corner = new Label("y\\x");
         mapGrid.add(corner,0,0);
         GridPane.setHalignment(corner, HPos.CENTER);
-        mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-        mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+        mapGrid.getColumnConstraints().add(columnConstraints);
+        mapGrid.getRowConstraints().add(rowConstraints);
 
         // columns
         int column=1;
@@ -70,7 +66,7 @@ public class SimulationPresenter implements SimulationListener {
             Label label = new Label("%d".formatted(i));
             mapGrid.add(label,column,0);
             GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
+            mapGrid.getColumnConstraints().add(columnConstraints);
             column++;
         }
 
@@ -80,7 +76,7 @@ public class SimulationPresenter implements SimulationListener {
             Label label = new Label("%d".formatted(i));
             mapGrid.add(label,0,row);
             GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
+            mapGrid.getRowConstraints().add(rowConstraints);
             row++;
         }
 
@@ -98,12 +94,13 @@ public class SimulationPresenter implements SimulationListener {
                 .sorted(new AnimalComparator())
                 .limit(1)
                 .toList();
+        if (max_animal.isEmpty()) return;
 
         int max_energy = max_animal.get(0).getEnergy();
         for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1 ; x++) {
             for (int y = map.getBoundary().lower_left().getY() -1; y <= map.getBoundary().upper_right().getY(); y++) {
                 Pane cellPane = new Pane();
-                cellPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
+//                cellPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
                 if(map.getTiles() != null){
                     HashMap<Vector2d, Tile> tile = map.getTiles();
                     Vector2d position = new Vector2d(x-1, y+1);
