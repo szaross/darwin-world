@@ -6,8 +6,10 @@ import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.*;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -20,6 +22,8 @@ import java.util.Locale;
 public class SimulationPresenter implements SimulationListener {
     private static final double CELL_HEIGHT = 35.0;
     private static final double CELL_WIDTH = 35.0;
+    @FXML
+    private Button pauseSimButton;
     @FXML
     private Label movesLabel;
 
@@ -144,11 +148,14 @@ public class SimulationPresenter implements SimulationListener {
     }
 
     public void setSimulation(Simulation simulation) {
-
         this.simulation = simulation;
     }
 
     private void displayStatistics(Statistics stats) {
         movesLabel.setText(stats.toString());
+    }
+
+    public void onSimulationPause() {
+        simulation.changeStatus();
     }
 }

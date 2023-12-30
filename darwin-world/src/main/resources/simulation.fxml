@@ -29,6 +29,9 @@
       minWidth="850"
       spacing="10"
       fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">
-    <Label fx:id="movesLabel" minWidth="250" style="-fx-padding: 5"/>
+    <VBox>
+        <Label fx:id="movesLabel" minWidth="250" style="-fx-padding: 5"/>
+        <Button fx:id="pauseSimButton" onAction="#onSimulationPause" text="RESUME/PAUSE" textAlignment="CENTER"/>
+    </VBox>
     <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-padding: 10"/>
 </HBox>

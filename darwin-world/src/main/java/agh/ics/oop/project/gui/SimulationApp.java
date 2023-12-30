@@ -34,6 +34,7 @@ public class SimulationApp extends Application {
         primaryStage.show();
         sim.runAsync();
 
+
     }
     private void configureStage(Stage primaryStage, HBox viewRoot) {
         var scene = new Scene(viewRoot);
