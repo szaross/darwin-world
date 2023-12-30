@@ -134,6 +134,7 @@ public class SettingsPresenter {
                                                                         (int) genomeLen.getValue(),
                                                                         (int) turnTime.getValue());
 
+
         SimulationApp app = new SimulationApp(config);
 
         Platform.runLater(() -> {

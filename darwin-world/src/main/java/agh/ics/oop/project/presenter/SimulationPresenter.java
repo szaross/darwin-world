@@ -7,11 +7,13 @@ import agh.ics.oop.project.model.*;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -23,29 +25,15 @@ public class SimulationPresenter implements SimulationListener {
     private static final double CELL_HEIGHT = 35.0;
     private static final double CELL_WIDTH = 35.0;
     @FXML
-    private Button pauseSimButton;
+    private Label animalInfo;
+    private Animal spectatingAnimal=null;
+
     @FXML
     private Label movesLabel;
 
     @FXML
     private GridPane mapGrid;
     private Simulation simulation;
-
-    @FXML
-    private Label animalCountLabel;
-    @FXML
-    private Label plantCountLabel;
-    @FXML
-    private Label averageEnergyLabel;
-    @FXML
-    private Label averageLifespanLabel;
-    @FXML
-    private Label freeTiles;
-    @FXML
-
-    private Label averageChildrenCount;
-    @FXML
-    private Label popularGenotype;
 
     public void drawMap(){
         WorldMap map = simulation.getMap();
@@ -120,6 +108,13 @@ public class SimulationPresenter implements SimulationListener {
                         double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
                         String cssStyle = String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
                         cellPane.setStyle(cssStyle);
+                        cellPane.setOnMouseClicked(event -> {
+                            if (!simulation.isActive()){
+                                System.out.println("EVENT2");
+                                spectatingAnimal=curr_max_animal.get(0);
+                                spectateAnimal();
+                            }
+                        });
                     }
                     }
                 }
@@ -144,7 +139,17 @@ public class SimulationPresenter implements SimulationListener {
         Platform.runLater(()->{
             drawMap();
             displayStatistics(simulation.getStats());
+            spectateAnimal();
         });
+    }
+
+    private void spectateAnimal(){
+        if (spectatingAnimal!=null){
+            String status ="";
+            if (spectatingAnimal.getEnergy()>0) status="Status: alive";
+            else status="Status: dead";
+            animalInfo.setText(spectatingAnimal.toString() + status);
+        }
     }
 
     public void setSimulation(Simulation simulation) {
