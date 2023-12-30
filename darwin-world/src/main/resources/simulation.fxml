@@ -7,22 +7,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<!--<BorderPane xmlns="http://javafx.com/javafx"-->
-<!--            xmlns:fx="http://javafx.com/fxml"-->
-<!--            minHeight="550.0" minWidth="850.0"-->
-<!--            fx:controller="agh.ics.oop.project.presenter.SimulationPresenter">-->
-<!--    <top>-->
-<!--        <VBox>-->
-<!--            <Label fx:id="movesLabel" alignment="CENTER"/>-->
-<!--        </VBox>-->
-<!--    </top>-->
-<!--    <center>-->
-<!--        <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"-->
-<!--              prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">-->
-<!--            <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" HBox.hgrow="ALWAYS"/>-->
-<!--        </HBox>-->
-<!--    </center>-->
-<!--</BorderPane>-->
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       minHeight="600"
@@ -32,6 +16,7 @@
     <VBox>
         <Label fx:id="movesLabel" minWidth="250" style="-fx-padding: 5"/>
         <Button fx:id="pauseSimButton" onAction="#onSimulationPause" text="RESUME/PAUSE" textAlignment="CENTER"/>
+        <Label fx:id="animalInfo"/>
     </VBox>
     <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-padding: 10"/>
 </HBox>

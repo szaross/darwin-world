@@ -237,4 +237,8 @@ public class Simulation {
     public void changeStatus() {
         isActive = !isActive;
     }
+
+    public boolean isActive() {
+        return isActive;
+    }
 }

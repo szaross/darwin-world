@@ -106,7 +106,14 @@ public class Animal implements Movable, WorldElement {
         return childrenCount;
     }
     @Override
-    public String toString(){ return Integer.toString(this.getEnergy());}
+    public String toString(){
+        return "Age: %d\n".formatted(getAge()) +
+               "Position: (%d,%d)\n".formatted(getPosition().getX(), getPosition().getY()) +
+               "Direction: %s\n".formatted(getDirection()) +
+               "Energy: %d\n".formatted(getEnergy()) +
+               "Genotype: %s\n".formatted(getGenotype()) +
+               "Children count: %d\n".formatted(getChildrenCount());
+    }
     public void setAge(int age) { this.age = age;}
     public int getAge(){ return age; }
 

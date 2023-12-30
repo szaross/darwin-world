@@ -21,7 +21,7 @@ public class SettingsPresenter {
     private TextField movesField;
     public void onSimulationStartClicked() {
         // pobieranie danych
-        SimulationConfiguration config = new SimulationConfiguration(25,25,50,5,6,20,30,6, 5, 1, 5,20);
+        SimulationConfiguration config = new SimulationConfiguration(25,25,50,5,6,20,30,6, 5, 1, 5,200);
         SimulationApp app = new SimulationApp(config);
 
         Platform.runLater(() -> {
