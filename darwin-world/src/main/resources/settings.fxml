@@ -8,19 +8,15 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.project.presenter.SettingsPresenter">
-    <top>
-        <VBox>
-            <Label text="to sa ustawienia" fx:id="movesLabel" textAlignment="CENTER" alignment="CENTER"/>
-        </VBox>
-    </top>
     <center>
         <VBox alignment="CENTER">
             <Text fx:id="valueText" />
-            <Label text="Szerokosc mapy: " textAlignment="CENTER" alignment="CENTER" />
+            <Label text="Szerokosc mapy: " textAlignment="CENTER" alignment="CENTER"/>
             <Slider fx:id="sizeX" min="5" max="50"/>
             <Label text="Wysokosc mapy: " textAlignment="CENTER" alignment="CENTER" />
             <Slider fx:id="sizeY" min="5" max="50"/>
