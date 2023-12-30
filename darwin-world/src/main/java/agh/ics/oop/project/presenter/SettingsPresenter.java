@@ -118,8 +118,6 @@ public class SettingsPresenter {
     }
 
     public void onSimulationStartClicked() {
-        //Test print
-        valueText.setText((int) sizeX.getValue() + " " + (int) sizeY.getValue() + " " + (int) initialPlantCount.getValue() + " " + (int) initialPlantEnergy.getValue());
         // pobieranie danych
         SimulationConfiguration config = new SimulationConfiguration((int) sizeX.getValue(),
                                                                         (int) sizeY.getValue(),
