@@ -47,6 +47,32 @@ public class SettingsPresenter {
     private Slider turnTime;
     @FXML
     private Text valueText;
+    @FXML
+    private Label sizeXLabel;
+    @FXML
+    private Label sizeYLabel;
+    @FXML
+    private Label initialPlantCountLabel;
+    @FXML
+    private Label initialPlantEnergyLabel;
+    @FXML
+    private Label growPerDayLabel;
+    @FXML
+    private Label animalCountLabel;
+    @FXML
+    private Label animalEnergyLabel;
+    @FXML
+    private Label reproduceEnergyLabel;
+    @FXML
+    private Label reproduceLossLabel;
+    @FXML
+    private Label energyLossLabel;
+    @FXML
+    private Label genomeLenLabel;
+    @FXML
+    private Label turnTimeLabel;
+
+
 
     @FXML
     public void initialize() {
@@ -101,20 +127,18 @@ public class SettingsPresenter {
         });
     }
     private void updateValueText() {
-        String textBuilder = "Szerokosc mapy: " + (int) sizeX.getValue() + "\n" +
-                "Wysokosc mapy: " + (int) sizeY.getValue() + "\n" +
-                "Startowa ilosc roslin: " + (int) initialPlantCount.getValue() + "\n" +
-                "Energia roslin: " + (int) initialPlantEnergy.getValue() + "\n" +
-                "Codzienny wzrost roslin: " + (int) growPerDay.getValue() + "\n" +
-                "Ilosc zwierzat: " + (int) animalCount.getValue() + "\n" +
-                "Poczatkowa energia zwierzat: " + (int) animalEnergy.getValue() + "\n" +
-                "Energia potrzebna do rozmnazania: " + (int) reproduceEnergy.getValue() + "\n" +
-                "Strata energii podczas rozmnazania: " + (int) reproduceLoss.getValue() + "\n" +
-                "Codzienna strata energii: " + (int) energyLoss.getValue() + "\n" +
-                "Dlugosc genomu: " + (int) genomeLen.getValue() + "\n" +
-                "Czas dnia w milisekundach: " + (int) turnTime.getValue() + "\n";
-
-        valueText.setText(textBuilder);
+        sizeXLabel.setText(String.valueOf((int) sizeX.getValue()));
+        sizeYLabel.setText(String.valueOf((int) sizeY.getValue()));
+        initialPlantCountLabel.setText(String.valueOf((int) initialPlantCount.getValue()));
+        initialPlantEnergyLabel.setText(String.valueOf((int) initialPlantEnergy.getValue()));
+        growPerDayLabel.setText(String.valueOf((int) growPerDay.getValue()));
+        animalCountLabel.setText(String.valueOf((int) animalCount.getValue()));
+        animalEnergyLabel.setText(String.valueOf((int) animalEnergy.getValue()));
+        reproduceEnergyLabel.setText(String.valueOf((int) reproduceEnergy.getValue()));
+        reproduceLossLabel.setText(String.valueOf((int) reproduceLoss.getValue()));
+        energyLossLabel.setText(String.valueOf((int) energyLoss.getValue()));
+        genomeLenLabel.setText(String.valueOf((int) genomeLen.getValue()));
+        turnTimeLabel.setText(String.valueOf((int) turnTime.getValue()));
     }
 
     public void onSimulationStartClicked() {
