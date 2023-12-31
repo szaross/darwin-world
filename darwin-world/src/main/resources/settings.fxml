@@ -58,7 +58,7 @@
                     <Label text="Codzienny wzrost roslin: " textAlignment="CENTER" alignment="CENTER"/>
                     <Label fx:id="growPerDayLabel" textAlignment="CENTER" alignment="CENTER"/>
                 </HBox>
-                <Slider fx:id="growPerDay" min="5" max="50"/>
+                <Slider fx:id="growPerDay" min="0" max="50"/>
             </VBox>
 
             <!-- Parametr: Ilosc zwierzat -->

@@ -66,46 +66,48 @@ public class Simulation {
     }
 
     private void spawnPlants(int plantCount) {
-        List<Vector2d> availablePositions = getPositionsWithoutPlants();
-        List<Vector2d> centerList = new ArrayList<>();
-        List<Vector2d> outsideList = new ArrayList<>();
+        if(plantCount > 0){
+            List<Vector2d> availablePositions = getPositionsWithoutPlants();
+            List<Vector2d> centerList = new ArrayList<>();
+            List<Vector2d> outsideList = new ArrayList<>();
 
-        int border = (int) (0.2 * config.getMapSizeY());
-        int center = config.getMapSizeY() / 2;
+            int border = (int) (0.2 * config.getMapSizeY());
+            int center = config.getMapSizeY() / 2;
 
-        for (Vector2d position : availablePositions) {
-            if (position.getY() > center - border && position.getY() < center + border) {
-                centerList.add(position);
-            } else {
-                outsideList.add(position);
+            for (Vector2d position : availablePositions) {
+                if (position.getY() > center - border && position.getY() < center + border) {
+                    centerList.add(position);
+                } else {
+                    outsideList.add(position);
+                }
             }
-        }
 
 
-        Collections.shuffle(centerList);
-        Collections.shuffle(outsideList);
-        int how_many;
-        if (plantCount == 1) {
-            Random random = new Random();
-            if (random.nextInt(10) > 6) {
-                how_many = 0;
+            Collections.shuffle(centerList);
+            Collections.shuffle(outsideList);
+            int how_many;
+            if (plantCount == 1) {
+                Random random = new Random();
+                if (random.nextInt(10) > 6) {
+                    how_many = 0;
+                } else {
+                    how_many = 1;
+                }
             } else {
-                how_many = 1;
+                how_many = Math.max(1, (int) Math.floor((plantCount * 0.8)));
             }
-        } else {
-            how_many = Math.max(1, (int) Math.floor((plantCount * 0.8)));
-        }
 
 
-        centerList = centerList.subList(0, Math.min(how_many, centerList.size()));
-        outsideList = outsideList.subList(0, Math.min(plantCount - how_many, outsideList.size()));
+            centerList = centerList.subList(0, Math.min(how_many, centerList.size()));
+            outsideList = outsideList.subList(0, Math.min(plantCount - how_many, outsideList.size()));
 
-        for (Vector2d position : centerList) {
-            map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
-        }
+            for (Vector2d position : centerList) {
+                map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
+            }
 
-        for (Vector2d position : outsideList) {
-            map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
+            for (Vector2d position : outsideList) {
+                map.placePlant(new Plant(position, config.getInitialPlantEnergy()));
+            }
         }
     }
 
