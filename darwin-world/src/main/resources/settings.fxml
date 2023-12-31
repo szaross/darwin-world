@@ -121,7 +121,7 @@
                     <Label text="Czas dnia w milisekundach: " textAlignment="CENTER" alignment="CENTER"/>
                     <Label fx:id="turnTimeLabel" textAlignment="CENTER" alignment="CENTER"/>
                 </HBox>
-                <Slider fx:id="turnTime" min="5" max="50"/>
+                <Slider fx:id="turnTime" min="5" max="350"/>
             </VBox>
 
         </VBox>
