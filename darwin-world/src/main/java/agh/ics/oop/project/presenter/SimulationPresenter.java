@@ -127,7 +127,7 @@ public class SimulationPresenter implements SimulationListener {
 
                                         int max_energy2 = max_animal2.getEnergy();
                                         Animal strongest = strongestAnimalOnTile(map.getTiles().get(spectatingAnimal.getPosition()));
-                                        if (strongest!=null) {
+                                        if (strongest!=null) { // spectatingAnimal may be dead and the tile empty
                                             double curr_energy2 = (double) strongest.getEnergy() / max_energy2;
                                             double opacity2 = Math.min(Math.max(0.2, curr_energy2), 0.7);
                                             spectatingAnimalPane.setStyle(String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity2));
