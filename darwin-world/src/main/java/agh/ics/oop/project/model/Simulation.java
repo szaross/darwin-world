@@ -20,7 +20,7 @@ public class Simulation {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
-//        listeners.add(new ConsoleSimulationDisplay());
+        listeners.add(new ConsoleSimulationDisplay());
         spawnPlants(config.getInitialPlantCount());
         spawnAnimals(config.getInitialAnimalCount());
         isActive = true;
@@ -223,14 +223,16 @@ public class Simulation {
         thread = new Thread(() -> {
             try {
                 run();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException ignored) {}
         });
         thread.start();
 
     }
-
+    public void stopAsync(){
+        if (thread!=null && thread.isAlive()){
+            thread.interrupt();
+        }
+    }
     public Statistics getStats() {
         return stats;
     }

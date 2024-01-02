@@ -32,6 +32,7 @@ public class SimulationApp extends Application {
         sim.addListener(presenter);
 
         primaryStage.show();
+        primaryStage.setOnCloseRequest((event -> sim.stopAsync()));
         sim.runAsync();
 
 
