@@ -116,7 +116,9 @@ public class Animal implements Movable, WorldElement {
     }
     public void setAge(int age) { this.age = age;}
     public int getAge(){ return age; }
-
+    public int getActiveGene() {
+        return activeGene;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

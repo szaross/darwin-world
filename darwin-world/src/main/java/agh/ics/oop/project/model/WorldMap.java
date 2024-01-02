@@ -48,7 +48,7 @@ public class WorldMap implements Map{
         return false;
     }
 
-    public void moveAnimals(){
+    public void moveAnimals(boolean backAndForth){
         Set<Animal> moved = new HashSet<>();
 
         for (Animal animal : getAnimals()){
@@ -59,6 +59,11 @@ public class WorldMap implements Map{
                 // move the animal
                 t.removeAnimal(animal);
                 animal.move(this);
+
+                // back and forth configuration
+                if (animal.getActiveGene()==0 && backAndForth){
+                    animal.getGenotype().reverse();
+                }
 
                 // create Tile on Vector2d if doesnt exist
                 if (!getTiles().containsKey(animal.getPosition())) {

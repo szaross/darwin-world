@@ -1,19 +1,19 @@
 package agh.ics.oop.project.presenter;
 
 import agh.ics.oop.project.gui.SimulationApp;
-import agh.ics.oop.project.interfaces.SimulationListener;
-import agh.ics.oop.project.model.Simulation;
 import agh.ics.oop.project.model.SimulationConfiguration;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class SettingsPresenter {
+    @FXML
+    private ToggleButton backAndForth;
     @FXML
     private GridPane mapGrid;
     @FXML
@@ -139,7 +139,8 @@ public class SettingsPresenter {
                                                                         (int) reproduceLoss.getValue(),
                                                                         (int) energyLoss.getValue(),
                                                                         (int) genomeLen.getValue(),
-                                                                        (int) turnTime.getValue());
+                                                                        (int) turnTime.getValue(),
+                                                                        backAndForth.isSelected());
         SimulationApp app = new SimulationApp(config);
 
         Platform.runLater(() -> {

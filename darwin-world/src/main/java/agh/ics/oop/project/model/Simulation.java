@@ -45,7 +45,7 @@ public class Simulation {
                 increaseAge();
                 decreaseEnergy();
                 removeDeadAnimals();
-                map.moveAnimals();
+                map.moveAnimals(config.isBackAndForth());
                 map.eatPlants();
                 reproduceAnimals();
                 spawnPlants(config.getNumberOfPlantsGrowingPerDay());
