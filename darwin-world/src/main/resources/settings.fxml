@@ -18,7 +18,7 @@
                     <Label alignment="CENTER" text="Szerokosc mapy: " textAlignment="CENTER" />
                     <Label fx:id="sizeXLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="sizeX" max="50" maxWidth="200.0" min="5" />
+                <Slider fx:id="sizeX" max="50" maxWidth="200.0" min="5" value="30.0" />
             </VBox>
 
             <!-- Parametr: Wysokosc mapy -->
@@ -27,7 +27,7 @@
                     <Label alignment="CENTER" text="Wysokosc mapy: " textAlignment="CENTER" />
                     <Label fx:id="sizeYLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="sizeY" max="50" maxWidth="200.0" min="5" />
+                <Slider fx:id="sizeY" max="50" maxWidth="200.0" min="5" value="30.0" />
             </VBox>
 
             <!-- Parametr: Startowa ilosc roslin -->
@@ -36,7 +36,7 @@
                     <Label alignment="CENTER" text="Startowa ilosc roslin: " textAlignment="CENTER" />
                     <Label fx:id="initialPlantCountLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="initialPlantCount" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" />
+                <Slider fx:id="initialPlantCount" blockIncrement="1.0" max="80.0" maxWidth="200.0" min="1.0" value="50.0" />
             </VBox>
 
             <!-- Parametr: Energia roslin -->
@@ -45,7 +45,7 @@
                     <Label alignment="CENTER" text="Energia roslin: " textAlignment="CENTER" />
                     <Label fx:id="initialPlantEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="initialPlantEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" />
+                <Slider fx:id="initialPlantEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="5.0" />
             </VBox>
 
             <!-- Parametr: Codzienny wzrost roslin -->
@@ -54,7 +54,7 @@
                     <Label alignment="CENTER" text="Codzienny wzrost roslin: " textAlignment="CENTER" />
                     <Label fx:id="growPerDayLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="growPerDay" blockIncrement="1.0" max="50" maxWidth="200.0" />
+                <Slider fx:id="growPerDay" blockIncrement="1.0" max="50" maxWidth="200.0" value="6.0" />
             </VBox>
 
             <!-- Parametr: Ilosc zwierzat -->
@@ -63,7 +63,7 @@
                     <Label alignment="CENTER" text="Ilosc zwierzat: " textAlignment="CENTER" />
                     <Label fx:id="animalCountLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="animalCount" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" prefHeight="14.0" prefWidth="308.0" />
+                <Slider fx:id="animalCount" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" prefHeight="14.0" prefWidth="308.0" value="20.0" />
             </VBox>
 
             <!-- Parametr: Poczatkowa energia zwierzat -->
@@ -72,7 +72,7 @@
                     <Label alignment="CENTER" text="Poczatkowa energia zwierzat: " textAlignment="CENTER" />
                     <Label fx:id="animalEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="animalEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" />
+                <Slider fx:id="animalEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="30.0" />
             </VBox>
 
             <!-- Parametr: Energia potrzebna do rozmnazania -->
@@ -81,7 +81,7 @@
                     <Label alignment="CENTER" text="Energia potrzebna do rozmnazania: " textAlignment="CENTER" />
                     <Label fx:id="reproduceEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="reproduceEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" />
+                <Slider fx:id="reproduceEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="6.0" />
             </VBox>
 
             <!-- Parametr: Strata energii podczas rozmnazania -->
@@ -90,7 +90,7 @@
                     <Label alignment="CENTER" text="Strata energii podczas rozmnazania: " textAlignment="CENTER" />
                     <Label fx:id="reproduceLossLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="reproduceLoss" blockIncrement="1.0" max="50" maxWidth="200.0" />
+                <Slider fx:id="reproduceLoss" blockIncrement="1.0" max="50" maxWidth="200.0" value="5.0" />
             </VBox>
 
             <!-- Parametr: Codzienna strata energii -->
@@ -99,7 +99,7 @@
                     <Label alignment="CENTER" text="Codzienna strata energii: " textAlignment="CENTER" />
                     <Label fx:id="energyLossLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="energyLoss" blockIncrement="1.0" max="50" maxWidth="200.0" />
+                <Slider fx:id="energyLoss" blockIncrement="1.0" max="50" maxWidth="200.0" value="1.0" />
             </VBox>
 
             <!-- Parametr: Dlugosc genomu -->
@@ -108,7 +108,7 @@
                     <Label alignment="CENTER" text="Dlugosc genomu: " textAlignment="CENTER" />
                     <Label fx:id="genomeLenLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="genomeLen" blockIncrement="1.0" max="15.0" maxWidth="200.0" min="3.0" />
+                <Slider fx:id="genomeLen" blockIncrement="1.0" max="15.0" maxWidth="200.0" min="3.0" value="5.0" />
             </VBox>
 
             <!-- Parametr: Czas dnia w milisekundach -->
@@ -117,7 +117,7 @@
                     <Label alignment="CENTER" text="Czas dnia w milisekundach: " textAlignment="CENTER" />
                     <Label fx:id="turnTimeLabel" alignment="CENTER" textAlignment="CENTER" />
                 </HBox>
-                <Slider fx:id="turnTime" max="1000.0" maxWidth="200.0" min="50.0" />
+                <Slider fx:id="turnTime" max="1000.0" maxWidth="200.0" min="50.0" value="100.0" />
             </VBox>
          <VBox alignment="CENTER">
             <children>
