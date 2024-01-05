@@ -18,7 +18,9 @@ public class Simulation {
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
-        map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
+        if(config.isWater()) map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
+
+
 
 
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
@@ -44,8 +46,7 @@ public class Simulation {
         notifyListeners();
         while (true) { // keep this so that thread doesnt stop
             while (!isSimulationOver() && isActive) {
-                Random random = new Random();
-                int x = random.nextInt(2);
+
                 increaseDay();
                 increaseAge();
                 decreaseEnergy();
@@ -55,13 +56,13 @@ public class Simulation {
                 reproduceAnimals();
                 spawnPlants(config.getNumberOfPlantsGrowingPerDay());
                 stats.updateStats(map.getTiles(), map.getBoundary());
-                if (x % 2 == 0) {
-                    map.growWater();
-                }
-                else {
-                    map.shrinkWater();
-                }
 
+                if(config.isWater()){
+                    Random random = new Random();
+                    int x = random.nextInt(2);
+                    if (x % 2 == 0) map.growWater();
+                    else map.shrinkWater();
+                }
                 notifyListeners();
                 Thread.sleep(config.getTurnTimeInMs());
             }

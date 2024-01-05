@@ -156,6 +156,11 @@
                <ToggleButton fx:id="backAndForth" mnemonicParsing="false" text="Tam i z powrotem" />
             </children>
          </VBox>
+            <VBox alignment="CENTER">
+                <children>
+                    <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda" />
+                </children>
+            </VBox>
          <BorderPane.margin>
             <Insets bottom="10.0" top="10.0" />
          </BorderPane.margin>

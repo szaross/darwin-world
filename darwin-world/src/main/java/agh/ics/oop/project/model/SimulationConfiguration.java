@@ -17,8 +17,9 @@ public class SimulationConfiguration {
     private final int initialWaterCount;
     private final int waterPoolSize;
     private final int waterPoolGrowRate;
+    private final boolean water;
 
-    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, int initialWaterCount, int waterPoolSize, int waterPoolGrowRate, boolean backAndForth) {
+    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, int initialWaterCount, int waterPoolSize, int waterPoolGrowRate, boolean backAndForth, boolean water) {
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
         this.initialPlantCount = initialPlantCount;
@@ -35,6 +36,7 @@ public class SimulationConfiguration {
         this.initialWaterCount = initialWaterCount;
         this.waterPoolSize = waterPoolSize;
         this.waterPoolGrowRate = waterPoolGrowRate;
+        this.water = water;
     }
 
     public int getMapSizeX() {
@@ -94,5 +96,8 @@ public class SimulationConfiguration {
 
     public boolean isBackAndForth() {
         return backAndForth;
+    }
+    public boolean isWater() {
+        return water;
     }
 }

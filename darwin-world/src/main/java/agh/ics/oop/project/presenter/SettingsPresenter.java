@@ -81,6 +81,8 @@ public class SettingsPresenter {
     private Label waterPoolSizeLabel;
     @FXML
     private Label waterPoolGrowRateLabel;
+    @FXML
+    private ToggleButton water;
 
     @FXML
     public void initialize() {
@@ -170,7 +172,7 @@ public class SettingsPresenter {
                                                                         (int) initialWaterCount.getValue(),
                                                                         (int) waterPoolSize.getValue(),
                                                                         (int) waterPoolGrowRate.getValue(),
-                                                                        backAndForth.isSelected());
+                                                                        backAndForth.isSelected(), water.isSelected());
         SimulationApp app = new SimulationApp(config);
 
         Platform.runLater(() -> {
