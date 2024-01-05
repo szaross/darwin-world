@@ -8,11 +8,12 @@ import java.util.List;
 
 public class WaterPool implements WorldElement {
     private final Vector2d center;
-    private List<Vector2d> WaterTiles;
+    private List<Vector2d> WaterTiles = new ArrayList<>();
     private final int max_size;
 
-    public WaterPool(Vector2d center_position,int max_size){
+    public WaterPool(Vector2d center_position, int max_size){
         this.center=center_position;
+        this.WaterTiles.add(center_position);
         this.max_size=max_size;
     }
 
@@ -37,5 +38,10 @@ public class WaterPool implements WorldElement {
 
     public List<Vector2d> getWaterTiles() {
         return WaterTiles;
+    }
+
+    @Override
+    public String toString(){
+        return "W";
     }
 }

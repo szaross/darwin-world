@@ -77,7 +77,12 @@ public class SimulationPresenter implements SimulationListener {
             Label label = new Label(" ");
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
+        }
 
+        for (WaterPool pool : map.getWaterPools()) {
+            Label label = new Label(" ");
+            mapGrid.add(label, pool.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - pool.getPosition().getY() + 1);
+            GridPane.setHalignment(label, HPos.CENTER);
         }
 
     }
@@ -103,9 +108,10 @@ public class SimulationPresenter implements SimulationListener {
                     Vector2d position = new Vector2d(x - 1, y + 1);
                     Tile t = tile.get(position);
                     // water
-                    if (map.getTiles().get(new Vector2d(x - 1, y + 1)) != null && map.getTiles().get(new Vector2d(x - 1, y + 1)).containsWater()) {
-                        cellPane.setStyle("-fx-background-color: rgba(0, 23, 255, 0);");
+                    if (map.getTiles().get(position) != null && map.getTiles().get(position).containsWater()) {
+                        cellPane.setStyle("-fx-background-color: rgba(0,217,255,0.62);");
                     }
+
                     Animal curr_max_animal = strongestAnimalOnTile(t);
                     if (curr_max_animal != null) {
 

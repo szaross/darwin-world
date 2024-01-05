@@ -6,6 +6,7 @@ import java.util.List;
 public class Tile {
     private Plant plant;
     private boolean containsWater = false;
+
     private List<Animal> animals = new ArrayList<>();
 
     public void addAnimal(Animal animal) {

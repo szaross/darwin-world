@@ -69,6 +69,18 @@ public class SettingsPresenter {
     private Label genomeLenLabel;
     @FXML
     private Label turnTimeLabel;
+    @FXML
+    private Slider initialWaterCount;
+    @FXML
+    private Slider waterPoolSize;
+    @FXML
+    private Slider waterPoolGrowRate;
+    @FXML
+    private Label initialWaterCountLabel;
+    @FXML
+    private Label waterPoolSizeLabel;
+    @FXML
+    private Label waterPoolGrowRateLabel;
 
     @FXML
     public void initialize() {
@@ -109,6 +121,18 @@ public class SettingsPresenter {
         turnTime.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateValueText();
         });
+
+        initialWaterCount.valueProperty().addListener((observable, oldValue, newValue) -> {
+            updateValueText();
+        });
+
+        waterPoolSize.valueProperty().addListener((observable, oldValue, newValue) -> {
+            updateValueText();
+        });
+
+        waterPoolGrowRate.valueProperty().addListener((observable, oldValue, newValue) -> {
+            updateValueText();
+        });
     }
 
     public void updateValueText(){
@@ -124,6 +148,9 @@ public class SettingsPresenter {
         energyLossLabel.setText(String.valueOf((int) energyLoss.getValue()));
         genomeLenLabel.setText(String.valueOf((int) genomeLen.getValue()));
         turnTimeLabel.setText(String.valueOf((int) turnTime.getValue()));
+        initialWaterCountLabel.setText(String.valueOf((int) initialWaterCount.getValue()));
+        waterPoolSizeLabel.setText(String.valueOf((int) waterPoolSize.getValue()));
+        waterPoolGrowRateLabel.setText(String.valueOf((int) waterPoolGrowRate.getValue()));
     }
 
     public void onSimulationStartClicked() {
@@ -140,6 +167,9 @@ public class SettingsPresenter {
                                                                         (int) energyLoss.getValue(),
                                                                         (int) genomeLen.getValue(),
                                                                         (int) turnTime.getValue(),
+                                                                        (int) initialWaterCount.getValue(),
+                                                                        (int) waterPoolSize.getValue(),
+                                                                        (int) waterPoolGrowRate.getValue(),
                                                                         backAndForth.isSelected());
         SimulationApp app = new SimulationApp(config);
 

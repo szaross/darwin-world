@@ -22,17 +22,18 @@ public class WorldMap implements Map{
         this.id=id;
         this.tiles = new HashMap<>();
         this.waterPools=new ArrayList<>();
-        initWater();
     }
 
-    private void initWater() {
-        // narazie randomowa ilosc akwenow, czyli 1 xd
-        int nPools=1;
-        for(int i=0;i<nPools;i++){
-            Vector2d pos=new Vector2d(0,0);
-            waterPools.add(new WaterPool(pos,5));
+    public void placeWater(int initialWaterCount, int waterPoolSize) {
+        for(int i = 0; i < initialWaterCount ;i++){
+            Random random = new Random();
+            int x = random.nextInt(getBoundary().upper_right().getX() - getBoundary().lower_left().getX());
+            int y = random.nextInt(getBoundary().upper_right().getY() - getBoundary().lower_left().getY());
+            Vector2d pos=new Vector2d(x,y);
+            waterPools.add(new WaterPool(pos,waterPoolSize));
             if (getTiles().get(pos)==null) getTiles().put(pos,new Tile());
             getTiles().get(pos).addWater();
+            System.out.println(getTiles().get(pos).containsWater());
         }
     }
 
@@ -121,9 +122,7 @@ public class WorldMap implements Map{
     }
 
     private void updateWater(){
-        for (WaterPool pool : waterPools){
 
-        }
     }
     public void deleteIfEmpty(Vector2d position){
         if (getTiles().containsKey(position)){
@@ -166,6 +165,7 @@ public class WorldMap implements Map{
         for (Tile t : getTiles().values()) {
             result.addAll(t.getAnimals());
             if (t.getPlant() != null) result.add(t.getPlant());
+            if (t.containsWater()) result.add(new WaterPool(new Vector2d(5,5),1));
         }
         return result;
     }
@@ -210,6 +210,10 @@ public class WorldMap implements Map{
     @Override
     public String toString() {
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
+    }
+
+    public List<WaterPool> getWaterPools() {
+        return waterPools;
     }
 
 

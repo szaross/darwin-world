@@ -18,6 +18,7 @@ public class Simulation {
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
+        map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
 
 
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
@@ -70,7 +71,7 @@ public class Simulation {
     private void spawnPlants(int plantCount) {
         if(plantCount > 0){
             List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
-            System.out.println(availablePositions.size());
+//            System.out.println(availablePositions.size());
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
 
