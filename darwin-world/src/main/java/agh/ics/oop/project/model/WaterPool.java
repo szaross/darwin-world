@@ -57,8 +57,7 @@ public class WaterPool implements WorldElement {
                         if (tiles.get(new_pos) == null) {
                             tiles.put(new_pos, new Tile());
                         }
-                        if (!tiles.get(new_pos).containsWater() && !temp_water.contains(new_pos) &&
-                                tiles.get(new_pos).getPlant() == null && tiles.get(new_pos).getAnimals().isEmpty()) {
+                        if (!tiles.get(new_pos).containsWater() && !temp_water.contains(new_pos)) {
                             temp_water.add(pos);
                         }
                 }

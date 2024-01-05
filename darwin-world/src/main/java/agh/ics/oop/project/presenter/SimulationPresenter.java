@@ -74,13 +74,13 @@ public class SimulationPresenter implements SimulationListener {
 
         // place elements on map
         for (WorldElement element : map.getElements()) {
-            Label label = new Label(element.toString());
+            Label label = new Label("");
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
         for (WaterPool pool : map.getWaterCenters()) {
-            Label label = new Label("W");
+            Label label = new Label("");
             mapGrid.add(label, pool.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - pool.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
