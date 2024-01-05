@@ -42,4 +42,8 @@ public class Tile {
     public void addWater(){
         containsWater=true;
     }
+
+    public void removeWater(){
+        containsWater=false;
+    }
 }

@@ -11,7 +11,7 @@ public class WorldMap implements Map{
     private final int width;
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
-    private List<WaterPool> waterPools;
+    private List<WaterPool> waterCenters;
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -21,7 +21,7 @@ public class WorldMap implements Map{
         this.boundary = new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
         this.id=id;
         this.tiles = new HashMap<>();
-        this.waterPools=new ArrayList<>();
+        this.waterCenters = new ArrayList<>();
     }
 
     public void placeWater(int initialWaterCount, int waterPoolSize) {
@@ -30,10 +30,21 @@ public class WorldMap implements Map{
             int x = random.nextInt(getBoundary().upper_right().getX() - getBoundary().lower_left().getX());
             int y = random.nextInt(getBoundary().upper_right().getY() - getBoundary().lower_left().getY());
             Vector2d pos=new Vector2d(x,y);
-            waterPools.add(new WaterPool(pos,waterPoolSize));
+            waterCenters.add(new WaterPool(pos,waterPoolSize));
             if (getTiles().get(pos)==null) getTiles().put(pos,new Tile());
             getTiles().get(pos).addWater();
-            System.out.println(getTiles().get(pos).containsWater());
+        }
+    }
+
+    public void growWater() {
+        for(WaterPool pool : waterCenters){
+            pool.grow(getTiles(), getBoundary());
+        }
+    }
+
+    public void shrinkWater() {
+        for(WaterPool pool : waterCenters){
+            pool.shrink(getTiles(), getBoundary());
         }
     }
 
@@ -165,7 +176,6 @@ public class WorldMap implements Map{
         for (Tile t : getTiles().values()) {
             result.addAll(t.getAnimals());
             if (t.getPlant() != null) result.add(t.getPlant());
-            if (t.containsWater()) result.add(new WaterPool(new Vector2d(5,5),1));
         }
         return result;
     }
@@ -212,8 +222,8 @@ public class WorldMap implements Map{
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
     }
 
-    public List<WaterPool> getWaterPools() {
-        return waterPools;
+    public List<WaterPool> getWaterCenters() {
+        return waterCenters;
     }
 
 

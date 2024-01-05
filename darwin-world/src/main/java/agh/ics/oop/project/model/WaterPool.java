@@ -17,19 +17,61 @@ public class WaterPool implements WorldElement {
         this.max_size=max_size;
     }
 
-    public void grow(HashMap<Vector2d,Tile> tiles){
-        List<Vector2d> positions = getGrowPositions();
-        for (Vector2d pos : positions){
-            if (tiles.get(pos)==null) tiles.put(pos,new Tile());
-            tiles.get(pos).addWater();
-        }
-    }
-    private List<Vector2d> getGrowPositions(){
-        // codziennie grow/shrink o jedno pole (?)
-        return new ArrayList<>(List.of(new Vector2d(1,0)));
-    }
-    public void shrink(List<Tile> tiles){
+    public void grow(HashMap<Vector2d,Tile> tiles, Boundary borders){
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        List<Vector2d> temp_water = new ArrayList<>();
 
+        for (int i = 0; i < directions.length; i++) {
+            int x = directions[i][0];
+            int y = directions[i][1];
+
+            for(Vector2d pos : WaterTiles){
+                Vector2d new_pos = new Vector2d(pos.getX() + x, pos.getY() + y);
+                if (new_pos.getX() >= borders.lower_left().getX() && new_pos.getX() <= borders.upper_right().getX()
+                    && new_pos.getY() >= borders.lower_left().getY() && new_pos.getY() <= borders.upper_right().getY()) {
+                    if (tiles.get(new_pos) == null) {
+                        tiles.put(new_pos, new Tile());
+                    }
+                    if (!tiles.get(new_pos).containsWater() && tiles.get(new_pos).getPlant() == null && tiles.get(new_pos).getAnimals().isEmpty()) {
+                        tiles.get(new_pos).addWater();
+                        temp_water.add(new_pos);
+                    }
+                }
+            }
+        }
+
+        WaterTiles.addAll(temp_water);
+    }
+    public void shrink(HashMap<Vector2d,Tile> tiles, Boundary borders){
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        List<Vector2d> temp_water = new ArrayList<>();
+
+        for (int i = 0; i < directions.length; i++) {
+            int x = directions[i][0];
+            int y = directions[i][1];
+
+            for(Vector2d pos : WaterTiles){
+                Vector2d new_pos = new Vector2d(pos.getX() + x, pos.getY() + y);
+                if (new_pos.getX() >= borders.lower_left().getX() && new_pos.getX() <= borders.upper_right().getX()
+                        && new_pos.getY() >= borders.lower_left().getY() && new_pos.getY() <= borders.upper_right().getY()) {
+                        if (tiles.get(new_pos) == null) {
+                            tiles.put(new_pos, new Tile());
+                        }
+                        if (!tiles.get(new_pos).containsWater() && !temp_water.contains(new_pos) &&
+                                tiles.get(new_pos).getPlant() == null && tiles.get(new_pos).getAnimals().isEmpty()) {
+                            temp_water.add(pos);
+                        }
+                }
+            }
+        }
+
+        for(Vector2d pos : temp_water) {
+            if (pos != center) {
+                tiles.get(pos).removeWater();
+                WaterTiles.remove(pos);
+            }
+
+        }
     }
     @Override
     public Vector2d getPosition() {

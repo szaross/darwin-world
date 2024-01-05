@@ -74,13 +74,13 @@ public class SimulationPresenter implements SimulationListener {
 
         // place elements on map
         for (WorldElement element : map.getElements()) {
-            Label label = new Label(" ");
+            Label label = new Label(element.toString());
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
-        for (WaterPool pool : map.getWaterPools()) {
-            Label label = new Label(" ");
+        for (WaterPool pool : map.getWaterCenters()) {
+            Label label = new Label("W");
             mapGrid.add(label, pool.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - pool.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
@@ -100,12 +100,12 @@ public class SimulationPresenter implements SimulationListener {
         if (max_animal == null) return;
 
         int max_energy = max_animal.getEnergy();
-        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX() + 1; x++) {
+        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1; x++) {
             for (int y = map.getBoundary().lower_left().getY() - 1; y <= map.getBoundary().upper_right().getY(); y++) {
                 Pane cellPane = new Pane();
                 if (map.getTiles().get(new Vector2d(x - 1, y + 1)) != null) {
                     HashMap<Vector2d, Tile> tile = map.getTiles();
-                    Vector2d position = new Vector2d(x - 1, y + 1);
+                    Vector2d position = new Vector2d(x - 1,y + 1);
                     Tile t = tile.get(position);
                     // water
                     if (map.getTiles().get(position) != null && map.getTiles().get(position).containsWater()) {
