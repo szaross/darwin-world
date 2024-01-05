@@ -11,7 +11,6 @@ public class Simulation {
     private Statistics stats;
     private Thread thread;
     private boolean isActive;
-
     public Simulation(SimulationConfiguration config) {
         this.config = config;
     }
@@ -19,10 +18,13 @@ public class Simulation {
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
+
+
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
-        listeners.add(new ConsoleSimulationDisplay());
+//        listeners.add(new ConsoleSimulationDisplay());
         spawnPlants(config.getInitialPlantCount());
         spawnAnimals(config.getInitialAnimalCount());
+
         isActive = true;
     }
 
@@ -67,7 +69,8 @@ public class Simulation {
 
     private void spawnPlants(int plantCount) {
         if(plantCount > 0){
-            List<Vector2d> availablePositions = getPositionsWithoutPlants();
+            List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
+            System.out.println(availablePositions.size());
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
 
@@ -176,12 +179,12 @@ public class Simulation {
 
     }
 
-    private List<Vector2d> getPositionsWithoutPlants() {
+    private List<Vector2d> getPositionsWithoutPlantsAndWater() {
         List<Vector2d> result = new ArrayList<>();
 
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                if (map.getPlant(new Vector2d(i, j)) == null) {
+                if (map.getTiles().get(new Vector2d(i,j))==null || (map.getPlant(new Vector2d(i, j)) == null && !map.containsWater(new Vector2d(i,j)))) {
                     result.add(new Vector2d(i, j));
                 }
             }
