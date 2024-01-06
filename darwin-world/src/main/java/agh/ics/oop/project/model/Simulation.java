@@ -57,7 +57,7 @@ public class Simulation {
                 spawnPlants(config.getNumberOfPlantsGrowingPerDay());
                 stats.updateStats(map.getTiles(), map.getBoundary());
 
-                if(config.isWater()){
+                if(getDay() % config.getWaterPoolGrowRate() == 0 && config.isWater()){
                     Random random = new Random();
                     int x = random.nextInt(2);
                     if (x % 2 == 0) map.growWater();
@@ -230,6 +230,10 @@ public class Simulation {
     public void increaseDay() {
         day = day + 1;
 //        System.out.println("Dzień: " + day);
+    }
+
+    public int getDay(){
+        return day;
     }
 
     public void runAsync() {
