@@ -11,7 +11,7 @@ public class PlantTest {
         Plant plant1 = new Plant(new Vector2d(4,5),40);
         Plant plant2 = new Plant(new Vector2d(7,3),40);
         assertEquals(new Vector2d(4,5), plant1.getPosition());
-        assertEquals(new Vector2d(7,-3), plant2.getPosition());
+        assertEquals(new Vector2d(7,3), plant2.getPosition());
     }
 
     @Test

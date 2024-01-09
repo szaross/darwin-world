@@ -1,5 +1,6 @@
 package agh.ics.oop.project.gui;
 
+import agh.ics.oop.project.model.util.SimulationConfigurationLoader;
 import agh.ics.oop.project.presenter.SettingsPresenter;
 import agh.ics.oop.project.presenter.SimulationPresenter;
 import javafx.application.Application;

@@ -2,16 +2,23 @@ package agh.ics.oop.project.presenter;
 
 import agh.ics.oop.project.gui.SimulationApp;
 import agh.ics.oop.project.model.SimulationConfiguration;
+import agh.ics.oop.project.model.util.SimulationConfigurationLoader;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+
 public class SettingsPresenter {
+    @FXML
+    private ListView configurationListView;
     @FXML
     private ToggleButton backAndForth;
     @FXML
@@ -86,6 +93,7 @@ public class SettingsPresenter {
 
     @FXML
     public void initialize() {
+        updateListView();
         updateValueText();
         sizeX.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateValueText();
@@ -136,8 +144,30 @@ public class SettingsPresenter {
             updateValueText();
         });
     }
+    private void updateSliderValues(SimulationConfiguration configuration) {
+        if (configuration != null) {
+            sizeX.setValue(configuration.getMapSizeX());
+            sizeY.setValue(configuration.getMapSizeY());
+            initialPlantCount.setValue(configuration.getInitialPlantCount());
+            initialPlantEnergy.setValue(configuration.getInitialPlantEnergy());
+            growPerDay.setValue(configuration.getNumberOfPlantsGrowingPerDay());
+            animalCount.setValue(configuration.getInitialAnimalCount());
+            animalEnergy.setValue(configuration.getInitialAnimalEnergy());
+            reproduceEnergy.setValue(configuration.getReadyToReproduceEnergy());
+            reproduceLoss.setValue(configuration.getReproduceEnergyLoss());
+            energyLoss.setValue(configuration.getEnergyLossEachDay());
+            genomeLen.setValue(configuration.getGenomeLength());
+            turnTime.setValue(configuration.getTurnTimeInMs());
+            initialWaterCount.setValue(configuration.getInitialWaterCount());
+            waterPoolSize.setValue(configuration.getWaterPoolSize());
+            waterPoolGrowRate.setValue(configuration.getWaterPoolGrowRate());
 
-    public void updateValueText(){
+            backAndForth.setSelected(configuration.isBackAndForth());
+            water.setSelected(configuration.isWater());
+        }
+    }
+
+        public void updateValueText(){
         sizeXLabel.setText(String.valueOf((int) sizeX.getValue()));
         sizeYLabel.setText(String.valueOf((int) sizeY.getValue()));
         initialPlantCountLabel.setText(String.valueOf((int) initialPlantCount.getValue()));
@@ -181,6 +211,24 @@ public class SettingsPresenter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        });
+    }
+
+    private void updateListView(){
+        // load saved configurations
+        List<SimulationConfiguration> configurationList;
+        try {
+            configurationList = SimulationConfigurationLoader.loadConfigurations();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        configurationListView.getItems().addAll(configurationList);
+
+        configurationListView.getSelectionModel().selectedIndexProperty().addListener((o, oldVal, newVal) ->{
+            System.out.println(newVal);
+            SimulationConfiguration newConfig = configurationList.get((Integer) newVal);
+            updateSliderValues(newConfig);
         });
     }
 

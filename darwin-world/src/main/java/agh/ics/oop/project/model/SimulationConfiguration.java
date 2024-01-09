@@ -1,23 +1,41 @@
 package agh.ics.oop.project.model;
 
+import com.opencsv.bean.CsvBindByName;
 public class SimulationConfiguration {
-    private final int mapSizeX;
-    private final int mapSizeY;
-    private final int initialPlantCount;
-    private final int initialPlantEnergy;
-    private final int numberOfPlantsGrowingPerDay;
-    private final int initialAnimalCount;
-    private final int initialAnimalEnergy;
-    private final int readyToReproduceEnergy;
-    private final int reproduceEnergyLoss;
-    private final int energyLossEachDay;
-    private final int genomeLength;
-    private final int turnTimeInMs;
-    private final boolean backAndForth;
-    private final int initialWaterCount;
-    private final int waterPoolSize;
-    private final int waterPoolGrowRate;
-    private final boolean water;
+    @CsvBindByName
+    private int mapSizeX;
+    @CsvBindByName
+    private int mapSizeY;
+    @CsvBindByName
+    private int initialPlantCount;
+    @CsvBindByName
+    private int initialPlantEnergy;
+    @CsvBindByName
+    private int numberOfPlantsGrowingPerDay;
+    @CsvBindByName
+    private int initialAnimalCount;
+    @CsvBindByName
+    private int initialAnimalEnergy;
+    @CsvBindByName
+    private int readyToReproduceEnergy;
+    @CsvBindByName
+    private int reproduceEnergyLoss;
+    @CsvBindByName
+    private int energyLossEachDay;
+    @CsvBindByName
+    private int genomeLength;
+    @CsvBindByName
+    private int turnTimeInMs;
+    @CsvBindByName
+    private boolean backAndForth;
+    @CsvBindByName
+    private int initialWaterCount;
+    @CsvBindByName
+    private int waterPoolSize;
+    @CsvBindByName
+    private int waterPoolGrowRate;
+    @CsvBindByName
+    private boolean water;
 
     public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, int initialWaterCount, int waterPoolSize, int waterPoolGrowRate, boolean backAndForth, boolean water) {
         this.mapSizeX = mapSizeX;
@@ -38,7 +56,9 @@ public class SimulationConfiguration {
         this.waterPoolGrowRate = waterPoolGrowRate;
         this.water = water;
     }
+    public SimulationConfiguration(){ // needed for opencsv beans
 
+    }
     public int getMapSizeX() {
         return mapSizeX;
     }
@@ -99,5 +119,28 @@ public class SimulationConfiguration {
     }
     public boolean isWater() {
         return water;
+    }
+
+    @Override
+    public String toString() {
+        return "SimulationConfiguration{" +
+               " mapSizeX=" + mapSizeX +
+               ", mapSizeY=" + mapSizeY +
+               ", \ninitialPlantCount=" + initialPlantCount +
+               ", initialPlantEnergy=" + initialPlantEnergy +
+               ", \nnumberOfPlantsGrowingPerDay=" + numberOfPlantsGrowingPerDay +
+               ", initialAnimalCount=" + initialAnimalCount +
+               ", \ninitialAnimalEnergy=" + initialAnimalEnergy +
+               ", readyToReproduceEnergy=" + readyToReproduceEnergy +
+               ", \nreproduceEnergyLoss=" + reproduceEnergyLoss +
+               ", energyLossEachDay=" + energyLossEachDay +
+               ", \ngenomeLength=" + genomeLength +
+               ", turnTimeInMs=" + turnTimeInMs +
+               ", \ninitialWaterCount=" + initialWaterCount +
+               ", waterPoolSize=" + waterPoolSize +
+               ", \nwaterPoolGrowRate=" + waterPoolGrowRate +
+               ", water=" + water +
+               ", \nbackAndForth=" + backAndForth +
+               '}';
     }
 }
