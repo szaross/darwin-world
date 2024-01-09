@@ -1,6 +1,9 @@
 package agh.ics.oop.project.model;
 
 import com.opencsv.bean.CsvBindByName;
+
+import java.util.Objects;
+
 public class SimulationConfiguration {
     @CsvBindByName
     private int mapSizeX;
@@ -142,5 +145,18 @@ public class SimulationConfiguration {
                ", water=" + water +
                ", \nbackAndForth=" + backAndForth +
                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimulationConfiguration that = (SimulationConfiguration) o;
+        return getMapSizeX() == that.getMapSizeX() && getMapSizeY() == that.getMapSizeY() && getInitialPlantCount() == that.getInitialPlantCount() && getInitialPlantEnergy() == that.getInitialPlantEnergy() && getNumberOfPlantsGrowingPerDay() == that.getNumberOfPlantsGrowingPerDay() && getInitialAnimalCount() == that.getInitialAnimalCount() && getInitialAnimalEnergy() == that.getInitialAnimalEnergy() && getReadyToReproduceEnergy() == that.getReadyToReproduceEnergy() && getReproduceEnergyLoss() == that.getReproduceEnergyLoss() && getEnergyLossEachDay() == that.getEnergyLossEachDay() && getGenomeLength() == that.getGenomeLength() && getTurnTimeInMs() == that.getTurnTimeInMs() && isBackAndForth() == that.isBackAndForth() && getInitialWaterCount() == that.getInitialWaterCount() && getWaterPoolSize() == that.getWaterPoolSize() && getWaterPoolGrowRate() == that.getWaterPoolGrowRate() && isWater() == that.isWater();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMapSizeX(), getMapSizeY(), getInitialPlantCount(), getInitialPlantEnergy(), getNumberOfPlantsGrowingPerDay(), getInitialAnimalCount(), getInitialAnimalEnergy(), getReadyToReproduceEnergy(), getReproduceEnergyLoss(), getEnergyLossEachDay(), getGenomeLength(), getTurnTimeInMs(), isBackAndForth(), getInitialWaterCount(), getWaterPoolSize(), getWaterPoolGrowRate(), isWater());
     }
 }

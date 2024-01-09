@@ -162,6 +162,11 @@
                     <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda" />
                 </children>
             </VBox>
+         <VBox alignment="CENTER">
+            <children>
+               <Button mnemonicParsing="false" onAction="#onConfigurationSaveClicked" text="Zapisz konfiguracje" />
+            </children>
+         </VBox>
          <BorderPane.margin>
             <Insets bottom="10.0" top="10.0" />
          </BorderPane.margin>
@@ -183,9 +188,10 @@
         </VBox>
     </bottom>
    <right>
-      <VBox alignment="CENTER" prefHeight="502.0" prefWidth="548.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="502.0" prefWidth="548.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="configurationListView" editable="true" fixedCellSize="150.0" VBox.vgrow="SOMETIMES" />
+            <Button mnemonicParsing="false" onAction="#onConfigurationDeleteClicked" text="Usuń wybraną konfiguracje" />
          </children>
       </VBox>
    </right>

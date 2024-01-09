@@ -22,12 +22,11 @@ public class SimulationConfigurationLoader {
                 .parse();
 
 
-
-        configurations.forEach(System.out::println);
+        System.out.println("Configs size: " +configurations.size());
 
         return configurations;
     }
-    public static void saveConfigurations(List<SimulationConfiguration> configurations) throws IOException {
+    public static void saveConfigurations(List<SimulationConfiguration> configurations) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(CONFIG_FILE_PATH))) {
             // Create StatefulBeanToCsv
             StatefulBeanToCsv<SimulationConfiguration> beanToCsv = new StatefulBeanToCsvBuilder<SimulationConfiguration>(writer)
@@ -36,9 +35,7 @@ public class SimulationConfigurationLoader {
 
             // Write CSV file
             beanToCsv.write(configurations);
-        } catch (CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException(e);
-        } catch (CsvDataTypeMismatchException e) {
+        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException | IOException e) {
             throw new RuntimeException(e);
         }
     }

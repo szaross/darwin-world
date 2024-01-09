@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -14,19 +15,15 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsPresenter {
+    private final static int NUMBER_OF_PREDEFINED_CONFIGURATIONS=3;
     @FXML
-    private ListView configurationListView;
+    private ListView<SimulationConfiguration> configurationListView;
     @FXML
     private ToggleButton backAndForth;
-    @FXML
-    private GridPane mapGrid;
-    @FXML
-    private Label movesLabel;
-    @FXML
-    private TextField movesField;
     @FXML
     private Slider sizeX;
     @FXML
@@ -90,9 +87,11 @@ public class SettingsPresenter {
     private Label waterPoolGrowRateLabel;
     @FXML
     private ToggleButton water;
+    private List<SimulationConfiguration> configurationList = new ArrayList<>();
 
     @FXML
     public void initialize() {
+        initListView();
         updateListView();
         updateValueText();
         sizeX.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -187,22 +186,7 @@ public class SettingsPresenter {
 
     public void onSimulationStartClicked() {
         // pobieranie danych
-        SimulationConfiguration config = new SimulationConfiguration((int) sizeX.getValue(),
-                                                                        (int) sizeY.getValue(),
-                                                                        (int) initialPlantCount.getValue(),
-                                                                        (int) initialPlantEnergy.getValue(),
-                                                                        (int) growPerDay.getValue(),
-                                                                        (int) animalCount.getValue(),
-                                                                        (int) animalEnergy.getValue(),
-                                                                        (int) reproduceEnergy.getValue(),
-                                                                        (int) reproduceLoss.getValue(),
-                                                                        (int) energyLoss.getValue(),
-                                                                        (int) genomeLen.getValue(),
-                                                                        (int) turnTime.getValue(),
-                                                                        (int) initialWaterCount.getValue(),
-                                                                        (int) waterPoolSize.getValue(),
-                                                                        (int) waterPoolGrowRate.getValue(),
-                                                                        backAndForth.isSelected(), water.isSelected());
+        SimulationConfiguration config = getSelectedConfiguration();
         SimulationApp app = new SimulationApp(config);
 
         Platform.runLater(() -> {
@@ -216,20 +200,62 @@ public class SettingsPresenter {
 
     private void updateListView(){
         // load saved configurations
-        List<SimulationConfiguration> configurationList;
         try {
             configurationList = SimulationConfigurationLoader.loadConfigurations();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
+        configurationListView.getItems().clear();
         configurationListView.getItems().addAll(configurationList);
+    }
 
+    private void initListView() {
         configurationListView.getSelectionModel().selectedIndexProperty().addListener((o, oldVal, newVal) ->{
+            if ((Integer) newVal==-1) return;
             System.out.println(newVal);
             SimulationConfiguration newConfig = configurationList.get((Integer) newVal);
             updateSliderValues(newConfig);
         });
     }
 
+    public void onConfigurationSaveClicked() {
+        SimulationConfiguration config = getSelectedConfiguration();
+        configurationList.add(config);
+        SimulationConfigurationLoader.saveConfigurations(configurationList);
+        updateListView();
+
+    }
+
+    private SimulationConfiguration getSelectedConfiguration(){
+        return new SimulationConfiguration((int) sizeX.getValue(),
+                (int) sizeY.getValue(),
+                (int) initialPlantCount.getValue(),
+                (int) initialPlantEnergy.getValue(),
+                (int) growPerDay.getValue(),
+                (int) animalCount.getValue(),
+                (int) animalEnergy.getValue(),
+                (int) reproduceEnergy.getValue(),
+                (int) reproduceLoss.getValue(),
+                (int) energyLoss.getValue(),
+                (int) genomeLen.getValue(),
+                (int) turnTime.getValue(),
+                (int) initialWaterCount.getValue(),
+                (int) waterPoolSize.getValue(),
+                (int) waterPoolGrowRate.getValue(),
+                backAndForth.isSelected(), water.isSelected());
+    }
+
+    public void onConfigurationDeleteClicked() {
+        int selectedIndex = configurationListView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex==-1) return;
+        if (selectedIndex<NUMBER_OF_PREDEFINED_CONFIGURATIONS){
+            Alert alert = new Alert(Alert.AlertType.NONE, "Nie mozna usunac predefinowanych konfiguracji!", ButtonType.OK);
+            alert.show();
+            return;
+        }
+        configurationList.remove(selectedIndex);
+        SimulationConfigurationLoader.saveConfigurations(configurationList);
+        updateListView();
+    }
 }
