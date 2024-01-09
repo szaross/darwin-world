@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
-//    private int x;
-//    private int y;
     private Plant plant;
+    private boolean containsWater = false;
+
     private List<Animal> animals = new ArrayList<>();
 
     public void addAnimal(Animal animal) {
@@ -33,7 +33,17 @@ public class Tile {
         return animals;
     }
     public boolean isEmpty() {
-        return plant == null && animals.isEmpty();
+        return plant == null && animals.isEmpty() && !containsWater;
     }
 
+    public boolean containsWater() {
+        return containsWater;
+    }
+    public void addWater(){
+        containsWater=true;
+    }
+
+    public void removeWater(){
+        containsWater=false;
+    }
 }

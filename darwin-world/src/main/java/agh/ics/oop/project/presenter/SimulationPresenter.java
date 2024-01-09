@@ -26,8 +26,8 @@ public class SimulationPresenter implements SimulationListener {
     private static final double CELL_WIDTH = 35.0;
     @FXML
     private Label animalInfo;
-    private Animal spectatingAnimal=null;
-    private Pane spectatingAnimalPane=null;
+    private Animal spectatingAnimal = null;
+    private Pane spectatingAnimalPane = null;
     @FXML
     private Label movesLabel;
 
@@ -35,49 +35,54 @@ public class SimulationPresenter implements SimulationListener {
     private GridPane mapGrid;
     private Simulation simulation;
 
-    public void drawMap(){
+    public void drawMap() {
         WorldMap map = simulation.getMap();
 
         clearGrid();
-        RowConstraints rowConstraints = new RowConstraints(1,CELL_HEIGHT,CELL_HEIGHT);
+        RowConstraints rowConstraints = new RowConstraints(1, CELL_HEIGHT, CELL_HEIGHT);
         rowConstraints.setVgrow(Priority.SOMETIMES);
 
-        ColumnConstraints columnConstraints = new ColumnConstraints(1,CELL_WIDTH,CELL_WIDTH);
+        ColumnConstraints columnConstraints = new ColumnConstraints(1, CELL_WIDTH, CELL_WIDTH);
         columnConstraints.setHgrow(Priority.SOMETIMES);
 
         // corner
         Label corner = new Label("y\\x");
-        mapGrid.add(corner,0,0);
+        mapGrid.add(corner, 0, 0);
         GridPane.setHalignment(corner, HPos.CENTER);
         mapGrid.getColumnConstraints().add(columnConstraints);
         mapGrid.getRowConstraints().add(rowConstraints);
 
         // columns
-        int column=1;
+        int column = 1;
         for (int i = map.getBoundary().lower_left().getX(); i <= map.getBoundary().upper_right().getX(); i++) {
             Label label = new Label("%d".formatted(i));
-            mapGrid.add(label,column,0);
+            mapGrid.add(label, column, 0);
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.getColumnConstraints().add(columnConstraints);
             column++;
         }
 
         // rows
-        int row=1;
+        int row = 1;
         for (int i = map.getBoundary().upper_right().getY(); i >= map.getBoundary().lower_left().getY(); i--) {
             Label label = new Label("%d".formatted(i));
-            mapGrid.add(label,0,row);
+            mapGrid.add(label, 0, row);
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.getRowConstraints().add(rowConstraints);
             row++;
         }
 
         // place elements on map
-        for(WorldElement element : map.getElements()){
-            Label label = new Label(" ");
+        for (WorldElement element : map.getElements()) {
+            Label label = new Label("");
             mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
+        }
 
+        for (WaterPool pool : map.getWaterCenters()) {
+            Label label = new Label("");
+            mapGrid.add(label, pool.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - pool.getPosition().getY() + 1);
+            GridPane.setHalignment(label, HPos.CENTER);
         }
 
     }
@@ -88,82 +93,88 @@ public class SimulationPresenter implements SimulationListener {
         mapGrid.getRowConstraints().clear();
     }
 
-    private void applyColors(){
+    private void applyColors() {
         WorldMap map = simulation.getMap();
         // adding colors
         Animal max_animal = strongestAnimalOnMap();
-        if (max_animal==null) return;
+        if (max_animal == null) return;
 
         int max_energy = max_animal.getEnergy();
-        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1 ; x++) {
-            for (int y = map.getBoundary().lower_left().getY() -1; y <= map.getBoundary().upper_right().getY(); y++) {
+        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1; x++) {
+            for (int y = map.getBoundary().lower_left().getY() - 1; y <= map.getBoundary().upper_right().getY(); y++) {
                 Pane cellPane = new Pane();
-                if(map.getTiles() != null){
+                if (map.getTiles().get(new Vector2d(x - 1, y + 1)) != null) {
                     HashMap<Vector2d, Tile> tile = map.getTiles();
-                    Vector2d position = new Vector2d(x-1, y+1);
+                    Vector2d position = new Vector2d(x - 1,y + 1);
                     Tile t = tile.get(position);
+                    // water
+                    if (map.getTiles().get(position) != null && map.getTiles().get(position).containsWater()) {
+                        cellPane.setStyle("-fx-background-color: rgba(0,217,255,0.62);");
+                    }
+
                     Animal curr_max_animal = strongestAnimalOnTile(t);
-                    if (curr_max_animal!=null) {
+                    if (curr_max_animal != null) {
 
                         // if spectating animal is on this tile, show him instead of the strongest
                         if (t.getAnimals().contains(spectatingAnimal)) {
-                            curr_max_animal=spectatingAnimal;
-                            spectatingAnimalPane=cellPane;
+                            curr_max_animal = spectatingAnimal;
+                            spectatingAnimalPane = cellPane;
                         }
 
                         double curr_energy = (double) curr_max_animal.getEnergy() / max_energy;
-                        double opacity = Math.min(Math.max(0.2,curr_energy), 0.7);
+                        double opacity = Math.min(Math.max(0.2, curr_energy), 0.7);
 
                         // different color for spectating animal
-                        String cssStyle = curr_max_animal==spectatingAnimal ? String.format(Locale.ROOT, "-fx-background-color: rgba(255, 23, 255, %.2f);", opacity) : String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
+                        String cssStyle = curr_max_animal == spectatingAnimal ? String.format(Locale.ROOT, "-fx-background-color: rgba(255, 23, 255, %.2f);", opacity) : String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity);
                         cellPane.setStyle(cssStyle);
 
                         Animal finalCurr_max_animal = curr_max_animal;
                         cellPane.setOnMouseClicked(event -> {
-                                if (!simulation.isActive()){
-                                    if (spectatingAnimalPane!=null){
-                                        Animal max_animal2 = strongestAnimalOnMap();
-                                        if (max_animal2==null) return; // shouldn't happen
+                            if (!simulation.isActive()) {
+                                if (spectatingAnimalPane != null) {
+                                    Animal max_animal2 = strongestAnimalOnMap();
+                                    if (max_animal2 == null) return; // shouldn't happen
 
-                                        int max_energy2 = max_animal2.getEnergy();
-                                        Animal strongest = strongestAnimalOnTile(map.getTiles().get(spectatingAnimal.getPosition()));
-                                        if (strongest!=null) { // spectatingAnimal may be dead and the tile empty
-                                            double curr_energy2 = (double) strongest.getEnergy() / max_energy2;
-                                            double opacity2 = Math.min(Math.max(0.2, curr_energy2), 0.7);
-                                            spectatingAnimalPane.setStyle(String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity2));
-                                        }
+                                    int max_energy2 = max_animal2.getEnergy();
+                                    Animal strongest = strongestAnimalOnTile(map.getTiles().get(spectatingAnimal.getPosition()));
+                                    if (strongest != null) { // spectatingAnimal may be dead and the tile empty
+                                        double curr_energy2 = (double) strongest.getEnergy() / max_energy2;
+                                        double opacity2 = Math.min(Math.max(0.2, curr_energy2), 0.7);
+                                        spectatingAnimalPane.setStyle(String.format(Locale.ROOT, "-fx-background-color: rgba(255, 0, 23, %.2f);", opacity2));
                                     }
-
-                                    spectatingAnimal= finalCurr_max_animal;
-                                    spectatingAnimalPane=cellPane;
-                                    spectatingAnimalPane.setStyle(String.format(Locale.ROOT, "-fx-background-color: rgba(255, 23, 255, %.2f);", opacity));
-                                    spectateAnimal();
                                 }
-                            });
+
+                                spectatingAnimal = finalCurr_max_animal;
+                                spectatingAnimalPane = cellPane;
+                                spectatingAnimalPane.setStyle(String.format(Locale.ROOT, "-fx-background-color: rgba(255, 23, 255, %.2f);", opacity));
+                                spectateAnimal();
+                            }
+                        });
 
                     }
+
+                    if (map.getPlant(new Vector2d(x - 1, y + 1)) != null && map.getTiles().get(new Vector2d(x - 1, y + 1)).getAnimals().isEmpty()) {
+                        cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
+                    }
+
+                    mapGrid.add(cellPane, x - map.getBoundary().lower_left().getX(), map.getBoundary().upper_right().getY() - y);
                 }
-                if(map.getPlant(new Vector2d(x-1,y+1)) != null && map.getTiles().get(new Vector2d(x - 1, y + 1)).getAnimals().isEmpty()) {
-                    cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
-                }
-                mapGrid.add(cellPane, x - map.getBoundary().lower_left().getX(), map.getBoundary().upper_right().getY() - y);
             }
         }
 
     }
 
-    private synchronized Animal strongestAnimalOnTile(Tile t){
-        if(t != null && !t.getAnimals().isEmpty()){
+    private synchronized Animal strongestAnimalOnTile(Tile t) {
+        if (t != null && !t.getAnimals().isEmpty()) {
             return t.getAnimals().stream()
                     .sorted(new AnimalComparator())
                     .limit(1)
                     .toList()
                     .get(0);
-        }
-        else return null;
+        } else return null;
     }
 
-    private synchronized Animal strongestAnimalOnMap(){
+    private synchronized Animal strongestAnimalOnMap() {
         List<Animal> max_animal = simulation.getMap().getAnimals().stream()
                 .sorted(new AnimalComparator())
                 .limit(1)
@@ -175,7 +186,7 @@ public class SimulationPresenter implements SimulationListener {
 
     @Override
     public void mapChanged(Simulation simulation) {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             drawMap();
             applyColors();
             displayStatistics(simulation.getStats());
@@ -183,11 +194,11 @@ public class SimulationPresenter implements SimulationListener {
         });
     }
 
-    private void spectateAnimal(){
-        if (spectatingAnimal!=null){
-            String status ="";
-            if (spectatingAnimal.getEnergy()>0) status="Status: alive";
-            else status="Status: dead";
+    private void spectateAnimal() {
+        if (spectatingAnimal != null) {
+            String status = "";
+            if (spectatingAnimal.getEnergy() > 0) status = "Status: alive";
+            else status = "Status: dead";
             animalInfo.setText(spectatingAnimal.toString() + status);
         }
     }

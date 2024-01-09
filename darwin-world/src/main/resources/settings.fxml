@@ -119,11 +119,48 @@
                 </HBox>
                 <Slider fx:id="turnTime" max="1000.0" maxWidth="200.0" min="50.0" value="100.0" />
             </VBox>
+
+            <!-- Parametr: Ilość wody -->
+
+            <VBox alignment="CENTER">
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="Ilość wody: " textAlignment="CENTER" />
+                    <Label fx:id="initialWaterCountLabel" alignment="CENTER" textAlignment="CENTER" />
+                </HBox>
+                <Slider fx:id="initialWaterCount" max="10" maxWidth="200.0" min="1" value="3" />
+            </VBox>
+
+            <!-- Parametr: Maksymalna ilosc wody w jednym oczku -->
+
+            <VBox alignment="CENTER">
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="Maksymalny rozmiar wody: " textAlignment="CENTER" />
+
+                    <Label fx:id="waterPoolSizeLabel" alignment="CENTER" textAlignment="CENTER" />
+                </HBox>
+                <Slider fx:id="waterPoolSize" max="40" maxWidth="200.0" min="20" value="20" />
+            </VBox>
+
+            <!-- Parametr: Co ile woda zmienia rozmiar -->
+
+            <VBox alignment="CENTER">
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="Co ile dni woda zmienia rozmiar: " textAlignment="CENTER" />
+                    <Label fx:id="waterPoolGrowRateLabel" alignment="CENTER" textAlignment="CENTER" />
+                </HBox>
+                <Slider fx:id="waterPoolGrowRate" max="100" maxWidth="200.0" min="10" value="20" />
+            </VBox>
+
          <VBox alignment="CENTER">
             <children>
                <ToggleButton fx:id="backAndForth" mnemonicParsing="false" text="Tam i z powrotem" />
             </children>
          </VBox>
+            <VBox alignment="CENTER">
+                <children>
+                    <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda" />
+                </children>
+            </VBox>
          <BorderPane.margin>
             <Insets bottom="10.0" top="10.0" />
          </BorderPane.margin>

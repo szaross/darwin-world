@@ -11,6 +11,7 @@ public class WorldMap implements Map{
     private final int width;
     private HashMap<Vector2d, Tile> tiles;
     private final int id;
+    private List<WaterPool> waterCenters;
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -20,6 +21,31 @@ public class WorldMap implements Map{
         this.boundary = new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
         this.id=id;
         this.tiles = new HashMap<>();
+        this.waterCenters = new ArrayList<>();
+    }
+
+    public void placeWater(int initialWaterCount, int waterPoolSize) {
+        for(int i = 0; i < initialWaterCount ;i++){
+            Random random = new Random();
+            int x = random.nextInt(getBoundary().upper_right().getX() - getBoundary().lower_left().getX());
+            int y = random.nextInt(getBoundary().upper_right().getY() - getBoundary().lower_left().getY());
+            Vector2d pos=new Vector2d(x,y);
+            waterCenters.add(new WaterPool(pos,waterPoolSize));
+            if (getTiles().get(pos)==null) getTiles().put(pos,new Tile());
+            getTiles().get(pos).addWater();
+        }
+    }
+
+    public void growWater() {
+        for(WaterPool pool : waterCenters){
+            pool.grow(getTiles(), getBoundary());
+        }
+    }
+
+    public void shrinkWater() {
+        for(WaterPool pool : waterCenters){
+            pool.shrink(getTiles(), getBoundary());
+        }
     }
 
     @Override
@@ -106,7 +132,9 @@ public class WorldMap implements Map{
         }
     }
 
+    private void updateWater(){
 
+    }
     public void deleteIfEmpty(Vector2d position){
         if (getTiles().containsKey(position)){
             Tile t = getTiles().get(position);
@@ -138,6 +166,9 @@ public class WorldMap implements Map{
             return getTiles().get(pos).getPlant();
         }
         return null;
+    }
+    public boolean containsWater(Vector2d pos){
+        return (!isOccupied(pos) || getTiles().get(pos).containsWater());
     }
     @Override
     public synchronized List<WorldElement> getElements() {
@@ -174,7 +205,7 @@ public class WorldMap implements Map{
     @Override
     public boolean canMoveTo(Vector2d position) {
         // domyslnie true - dla wody bedzie false
-        return true;
+        return (!isOccupied(position) || !getTiles().get(position).containsWater());
     }
 
     @Override
@@ -189,6 +220,10 @@ public class WorldMap implements Map{
     @Override
     public String toString() {
         return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
+    }
+
+    public List<WaterPool> getWaterCenters() {
+        return waterCenters;
     }
 
 

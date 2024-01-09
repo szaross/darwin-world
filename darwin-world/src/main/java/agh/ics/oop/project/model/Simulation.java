@@ -11,7 +11,6 @@ public class Simulation {
     private Statistics stats;
     private Thread thread;
     private boolean isActive;
-
     public Simulation(SimulationConfiguration config) {
         this.config = config;
     }
@@ -19,10 +18,16 @@ public class Simulation {
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
+        if(config.isWater()) map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
+
+
+
+
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
-        listeners.add(new ConsoleSimulationDisplay());
+//        listeners.add(new ConsoleSimulationDisplay());
         spawnPlants(config.getInitialPlantCount());
         spawnAnimals(config.getInitialAnimalCount());
+
         isActive = true;
     }
 
@@ -41,6 +46,7 @@ public class Simulation {
         notifyListeners();
         while (true) { // keep this so that thread doesnt stop
             while (!isSimulationOver() && isActive) {
+
                 increaseDay();
                 increaseAge();
                 decreaseEnergy();
@@ -51,6 +57,12 @@ public class Simulation {
                 spawnPlants(config.getNumberOfPlantsGrowingPerDay());
                 stats.updateStats(map.getTiles(), map.getBoundary());
 
+                if(getDay() % config.getWaterPoolGrowRate() == 0 && config.isWater()){
+                    Random random = new Random();
+                    int x = random.nextInt(2);
+                    if (x % 2 == 0) map.growWater();
+                    else map.shrinkWater();
+                }
                 notifyListeners();
                 Thread.sleep(config.getTurnTimeInMs());
             }
@@ -67,7 +79,8 @@ public class Simulation {
 
     private void spawnPlants(int plantCount) {
         if(plantCount > 0){
-            List<Vector2d> availablePositions = getPositionsWithoutPlants();
+            List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
+//            System.out.println(availablePositions.size());
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
 
@@ -176,12 +189,12 @@ public class Simulation {
 
     }
 
-    private List<Vector2d> getPositionsWithoutPlants() {
+    private List<Vector2d> getPositionsWithoutPlantsAndWater() {
         List<Vector2d> result = new ArrayList<>();
 
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                if (map.getPlant(new Vector2d(i, j)) == null) {
+                if (map.getTiles().get(new Vector2d(i,j))==null || (map.getPlant(new Vector2d(i, j)) == null && !map.containsWater(new Vector2d(i,j)))) {
                     result.add(new Vector2d(i, j));
                 }
             }
@@ -217,6 +230,10 @@ public class Simulation {
     public void increaseDay() {
         day = day + 1;
 //        System.out.println("Dzień: " + day);
+    }
+
+    public int getDay(){
+        return day;
     }
 
     public void runAsync() {
