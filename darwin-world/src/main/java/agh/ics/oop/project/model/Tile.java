@@ -23,13 +23,13 @@ public class Tile {
     public void setPlant(Plant plant) {
         this.plant = plant;
     }
-    public Plant getPlant(){
+    public synchronized Plant getPlant(){
         return plant;
     }
     public void removePlant(){
         plant = null;
     }
-    public List<Animal> getAnimals(){
+    public synchronized List<Animal> getAnimals(){
         return animals;
     }
     public boolean isEmpty() {

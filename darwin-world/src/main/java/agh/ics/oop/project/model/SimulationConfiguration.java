@@ -13,8 +13,9 @@ public class SimulationConfiguration {
     private final int energyLossEachDay;
     private final int genomeLength;
     private final int turnTimeInMs;
+    private final boolean backAndForth;
 
-    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs) {
+    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, boolean backAndForth) {
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
         this.initialPlantCount = initialPlantCount;
@@ -27,6 +28,7 @@ public class SimulationConfiguration {
         this.energyLossEachDay = energyLossEachDay;
         this.genomeLength = genomeLength;
         this.turnTimeInMs=turnTimeInMs;
+        this.backAndForth = backAndForth;
     }
 
     public int getMapSizeX() {
@@ -73,5 +75,9 @@ public class SimulationConfiguration {
     }
     public int getReproduceEnergyLoss() {
         return reproduceEnergyLoss;
+    }
+
+    public boolean isBackAndForth() {
+        return backAndForth;
     }
 }

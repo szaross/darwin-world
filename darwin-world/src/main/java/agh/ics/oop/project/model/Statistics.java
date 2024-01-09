@@ -7,22 +7,27 @@ import java.util.Map;
 
 public class Statistics {
     private String formattedNumber;
+    private int day = 0;
     private int animalCount;
     private int plantCount;
     private int freeTiles;
-    private double averageLifespan;
+    private double currentAge = 0;
+    private double deadAge = 0;
     private double averageEnergy;
     private double averageChildrenCount;
-    private int deadCount;
+    private int deadCount = 0;
+
     private HashMap<Genotype, Integer> genotypeCounts = new HashMap<>();
 
     public void updateStats(HashMap<Vector2d, Tile> tiles, Boundary boundary) {
+        day += 1;
         genotypeCounts.clear();
         animalCount = 0;
         plantCount = 0;
         freeTiles = 0;
         averageChildrenCount = 0;
         averageEnergy = 0;
+        currentAge = 0;
 
         int fullTiles = 0;
         for (Tile tile : tiles.values()) {
@@ -35,6 +40,7 @@ public class Statistics {
             List<Animal> animals = tile.getAnimals();
             for (Animal animal : animals) {
                 averageEnergy += animal.getEnergy();
+                currentAge += animal.getAge();
                 averageChildrenCount += animal.getChildrenCount();
                 Genotype genotype = animal.getGenotype();
                 genotypeCounts.put(genotype, genotypeCounts.getOrDefault(genotype, 0) + 1);
@@ -48,37 +54,51 @@ public class Statistics {
         int height = boundary.upper_right().getY() - boundary.lower_left().getY() + 1;
         int area = width * height;
         freeTiles = area - fullTiles;
+
+
+
     }
 
-    public void lifespanStats(double age, int deadCount) {
-        averageLifespan += age;
-        this.deadCount += deadCount;
+    public void updateDead(int age, int count) {
+        deadAge += age;
+        deadCount += count;
     }
 
-    public void printStats(){
+
+    public synchronized String getGenotype() {
         Map.Entry<Genotype, Integer> mostPopularGenotype = null;
         for (Map.Entry<Genotype, Integer> entry : genotypeCounts.entrySet()) {
             if (mostPopularGenotype == null || entry.getValue() > mostPopularGenotype.getValue()) {
                 mostPopularGenotype = entry;
             }
         }
-        System.out.println("Animal count: " + animalCount);
-        System.out.println("Plant count: " + plantCount);
-        System.out.println("Free tiles: " + freeTiles);
 
-        if(deadCount != 0) {
-            formattedNumber = String.format("%.2f", averageLifespan/deadCount);
-        }
-        else {
-            formattedNumber = String.format("%.2f", 0.0);
-        }
-
-        System.out.println("Average lifespan: " + formattedNumber);
-        System.out.println("Average energy: " + String.format("%.2f",averageEnergy));
-        System.out.println("Average children count: " + String.format("%.2f",averageChildrenCount));
         if (mostPopularGenotype != null) {
-            System.out.println(mostPopularGenotype.getValue() +" animals has the same genotype: " + mostPopularGenotype.getKey().toString());
+            if(mostPopularGenotype.getValue() == 1) {
+                return mostPopularGenotype.getValue() +" animal has the same genotype: " + mostPopularGenotype.getKey().toString();
+            }
+            else {
+                return mostPopularGenotype.getValue() +" animals have the same genotype: " + mostPopularGenotype.getKey().toString();
+            }
+
         }
+
+        return " ";
+
     }
 
+    @Override
+    public String toString() {
+        String result="";
+        result += "Day: " + day + "\n";
+        result +="Animal count: " + animalCount + "\n";
+        result +="Plant count: " + plantCount + "\n";
+        result +="Free tiles: " + freeTiles + "\n";
+        result +="Average lifespan: " + String.format("%.2f", ((currentAge + deadAge) / (animalCount + deadCount))) + "\n";
+        result +="Average energy: " + String.format("%.2f",averageEnergy)+ "\n";
+        result +="Average children count: " + String.format("%.2f",averageChildrenCount)+ "\n";
+
+        result += this.getGenotype()+ "\n";
+        return result;
+    }
 }
