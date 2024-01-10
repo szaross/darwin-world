@@ -182,6 +182,7 @@ public class Simulation {
                 map.removeAnimal(animal);
                 map.deleteIfEmpty(animal.getPosition());
                 sum_age += animal.getAge();
+                animal.setDeathDate(day);
             }
         }
         stats.updateDead(sum_age, count);
