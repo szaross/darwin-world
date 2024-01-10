@@ -191,9 +191,11 @@
         </VBox>
     </bottom>
    <right>
+
       <VBox alignment="CENTER" prefHeight="502.0" prefWidth="548.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="configurationListView" editable="true" fixedCellSize="150.0" VBox.vgrow="SOMETIMES" />
+             <Label id="savedLabel" alignment="CENTER" text="Zapisane konfiguracje" />
+            <ListView fx:id="configurationListView" editable="true" fixedCellSize="170.0" VBox.vgrow="SOMETIMES" />
             <Button mnemonicParsing="false" onAction="#onConfigurationDeleteClicked" text="Usuń wybraną konfiguracje" />
          </children>
       </VBox>
