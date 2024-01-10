@@ -21,6 +21,8 @@ import java.util.List;
 public class SettingsPresenter {
     private final static int NUMBER_OF_PREDEFINED_CONFIGURATIONS=3;
     @FXML
+    private CheckBox saveStatsToFile;
+    @FXML
     private ListView<SimulationConfiguration> configurationListView;
     @FXML
     private ToggleButton backAndForth;
@@ -187,7 +189,8 @@ public class SettingsPresenter {
     public void onSimulationStartClicked() {
         // pobieranie danych
         SimulationConfiguration config = getSelectedConfiguration();
-        SimulationApp app = new SimulationApp(config);
+        boolean saveStats=saveStatsToFile.isSelected();
+        SimulationApp app = new SimulationApp(config,saveStats);
 
         Platform.runLater(() -> {
             try {

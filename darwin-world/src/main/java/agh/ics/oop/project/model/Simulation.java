@@ -11,17 +11,16 @@ public class Simulation {
     private Statistics stats;
     private Thread thread;
     private boolean isActive;
-    public Simulation(SimulationConfiguration config) {
+    private final boolean saveStats;
+    public Simulation(SimulationConfiguration config, boolean saveStats) {
         this.config = config;
+        this.saveStats=saveStats;
     }
 
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
         if(config.isWater()) map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
-
-
-
 
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
 //        listeners.add(new ConsoleSimulationDisplay());
@@ -46,7 +45,7 @@ public class Simulation {
         notifyListeners();
         while (true) { // keep this so that thread doesnt stop
             while (!isSimulationOver() && isActive) {
-
+                if (saveStats) stats.saveToCsv();
                 increaseDay();
                 increaseAge();
                 decreaseEnergy();
