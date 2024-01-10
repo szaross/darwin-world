@@ -79,7 +79,6 @@ public class Simulation {
     private void spawnPlants(int plantCount) {
         if(plantCount > 0){
             List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
-//            System.out.println(availablePositions.size());
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
 
@@ -163,7 +162,6 @@ public class Simulation {
             Animal newborn = new Animal(position, 2 * config.getReproduceEnergyLoss(), genotype);
             stronger.addChildCount();
             weaker.addChildCount();
-//            System.out.println("new genotype: "+ genotype.getGenes());
 
             stronger.setEnergy(stronger.getEnergy() - config.getReproduceEnergyLoss());
             weaker.setEnergy(weaker.getEnergy() - config.getReproduceEnergyLoss());
