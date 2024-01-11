@@ -23,7 +23,7 @@ public class SettingsApp extends Application {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Settings app");
-//        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
-//        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
+        primaryStage.maxWidthProperty().bind(viewRoot.maxWidthProperty());
+        primaryStage.maxHeightProperty().bind(viewRoot.maxHeightProperty());
     }
 }

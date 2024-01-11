@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.project.presenter.SettingsPresenter">
+<VBox alignment="CENTER" maxHeight="880.0" maxWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.project.presenter.SettingsPresenter">
    <children>
-      <ScrollPane>
+      <ScrollPane VBox.vgrow="ALWAYS">
          <content>
             <BorderPane>
                 <center>
