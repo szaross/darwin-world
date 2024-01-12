@@ -168,7 +168,7 @@ public class SettingsPresenter {
         }
     }
 
-        public void updateValueText(){
+    public void updateValueText(){
         sizeXLabel.setText(String.valueOf((int) sizeX.getValue()));
         sizeYLabel.setText(String.valueOf((int) sizeY.getValue()));
         initialPlantCountLabel.setText(String.valueOf((int) initialPlantCount.getValue()));

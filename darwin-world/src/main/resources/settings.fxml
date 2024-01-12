@@ -204,25 +204,10 @@
             
                     </VBox>
                 </center>
-                <bottom>
-                    <VBox alignment="CENTER" spacing="5.0">
-                        <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" onAction="#onSimulationStartClicked" prefHeight="39.0" prefWidth="120.0" style="-fx-padding: 1;" text="Start" textAlignment="CENTER">
-                        <padding>
-                           <Insets left="10.0" />
-                        </padding>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                     </Button>
-                     <CheckBox fx:id="saveStatsToFile" mnemonicParsing="false" text="Zapisuj statystyki do pliku" />
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
-                    </VBox>
-                </bottom>
+
                <right>
             
-                  <VBox alignment="CENTER" prefHeight="502.0" prefWidth="548.0" spacing="10.0" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="502.0" prefWidth="502.0" spacing="10.0" BorderPane.alignment="CENTER">
                      <children>
                          <Label id="savedLabel" alignment="CENTER" text="Zapisane konfiguracje">
                            <font>
@@ -232,6 +217,20 @@
                         <ListView fx:id="configurationListView" editable="true" fixedCellSize="170.0" VBox.vgrow="SOMETIMES" />
                         <Button mnemonicParsing="false" onAction="#onConfigurationDeleteClicked" text="Usuń wybraną konfiguracje" />
                      </children>
+                      <VBox alignment="CENTER" spacing="5.0">
+                          <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" onAction="#onSimulationStartClicked" prefHeight="39.0" prefWidth="120.0" style="-fx-padding: 1;" text="Start" textAlignment="CENTER">
+                              <padding>
+                                  <Insets left="10.0" />
+                              </padding>
+                              <opaqueInsets>
+                                  <Insets />
+                              </opaqueInsets>
+                          </Button>
+                          <CheckBox fx:id="saveStatsToFile" mnemonicParsing="false" text="Zapisuj statystyki do pliku" />
+                          <padding>
+                              <Insets top="10.0" />
+                          </padding>
+                      </VBox>
                   </VBox>
                </right>
                <padding>
