@@ -1,12 +1,22 @@
 package agh.ics.oop.project.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class Statistics {
-    private String formattedNumber;
+    private static final DateFormat dateformat =new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss");
+    private final File CONFIG_FILE_PATH;
     private int day = 0;
     private int animalCount;
     private int plantCount;
@@ -19,6 +29,10 @@ public class Statistics {
 
     private HashMap<Genotype, Integer> genotypeCounts = new HashMap<>();
 
+    public Statistics(){
+        Date now = new Date();
+        CONFIG_FILE_PATH= new File("src/main/resources/stats" + dateformat.format(now) + ".csv");
+    }
     public void updateStats(HashMap<Vector2d, Tile> tiles, Boundary boundary) {
         day += 1;
         genotypeCounts.clear();
@@ -86,7 +100,19 @@ public class Statistics {
         return " ";
 
     }
+    public void saveToCsv(){
+        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH,true)) {
+            if (day==0){
+                writer.append("day;animalCount;plantCount;freeTiles;averageLifespan;averageEnergy;averageChildrenCount\n");
+            }
+            String result="%d;%d;%d;%d;%.2f;%.2f;%.2f\n".formatted(day,animalCount,plantCount,freeTiles,((currentAge + deadAge) / (animalCount + deadCount)),averageEnergy,averageChildrenCount);
 
+            writer.append(result);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public String toString() {
         String result="";

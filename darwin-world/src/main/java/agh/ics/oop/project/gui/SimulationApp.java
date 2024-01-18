@@ -6,16 +6,16 @@ import agh.ics.oop.project.presenter.SimulationPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SimulationApp extends Application {
     private final SimulationConfiguration configuration;
+    private final boolean saveStats;
 
-    public SimulationApp(SimulationConfiguration configuration){
+    public SimulationApp(SimulationConfiguration configuration, boolean saveStats){
         this.configuration=configuration;
+        this.saveStats=saveStats;
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,7 +26,7 @@ public class SimulationApp extends Application {
         configureStage(primaryStage,viewRoot);
 
         // setup simulation
-        Simulation sim = new Simulation(configuration);
+        Simulation sim = new Simulation(configuration,saveStats);
         sim.setUp();
         presenter.setSimulation(sim);
         sim.addListener(presenter);

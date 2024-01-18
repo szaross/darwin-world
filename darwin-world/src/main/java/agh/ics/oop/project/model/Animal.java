@@ -17,6 +17,9 @@ public class Animal implements Movable, WorldElement {
     private int energy;
     private int childrenCount=0;
     private int age = 0;
+    private int deathDate = 0;
+
+    private int plantEaten = 0;
 
     public Animal(Vector2d position,int energy, int genotypeSize){
         this.position=position;
@@ -101,6 +104,14 @@ public class Animal implements Movable, WorldElement {
         this.energy = energy;
     }
 
+    public void setDeathDate(int deathdate) {
+        this.deathDate = deathdate;
+    }
+
+    public int getDeathDate() {
+        return deathDate;
+    }
+
     public void addChildCount() {childrenCount += 1;}
     public int getChildrenCount() {
         return childrenCount;
@@ -112,7 +123,9 @@ public class Animal implements Movable, WorldElement {
                "Direction: %s\n".formatted(getDirection()) +
                "Energy: %d\n".formatted(getEnergy()) +
                "Genotype: %s\n".formatted(getGenotype()) +
-               "Children count: %d\n".formatted(getChildrenCount());
+               "Children count: %d\n".formatted(getChildrenCount())+
+               "Active gene: %d\n".formatted(getActiveGene()) +
+               "Eaten plants: %d\n".formatted(getPlantEaten());
     }
     public void setAge(int age) { this.age = age;}
     public int getAge(){ return age; }
@@ -130,5 +143,13 @@ public class Animal implements Movable, WorldElement {
     @Override
     public int hashCode() {
         return Objects.hash(position, direction, genotype, activeGene, energy, childrenCount, age);
+    }
+
+    public int getPlantEaten() {
+        return plantEaten;
+    }
+
+    public void setPlantEaten() {
+        this.plantEaten += 1;
     }
 }

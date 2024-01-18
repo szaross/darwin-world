@@ -11,17 +11,16 @@ public class Simulation {
     private Statistics stats;
     private Thread thread;
     private boolean isActive;
-    public Simulation(SimulationConfiguration config) {
+    private final boolean saveStats;
+    public Simulation(SimulationConfiguration config, boolean saveStats) {
         this.config = config;
+        this.saveStats=saveStats;
     }
 
     public void setUp() {
         map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
         stats = new Statistics();
         if(config.isWater()) map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
-
-
-
 
 //        this.setListener(new ConsoleSimulationDisplay()); // TODO
 //        listeners.add(new ConsoleSimulationDisplay());
@@ -46,7 +45,7 @@ public class Simulation {
         notifyListeners();
         while (true) { // keep this so that thread doesnt stop
             while (!isSimulationOver() && isActive) {
-
+                if (saveStats) stats.saveToCsv();
                 increaseDay();
                 increaseAge();
                 decreaseEnergy();
@@ -80,7 +79,6 @@ public class Simulation {
     private void spawnPlants(int plantCount) {
         if(plantCount > 0){
             List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
-//            System.out.println(availablePositions.size());
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
 
@@ -164,7 +162,6 @@ public class Simulation {
             Animal newborn = new Animal(position, 2 * config.getReproduceEnergyLoss(), genotype);
             stronger.addChildCount();
             weaker.addChildCount();
-//            System.out.println("new genotype: "+ genotype.getGenes());
 
             stronger.setEnergy(stronger.getEnergy() - config.getReproduceEnergyLoss());
             weaker.setEnergy(weaker.getEnergy() - config.getReproduceEnergyLoss());
@@ -183,6 +180,7 @@ public class Simulation {
                 map.removeAnimal(animal);
                 map.deleteIfEmpty(animal.getPosition());
                 sum_age += animal.getAge();
+                animal.setDeathDate(day);
             }
         }
         stats.updateDead(sum_age, count);

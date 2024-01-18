@@ -198,7 +198,7 @@ public class SimulationPresenter implements SimulationListener {
         if (spectatingAnimal != null) {
             String status = "";
             if (spectatingAnimal.getEnergy() > 0) status = "Status: alive";
-            else status = "Status: dead";
+            else status = "Status: dead\n" + "Death date: " + spectatingAnimal.getDeathDate() + " day of simulation";
             animalInfo.setText(spectatingAnimal.toString() + status);
         }
     }

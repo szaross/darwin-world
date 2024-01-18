@@ -124,6 +124,7 @@ public class WorldMap implements Map{
 
                 t.removeAnimal(max_animal);
                 max_animal.setEnergy(max_energy + t.getPlant().getEnergy());
+                max_animal.setPlantEaten();
                 t.addAnimal(max_animal);
                 t.removePlant();
 
