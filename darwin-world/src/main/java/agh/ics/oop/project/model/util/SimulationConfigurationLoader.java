@@ -22,8 +22,6 @@ public class SimulationConfigurationLoader {
                 .parse();
 
 
-        System.out.println("Configs size: " +configurations.size());
-
         return configurations;
     }
     public static void saveConfigurations(List<SimulationConfiguration> configurations) {

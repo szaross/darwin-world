@@ -216,7 +216,6 @@ public class SettingsPresenter {
     private void initListView() {
         configurationListView.getSelectionModel().selectedIndexProperty().addListener((o, oldVal, newVal) ->{
             if ((Integer) newVal==-1) return;
-            System.out.println(newVal);
             SimulationConfiguration newConfig = configurationList.get((Integer) newVal);
             updateSliderValues(newConfig);
         });
