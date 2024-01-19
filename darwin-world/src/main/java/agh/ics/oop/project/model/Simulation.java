@@ -58,7 +58,7 @@ public class Simulation {
 
                 if(getDay() % config.getWaterPoolGrowRate() == 0 && config.isWater()){
                     Random random = new Random();
-                    int x = random.nextInt(2);
+                    int x = random.nextInt(3);
                     if (x % 2 == 0) map.growWater();
                     else map.shrinkWater();
                 }
@@ -157,7 +157,7 @@ public class Simulation {
             }
 
             Genotype genotype = new Genotype(genes);
-            genotype.mutate();
+            genotype.mutate(config.getMinMutation(), config.getMaxMutation());
 
             Animal newborn = new Animal(position, 2 * config.getReproduceEnergyLoss(), genotype);
             stronger.addChildCount();

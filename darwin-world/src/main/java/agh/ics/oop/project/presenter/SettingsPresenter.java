@@ -50,7 +50,6 @@ public class SettingsPresenter {
     private Slider genomeLen;
     @FXML
     private Slider turnTime;
-
     @FXML
     private Label sizeXLabel;
     @FXML
@@ -246,6 +245,7 @@ public class SettingsPresenter {
                 (int) waterPoolSize.getValue(),
                 (int) waterPoolGrowRate.getValue(),
                 backAndForth.isSelected(), water.isSelected());
+                
     }
 
     public void onConfigurationDeleteClicked() {

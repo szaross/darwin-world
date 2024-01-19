@@ -37,7 +37,7 @@ public class Animal implements Movable, WorldElement {
         }
         this.genotype = new Genotype(genes);
     }
-
+    //testy
     public Animal(Vector2d position,int energy, Genotype genotype){
         this.position=position;
         this.energy=energy;
@@ -104,8 +104,8 @@ public class Animal implements Movable, WorldElement {
         this.energy = energy;
     }
 
-    public void setDeathDate(int deathdate) {
-        this.deathDate = deathdate;
+    public void setDeathDate(int deathDate) {
+        this.deathDate = deathDate;
     }
 
     public int getDeathDate() {

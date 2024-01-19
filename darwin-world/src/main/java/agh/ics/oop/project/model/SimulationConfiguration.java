@@ -40,7 +40,13 @@ public class SimulationConfiguration {
     @CsvBindByName
     private boolean water;
 
-    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, int initialWaterCount, int waterPoolSize, int waterPoolGrowRate, boolean backAndForth, boolean water) {
+    @CsvBindByName
+    private int minMutation;
+
+    @CsvBindByName
+    private int maxMutation;
+
+    public SimulationConfiguration(int mapSizeX, int mapSizeY, int initialPlantCount, int initialPlantEnergy, int numberOfPlantsGrowingPerDay, int initialAnimalCount, int initialAnimalEnergy, int readyToReproduceEnergy, int reproduceEnergyLoss, int energyLossEachDay, int genomeLength, int turnTimeInMs, int initialWaterCount, int waterPoolSize, int waterPoolGrowRate, boolean backAndForth, boolean water, int minMutation, int maxMutation) {
         this.mapSizeX = mapSizeX;
         this.mapSizeY = mapSizeY;
         this.initialPlantCount = initialPlantCount;
@@ -58,6 +64,8 @@ public class SimulationConfiguration {
         this.waterPoolSize = waterPoolSize;
         this.waterPoolGrowRate = waterPoolGrowRate;
         this.water = water;
+        this.minMutation = minMutation;
+        this.maxMutation = maxMutation;
     }
     public SimulationConfiguration(){ // needed for opencsv beans
 
@@ -122,6 +130,14 @@ public class SimulationConfiguration {
     }
     public boolean isWater() {
         return water;
+    }
+
+    public int getMaxMutation() {
+        return maxMutation;
+    }
+
+    public int getMinMutation() {
+        return minMutation;
     }
 
     @Override

@@ -5,15 +5,14 @@ import java.util.stream.IntStream;
 
 public class Genotype {
     private List<Integer> Genes = new ArrayList<>();
-
     public Genotype(List<Integer> Genes) {
         this.Genes = Genes;
     }
 
-    public void mutate() {
+    public void mutate(int min, int max) {
         Random random = new Random();
         int n = Genes.size();
-        int how_many = random.nextInt(n + 1);
+        int how_many = random.nextInt(max + 1 - min) + min;
 
         List<Integer> positions = new ArrayList<>(IntStream.range(0, n).boxed().toList());
         Collections.shuffle(positions);
