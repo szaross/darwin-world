@@ -211,8 +211,22 @@
                                        <TextField fx:id="maxMutations" layoutX="140.0" layoutY="10.0" maxWidth="20.0" />
                                     </children>
                                  </HBox>
+
                               </children>
                            </VBox>
+                            <VBox alignment="CENTER">
+                                <children>
+                                    <ToggleButton fx:id="backAndForth" mnemonicParsing="false" text="Tam i z powrotem" />
+                                </children>
+                            </VBox>
+                            <VBox alignment="CENTER">
+                                <children>
+                                    <Button mnemonicParsing="false" onAction="#onConfigurationSaveClicked" text="Zapisz konfiguracje" />
+                                </children>
+                            </VBox>
+                            <BorderPane.margin>
+                                <Insets />
+                            </BorderPane.margin>
                         </VBox>
                      </children>
                   </HBox>
