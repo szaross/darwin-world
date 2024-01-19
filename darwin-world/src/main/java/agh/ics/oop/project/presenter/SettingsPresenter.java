@@ -51,6 +51,10 @@ public class SettingsPresenter {
     @FXML
     private Slider turnTime;
     @FXML
+    private TextField minMutation;
+    @FXML
+    private TextField maxMutation;
+    @FXML
     private Label sizeXLabel;
     @FXML
     private Label sizeYLabel;
@@ -72,6 +76,8 @@ public class SettingsPresenter {
     private Label energyLossLabel;
     @FXML
     private Label genomeLenLabel;
+    @FXML
+    private Label mutationLabel;
     @FXML
     private Label turnTimeLabel;
     @FXML
@@ -161,7 +167,6 @@ public class SettingsPresenter {
             initialWaterCount.setValue(configuration.getInitialWaterCount());
             waterPoolSize.setValue(configuration.getWaterPoolSize());
             waterPoolGrowRate.setValue(configuration.getWaterPoolGrowRate());
-
             backAndForth.setSelected(configuration.isBackAndForth());
             water.setSelected(configuration.isWater());
         }
@@ -188,16 +193,19 @@ public class SettingsPresenter {
     public void onSimulationStartClicked() {
         // pobieranie danych
         SimulationConfiguration config = getSelectedConfiguration();
-        boolean saveStats=saveStatsToFile.isSelected();
-        SimulationApp app = new SimulationApp(config,saveStats);
+        if(config != null) {
+            boolean saveStats=saveStatsToFile.isSelected();
+            SimulationApp app = new SimulationApp(config,saveStats);
 
-        Platform.runLater(() -> {
-            try {
-                app.start(new Stage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            Platform.runLater(() -> {
+                try {
+                    app.start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
     }
 
     private void updateListView(){
@@ -228,25 +236,83 @@ public class SettingsPresenter {
 
     }
 
-    private SimulationConfiguration getSelectedConfiguration(){
-        return new SimulationConfiguration((int) sizeX.getValue(),
-                (int) sizeY.getValue(),
-                (int) initialPlantCount.getValue(),
-                (int) initialPlantEnergy.getValue(),
-                (int) growPerDay.getValue(),
-                (int) animalCount.getValue(),
-                (int) animalEnergy.getValue(),
-                (int) reproduceEnergy.getValue(),
-                (int) reproduceLoss.getValue(),
-                (int) energyLoss.getValue(),
-                (int) genomeLen.getValue(),
-                (int) turnTime.getValue(),
-                (int) initialWaterCount.getValue(),
-                (int) waterPoolSize.getValue(),
-                (int) waterPoolGrowRate.getValue(),
-                backAndForth.isSelected(), water.isSelected());
-                
+    public boolean validateInput() {
+        //Min and max mutation validation
+        String minText = minMutation.getText();
+        String maxText = maxMutation.getText();
+
+        if(minText.isEmpty() || maxText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Pola mutacji nie moga byc puste!", ButtonType.OK);
+            alert.show();
+            return false;
+        }
+
+
+        for(int i = 0; i < minText.length(); i++){
+            if ((int) minText.charAt(i) < 48 || (int) minText.charAt(i) > 57) {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Wpisano niepoprawne dane w minimalnej mutacji!", ButtonType.OK);
+                alert.show();
+                return false;
+            }
+        }
+
+        for(int i = 0; i < maxText.length(); i++){
+            if ((int) maxText.charAt(i) < 48 || (int) maxText.charAt(i) > 57) {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Wpisano niepoprawne dane w maksymalnej mutacji!", ButtonType.OK);
+                alert.show();
+                return false;
+            }
+        }
+
+        int minVal = Integer.parseInt(minMutation.getText());
+        int maxVal = Integer.parseInt(maxMutation.getText());
+
+        if (minVal > maxVal) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Minimalna liczba mutacji jest wieksza niz maksymalna!", ButtonType.OK);
+            alert.show();
+            return false;
+        }
+        if(maxVal > (int) genomeLen.getValue()) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Ilosc mutacji jest wieksza niz dlugosc genu!", ButtonType.OK);
+            alert.show();
+            return false;
+        }
+
+        // Reproduction energy validation
+
+        if(reproduceEnergy.getValue() < reproduceLoss.getValue()) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Strata energii przy rozmnazaniu powinna byc mniejsza niz energia gotowosci do rozmnazania!", ButtonType.OK);
+            alert.show();
+            return false;
+        }
+        return true;
     }
+
+    private SimulationConfiguration getSelectedConfiguration(){
+        if(validateInput()) {
+            return new SimulationConfiguration((int) sizeX.getValue(),
+                    (int) sizeY.getValue(),
+                    (int) initialPlantCount.getValue(),
+                    (int) initialPlantEnergy.getValue(),
+                    (int) growPerDay.getValue(),
+                    (int) animalCount.getValue(),
+                    (int) animalEnergy.getValue(),
+                    (int) reproduceEnergy.getValue(),
+                    (int) reproduceLoss.getValue(),
+                    (int) energyLoss.getValue(),
+                    (int) genomeLen.getValue(),
+                    (int) turnTime.getValue(),
+                    (int) initialWaterCount.getValue(),
+                    (int) waterPoolSize.getValue(),
+                    (int) waterPoolGrowRate.getValue(),
+                    backAndForth.isSelected(),
+                    water.isSelected(),
+                    Integer.parseInt(minMutation.getText()),
+                    Integer.parseInt(maxMutation.getText()));
+        }
+        return null;
+    }
+
 
     public void onConfigurationDeleteClicked() {
         int selectedIndex = configurationListView.getSelectionModel().getSelectedIndex();

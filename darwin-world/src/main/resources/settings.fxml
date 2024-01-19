@@ -130,7 +130,7 @@
                               </VBox>
                            <VBox alignment="CENTER">
                               <children>
-                                 <ToggleButton fx:id="water1" mnemonicParsing="false" text="Woda" />
+                                 <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda" />
                               </children>
                            </VBox>
                   
@@ -200,15 +200,16 @@
                                  <HBox alignment="CENTER">
                                     <children>
                                        <Label alignment="CENTER" text="Ilość mutacji:" textAlignment="CENTER" />
-                                       <Label fx:id="genomeLenLabel1" alignment="CENTER" textAlignment="CENTER" />
+                                       <Label fx:id="mutationLabel" alignment="CENTER" textAlignment="CENTER" />
                                     </children>
                                  </HBox>
                                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
                                     <children>
                                        <Label text="min:" />
-                                       <TextField fx:id="minMutations" maxWidth="20.0" />
+                                       <TextField fx:id="minMutation" maxWidth="40.0" text="0"/>
                                        <Label layoutX="112.0" layoutY="14.0" text="max:" />
-                                       <TextField fx:id="maxMutations" layoutX="140.0" layoutY="10.0" maxWidth="20.0" />
+                                       <TextField fx:id="maxMutation" layoutX="140.0" layoutY="10.0" maxWidth="40.0" text="5"/>
+
                                     </children>
                                  </HBox>
 
