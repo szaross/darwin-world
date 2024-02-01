@@ -4,22 +4,16 @@ import agh.ics.oop.project.gui.SimulationApp;
 import agh.ics.oop.project.model.SimulationConfiguration;
 import agh.ics.oop.project.model.util.SimulationConfigurationLoader;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsPresenter {
-    private final static int NUMBER_OF_PREDEFINED_CONFIGURATIONS=3;
+    private final static int NUMBER_OF_PREDEFINED_CONFIGURATIONS = 3;
     @FXML
     private CheckBox saveStatsToFile;
     @FXML
@@ -77,8 +71,6 @@ public class SettingsPresenter {
     @FXML
     private Label genomeLenLabel;
     @FXML
-    private Label mutationLabel;
-    @FXML
     private Label turnTimeLabel;
     @FXML
     private Slider initialWaterCount;
@@ -101,55 +93,23 @@ public class SettingsPresenter {
         initListView();
         updateListView();
         updateValueText();
-        sizeX.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        sizeY.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        initialPlantCount.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        initialPlantEnergy.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        growPerDay.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        animalCount.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        animalEnergy.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        reproduceEnergy.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        reproduceLoss.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        energyLoss.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        genomeLen.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-        turnTime.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-
-        initialWaterCount.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-
-        waterPoolSize.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
-
-        waterPoolGrowRate.valueProperty().addListener((observable, oldValue, newValue) -> {
-            updateValueText();
-        });
+        sizeX.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        sizeY.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        initialPlantCount.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        initialPlantEnergy.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        growPerDay.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        animalCount.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        animalEnergy.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        reproduceEnergy.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        reproduceLoss.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        energyLoss.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        genomeLen.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        turnTime.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        initialWaterCount.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        waterPoolSize.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
+        waterPoolGrowRate.valueProperty().addListener((observable, oldValue, newValue) -> updateValueText());
     }
+
     private void updateSliderValues(SimulationConfiguration configuration) {
         if (configuration != null) {
             sizeX.setValue(configuration.getMapSizeX());
@@ -172,7 +132,7 @@ public class SettingsPresenter {
         }
     }
 
-    public void updateValueText(){
+    public void updateValueText() {
         sizeXLabel.setText(String.valueOf((int) sizeX.getValue()));
         sizeYLabel.setText(String.valueOf((int) sizeY.getValue()));
         initialPlantCountLabel.setText(String.valueOf((int) initialPlantCount.getValue()));
@@ -191,11 +151,10 @@ public class SettingsPresenter {
     }
 
     public void onSimulationStartClicked() {
-        // pobieranie danych
         SimulationConfiguration config = getSelectedConfiguration();
-        if(config != null) {
-            boolean saveStats=saveStatsToFile.isSelected();
-            SimulationApp app = new SimulationApp(config,saveStats);
+        if (config != null) {
+            boolean saveStats = saveStatsToFile.isSelected();
+            SimulationApp app = new SimulationApp(config, saveStats);
 
             Platform.runLater(() -> {
                 try {
@@ -208,7 +167,7 @@ public class SettingsPresenter {
 
     }
 
-    private void updateListView(){
+    private void updateListView() {
         // load saved configurations
         try {
             configurationList = SimulationConfigurationLoader.loadConfigurations();
@@ -221,8 +180,8 @@ public class SettingsPresenter {
     }
 
     private void initListView() {
-        configurationListView.getSelectionModel().selectedIndexProperty().addListener((o, oldVal, newVal) ->{
-            if ((Integer) newVal==-1) return;
+        configurationListView.getSelectionModel().selectedIndexProperty().addListener((o, oldVal, newVal) -> {
+            if ((Integer) newVal == -1) return;
             SimulationConfiguration newConfig = configurationList.get((Integer) newVal);
             updateSliderValues(newConfig);
         });
@@ -241,14 +200,14 @@ public class SettingsPresenter {
         String minText = minMutation.getText();
         String maxText = maxMutation.getText();
 
-        if(minText.isEmpty() || maxText.isEmpty()) {
+        if (minText.isEmpty() || maxText.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Pola mutacji nie moga byc puste!", ButtonType.OK);
             alert.show();
             return false;
         }
 
 
-        for(int i = 0; i < minText.length(); i++){
+        for (int i = 0; i < minText.length(); i++) {
             if ((int) minText.charAt(i) < 48 || (int) minText.charAt(i) > 57) {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Wpisano niepoprawne dane w minimalnej mutacji!", ButtonType.OK);
                 alert.show();
@@ -256,7 +215,7 @@ public class SettingsPresenter {
             }
         }
 
-        for(int i = 0; i < maxText.length(); i++){
+        for (int i = 0; i < maxText.length(); i++) {
             if ((int) maxText.charAt(i) < 48 || (int) maxText.charAt(i) > 57) {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Wpisano niepoprawne dane w maksymalnej mutacji!", ButtonType.OK);
                 alert.show();
@@ -272,7 +231,7 @@ public class SettingsPresenter {
             alert.show();
             return false;
         }
-        if(maxVal > (int) genomeLen.getValue()) {
+        if (maxVal > (int) genomeLen.getValue()) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Ilosc mutacji jest wieksza niz dlugosc genu!", ButtonType.OK);
             alert.show();
             return false;
@@ -280,7 +239,7 @@ public class SettingsPresenter {
 
         // Reproduction energy validation
 
-        if(reproduceEnergy.getValue() < reproduceLoss.getValue()) {
+        if (reproduceEnergy.getValue() < reproduceLoss.getValue()) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Strata energii przy rozmnazaniu powinna byc mniejsza niz energia gotowosci do rozmnazania!", ButtonType.OK);
             alert.show();
             return false;
@@ -288,8 +247,8 @@ public class SettingsPresenter {
         return true;
     }
 
-    private SimulationConfiguration getSelectedConfiguration(){
-        if(validateInput()) {
+    private SimulationConfiguration getSelectedConfiguration() {
+        if (validateInput()) {
             return new SimulationConfiguration((int) sizeX.getValue(),
                     (int) sizeY.getValue(),
                     (int) initialPlantCount.getValue(),
@@ -316,8 +275,8 @@ public class SettingsPresenter {
 
     public void onConfigurationDeleteClicked() {
         int selectedIndex = configurationListView.getSelectionModel().getSelectedIndex();
-        if (selectedIndex==-1) return;
-        if (selectedIndex<NUMBER_OF_PREDEFINED_CONFIGURATIONS){
+        if (selectedIndex == -1) return;
+        if (selectedIndex < NUMBER_OF_PREDEFINED_CONFIGURATIONS) {
             Alert alert = new Alert(Alert.AlertType.NONE, "Nie mozna usunac predefinowanych konfiguracji!", ButtonType.OK);
             alert.show();
             return;

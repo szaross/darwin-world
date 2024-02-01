@@ -1,22 +1,14 @@
 package agh.ics.oop.project.presenter;
 
-import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.SimulationListener;
 import agh.ics.oop.project.interfaces.WorldElement;
 import agh.ics.oop.project.model.*;
 import javafx.application.Platform;
-import javafx.collections.MapChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -36,9 +28,13 @@ public class SimulationPresenter implements SimulationListener {
     private Simulation simulation;
 
     public void drawMap() {
-        WorldMap map = simulation.getMap();
-
         clearGrid();
+        drawMapTable();
+        placeElementsOnMap();
+    }
+
+    private void drawMapTable() {
+        WorldMap map = simulation.getMap();
         RowConstraints rowConstraints = new RowConstraints(1, CELL_HEIGHT, CELL_HEIGHT);
         rowConstraints.setVgrow(Priority.SOMETIMES);
 
@@ -54,7 +50,7 @@ public class SimulationPresenter implements SimulationListener {
 
         // columns
         int column = 1;
-        for (int i = map.getBoundary().lower_left().getX(); i <= map.getBoundary().upper_right().getX(); i++) {
+        for (int i = map.getBoundary().lower_left().x(); i <= map.getBoundary().upper_right().x(); i++) {
             Label label = new Label("%d".formatted(i));
             mapGrid.add(label, column, 0);
             GridPane.setHalignment(label, HPos.CENTER);
@@ -64,27 +60,28 @@ public class SimulationPresenter implements SimulationListener {
 
         // rows
         int row = 1;
-        for (int i = map.getBoundary().upper_right().getY(); i >= map.getBoundary().lower_left().getY(); i--) {
+        for (int i = map.getBoundary().upper_right().y(); i >= map.getBoundary().lower_left().y(); i--) {
             Label label = new Label("%d".formatted(i));
             mapGrid.add(label, 0, row);
             GridPane.setHalignment(label, HPos.CENTER);
             mapGrid.getRowConstraints().add(rowConstraints);
             row++;
         }
+    }
 
-        // place elements on map
+    private void placeElementsOnMap() {
+        WorldMap map = simulation.getMap();
         for (WorldElement element : map.getElements()) {
             Label label = new Label("");
-            mapGrid.add(label, element.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - element.getPosition().getY() + 1);
+            mapGrid.add(label, element.getPosition().x() - map.getBoundary().lower_left().x() + 1, map.getBoundary().upper_right().y() - element.getPosition().y() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
 
         for (WaterPool pool : map.getWaterCenters()) {
             Label label = new Label("");
-            mapGrid.add(label, pool.getPosition().getX() - map.getBoundary().lower_left().getX() + 1, map.getBoundary().upper_right().getY() - pool.getPosition().getY() + 1);
+            mapGrid.add(label, pool.getPosition().x() - map.getBoundary().lower_left().x() + 1, map.getBoundary().upper_right().y() - pool.getPosition().y() + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
-
     }
 
     private void clearGrid() {
@@ -95,17 +92,17 @@ public class SimulationPresenter implements SimulationListener {
 
     private void applyColors() {
         WorldMap map = simulation.getMap();
-        // adding colors
+
         Animal max_animal = strongestAnimalOnMap();
         if (max_animal == null) return;
 
         int max_energy = max_animal.getEnergy();
-        for (int x = map.getBoundary().lower_left().getX(); x <= map.getBoundary().upper_right().getX()+1; x++) {
-            for (int y = map.getBoundary().lower_left().getY() - 1; y <= map.getBoundary().upper_right().getY(); y++) {
+        for (int x = map.getBoundary().lower_left().x(); x <= map.getBoundary().upper_right().x() + 1; x++) {
+            for (int y = map.getBoundary().lower_left().y() - 1; y <= map.getBoundary().upper_right().y(); y++) {
                 Pane cellPane = new Pane();
                 if (map.getTiles().get(new Vector2d(x - 1, y + 1)) != null) {
                     HashMap<Vector2d, Tile> tile = map.getTiles();
-                    Vector2d position = new Vector2d(x - 1,y + 1);
+                    Vector2d position = new Vector2d(x - 1, y + 1);
                     Tile t = tile.get(position);
                     // water
                     if (map.getTiles().get(position) != null && map.getTiles().get(position).containsWater()) {
@@ -157,7 +154,7 @@ public class SimulationPresenter implements SimulationListener {
                         cellPane.setStyle("-fx-background-color: rgba(19,193,19,0.43);");
                     }
 
-                    mapGrid.add(cellPane, x - map.getBoundary().lower_left().getX(), map.getBoundary().upper_right().getY() - y);
+                    mapGrid.add(cellPane, x - map.getBoundary().lower_left().x(), map.getBoundary().upper_right().y() - y);
                 }
             }
         }
@@ -166,19 +163,12 @@ public class SimulationPresenter implements SimulationListener {
 
     private synchronized Animal strongestAnimalOnTile(Tile t) {
         if (t != null && !t.getAnimals().isEmpty()) {
-            return t.getAnimals().stream()
-                    .sorted(new AnimalComparator())
-                    .limit(1)
-                    .toList()
-                    .get(0);
+            return t.getAnimals().stream().sorted(new AnimalComparator()).limit(1).toList().get(0);
         } else return null;
     }
 
     private synchronized Animal strongestAnimalOnMap() {
-        List<Animal> max_animal = simulation.getMap().getAnimals().stream()
-                .sorted(new AnimalComparator())
-                .limit(1)
-                .toList();
+        List<Animal> max_animal = simulation.getMap().getAnimals().stream().sorted(new AnimalComparator()).limit(1).toList();
         if (max_animal.isEmpty()) return null;
 
         return max_animal.get(0);
@@ -196,7 +186,7 @@ public class SimulationPresenter implements SimulationListener {
 
     private void spectateAnimal() {
         if (spectatingAnimal != null) {
-            String status = "";
+            String status;
             if (spectatingAnimal.getEnergy() > 0) status = "Status: alive";
             else status = "Status: dead\n" + "Death date: " + spectatingAnimal.getDeathDate() + " day of simulation";
             animalInfo.setText(spectatingAnimal.toString() + status);

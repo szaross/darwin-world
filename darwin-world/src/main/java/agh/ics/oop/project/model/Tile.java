@@ -4,34 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
+    private final List<Animal> animals = new ArrayList<>();
     private Plant plant;
     private boolean containsWater = false;
-
-    private List<Animal> animals = new ArrayList<>();
 
     public void addAnimal(Animal animal) {
         animals.add(animal);
     }
-    public boolean removeAnimal(Animal animal){
-        if(animals.contains(animal)){
-            animals.remove(animal);
-            return true;
-        }
-        return false;
 
+    public void removeAnimal(Animal animal) {
+        animals.remove(animal);
     }
+
+    public synchronized Plant getPlant() {
+        return plant;
+    }
+
     public void setPlant(Plant plant) {
         this.plant = plant;
     }
-    public synchronized Plant getPlant(){
-        return plant;
-    }
-    public void removePlant(){
+
+    public void removePlant() {
         plant = null;
     }
-    public synchronized List<Animal> getAnimals(){
+
+    public synchronized List<Animal> getAnimals() {
         return animals;
     }
+
     public boolean isEmpty() {
         return plant == null && animals.isEmpty() && !containsWater;
     }
@@ -39,11 +39,12 @@ public class Tile {
     public boolean containsWater() {
         return containsWater;
     }
-    public void addWater(){
-        containsWater=true;
+
+    public void addWater() {
+        containsWater = true;
     }
 
-    public void removeWater(){
-        containsWater=false;
+    public void removeWater() {
+        containsWater = false;
     }
 }

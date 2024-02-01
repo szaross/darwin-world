@@ -10,25 +10,24 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Animal implements Movable, WorldElement {
+    private final Genotype genotype;
     private Vector2d position;
     private Direction direction;
-    private final Genotype genotype;
     private int activeGene;
     private int energy;
-    private int childrenCount=0;
+    private int childrenCount = 0;
     private int age = 0;
     private int deathDate = 0;
-
     private int plantEaten = 0;
 
-    public Animal(Vector2d position,int energy, int genotypeSize){
-        this.position=position;
-        this.energy=energy;
+    public Animal(Vector2d position, int energy, int genotypeSize) {
+        this.position = position;
+        this.energy = energy;
 
         // random direction and active gene
-        Random random=new Random();
-        this.direction=Direction.randomDirection();
-        this.activeGene=random.nextInt(genotypeSize);
+        Random random = new Random();
+        this.direction = Direction.randomDirection();
+        this.activeGene = random.nextInt(genotypeSize);
 
         // random genes
         List<Integer> genes = new ArrayList<>();
@@ -37,101 +36,111 @@ public class Animal implements Movable, WorldElement {
         }
         this.genotype = new Genotype(genes);
     }
-    //testy
-    public Animal(Vector2d position,int energy, Genotype genotype){
-        this.position=position;
-        this.energy=energy;
+
+    public Animal(Vector2d position, int energy, Genotype genotype) {
+        this.position = position;
+        this.energy = energy;
 
         // random direction and active gene
-        Random random=new Random();
-        this.direction=Direction.randomDirection();
-        this.activeGene=random.nextInt(genotype.getGenes().size());
+        Random random = new Random();
+        this.direction = Direction.randomDirection();
+        this.activeGene = random.nextInt(genotype.getGenes().size());
 
         this.genotype = genotype;
     }
 
-    public Animal(Vector2d position,int energy, Genotype genotype,int activeGene, Direction direction){
-        this.position=position;
-        this.energy=energy;
-        this.genotype=genotype;
-        this.direction=direction;
-        this.activeGene=activeGene;
+    //testy
+    public Animal(Vector2d position, int energy, Genotype genotype, int activeGene, Direction direction) {
+        this.position = position;
+        this.energy = energy;
+        this.genotype = genotype;
+        this.direction = direction;
+        this.activeGene = activeGene;
     }
 
     @Override
     public void move(MoveValidator validator) {
-        direction=direction.rotate(genotype.getGenes().get(activeGene));
-        // bez wariantów
+        direction = direction.rotate(genotype.getGenes().get(activeGene));
+
         int genotypeSize = genotype.getGenes().size();
-        activeGene = (activeGene+1)%genotypeSize;
+        activeGene = (activeGene + 1) % genotypeSize;
 
         // calculate new pos
         Vector2d new_pos = position.add(direction.toUnitVector());
         Boundary boundary = validator.getBoundary();
 
-        // bemaj mowil, ze jak zwierze jest w rogu i probuje isc na skos (rownoczesnie wyjsc poza dwie granice), to obie zasady dzialaja tj, zwierze przechodzi na druga strone mapy i sie "odbija"
-        // animal is beyond upper or lower wall
-        if (new_pos.getY() > boundary.upper_right().getY() || new_pos.getY() < boundary.lower_left().getY()) {
-            new_pos = new_pos.subtract(new Vector2d(0, direction.toUnitVector().getY()));
+        if (new_pos.y() > boundary.upper_right().y() || new_pos.y() < boundary.lower_left().y()) {
+            new_pos = new_pos.subtract(new Vector2d(0, direction.toUnitVector().y()));
             direction = direction.rotate(4);
-
         }
         // animal is beyond right wall
-        if (new_pos.getX()>boundary.upper_right().getX()) {
-            new_pos = new_pos.subtract(new Vector2d(boundary.upper_right().getX() + 1,0));
+        if (new_pos.x() > boundary.upper_right().x()) {
+            new_pos = new_pos.subtract(new Vector2d(boundary.upper_right().x() + 1, 0));
         }
         // animal is beyond left wall
-        else if (new_pos.getX()<boundary.lower_left().getX()) {
-            new_pos = new_pos.add(new Vector2d(boundary.upper_right().getX() + 1,0));
+        else if (new_pos.x() < boundary.lower_left().x()) {
+            new_pos = new_pos.add(new Vector2d(boundary.upper_right().x() + 1, 0));
         }
 
-        if (validator.canMoveTo(new_pos)){
+        if (validator.canMoveTo(new_pos)) {
             position = new_pos;
         }
     }
+
     @Override
     public Vector2d getPosition() {
         return position;
     }
-    public Direction getDirection() { return direction; }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
     public Genotype getGenotype() {
         return genotype;
     }
+
     public int getEnergy() {
         return energy;
     }
+
     public void setEnergy(int energy) {
         this.energy = energy;
-    }
-
-    public void setDeathDate(int deathDate) {
-        this.deathDate = deathDate;
     }
 
     public int getDeathDate() {
         return deathDate;
     }
 
-    public void addChildCount() {childrenCount += 1;}
+    public void setDeathDate(int deathDate) {
+        this.deathDate = deathDate;
+    }
+
+    public void addChildCount() {
+        childrenCount += 1;
+    }
+
     public int getChildrenCount() {
         return childrenCount;
     }
+
     @Override
-    public String toString(){
-        return "Age: %d\n".formatted(getAge()) +
-               "Position: (%d,%d)\n".formatted(getPosition().getX(), getPosition().getY()) +
-               "Direction: %s\n".formatted(getDirection()) +
-               "Energy: %d\n".formatted(getEnergy()) +
-               "Genotype: %s\n".formatted(getGenotype()) +
-               "Children count: %d\n".formatted(getChildrenCount())+
-               "Active gene: %d\n".formatted(getActiveGene()) +
-               "Eaten plants: %d\n".formatted(getPlantEaten());
+    public String toString() {
+        return "Age: %d\n".formatted(getAge()) + "Position: (%d,%d)\n".formatted(getPosition().x(), getPosition().y()) + "Direction: %s\n".formatted(getDirection()) + "Energy: %d\n".formatted(getEnergy()) + "Genotype: %s\n".formatted(getGenotype()) + "Children count: %d\n".formatted(getChildrenCount()) + "Active gene: %d\n".formatted(getActiveGene()) + "Eaten plants: %d\n".formatted(getPlantEaten());
     }
-    public void setAge(int age) { this.age = age;}
-    public int getAge(){ return age; }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public int getActiveGene() {
         return activeGene;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

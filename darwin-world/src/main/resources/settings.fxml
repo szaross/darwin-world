@@ -1,271 +1,273 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<?import javafx.scene.control.ListView?>
-<VBox alignment="CENTER" maxHeight="880.0" maxWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.project.presenter.SettingsPresenter">
-   <children>
-      <ScrollPane VBox.vgrow="ALWAYS">
-         <content>
-            <BorderPane>
-                <center>
-                  <HBox>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                     <children>
-                          <VBox alignment="CENTER" minWidth="250.0" spacing="5.0">
-                           <Label text="Mapa">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                              <!-- Parametr: Szerokosc mapy -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Szerokosc mapy: " textAlignment="CENTER" />
-                                      <Label fx:id="sizeXLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="sizeX" max="50" maxWidth="200.0" min="5" value="30.0" />
-                              </VBox>
-                  
-                              <!-- Parametr: Wysokosc mapy -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Wysokosc mapy: " textAlignment="CENTER" />
-                                      <Label fx:id="sizeYLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="sizeY" max="50" maxWidth="200.0" min="5" value="30.0" />
-                              </VBox>
-                  
-                              <!-- Parametr: Czas dnia w milisekundach -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Czas dnia w milisekundach: " textAlignment="CENTER" />
-                                      <Label fx:id="turnTimeLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="turnTime" max="1000.0" maxWidth="200.0" min="50.0" value="100.0" />
-                              </VBox>
-                           <Separator prefWidth="200.0" />
-                           <Label text="Rośliny">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                  
-                              <!-- Parametr: Startowa ilosc roslin -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Startowa ilosc roslin: " textAlignment="CENTER" />
-                                      <Label fx:id="initialPlantCountLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="initialPlantCount" blockIncrement="1.0" max="80.0" maxWidth="200.0" min="1.0" value="50.0" />
-                              </VBox>
-                  
-                              <!-- Parametr: Energia roslin -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Energia roslin: " textAlignment="CENTER" />
-                                      <Label fx:id="initialPlantEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="initialPlantEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="5.0" />
-                              </VBox>
-                  
-                              <!-- Parametr: Codzienny wzrost roslin -->
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Codzienny wzrost roslin: " textAlignment="CENTER" />
-                                      <Label fx:id="growPerDayLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="growPerDay" blockIncrement="1.0" max="50" maxWidth="200.0" value="6.0" />
-                              </VBox>
-                           <Separator prefWidth="200.0" />
-                           <Label text="Woda">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                  
-                              <!-- Parametr: Ilość wody -->
-                  
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Ilość wody: " textAlignment="CENTER" />
-                                      <Label fx:id="initialWaterCountLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="initialWaterCount" max="10" maxWidth="200.0" min="1" value="3" />
-                              </VBox>
-                  
-                              <!-- Parametr: Maksymalna ilosc wody w jednym oczku -->
-                  
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Maksymalny rozmiar wody: " textAlignment="CENTER" />
-                  
-                                      <Label fx:id="waterPoolSizeLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="waterPoolSize" max="40" maxWidth="200.0" min="20" value="20" />
-                              </VBox>
-                  
-                              <!-- Parametr: Co ile woda zmienia rozmiar -->
-                  
-                              <VBox alignment="CENTER">
-                                  <HBox alignment="CENTER">
-                                      <Label alignment="CENTER" text="Co ile dni woda zmienia rozmiar: " textAlignment="CENTER" />
-                                      <Label fx:id="waterPoolGrowRateLabel" alignment="CENTER" textAlignment="CENTER" />
-                                  </HBox>
-                                  <Slider fx:id="waterPoolGrowRate" max="100" maxWidth="200.0" min="10" value="20" />
-                              </VBox>
-                           <VBox alignment="CENTER">
-                              <children>
-                                 <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda" />
-                              </children>
-                           </VBox>
-                  
-                          </VBox>
-                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" minWidth="250.0" spacing="5.0">
-                            <Label text="Zwierzęta">
-                                <font>
-                                    <Font name="System Bold" size="12.0" />
-                                </font>
-                            </Label>
-
-                            <!-- Parametr: Ilosc zwierzat -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Ilosc zwierzat: " textAlignment="CENTER" />
-                                    <Label fx:id="animalCountLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="animalCount" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" prefHeight="14.0" prefWidth="308.0" value="20.0" />
-                            </VBox>
-
-                            <!-- Parametr: Poczatkowa energia zwierzat -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Poczatkowa energia zwierzat: " textAlignment="CENTER" />
-                                    <Label fx:id="animalEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="animalEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="30.0" />
-                            </VBox>
-
-                            <!-- Parametr: Energia potrzebna do rozmnazania -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Energia potrzebna do rozmnazania: " textAlignment="CENTER" />
-                                    <Label fx:id="reproduceEnergyLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="reproduceEnergy" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0" value="6.0" />
-                            </VBox>
-
-                            <!-- Parametr: Strata energii podczas rozmnazania -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Strata energii podczas rozmnazania: " textAlignment="CENTER" />
-                                    <Label fx:id="reproduceLossLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="reproduceLoss" blockIncrement="1.0" max="50" maxWidth="200.0" value="5.0" />
-                            </VBox>
-
-                            <!-- Parametr: Codzienna strata energii -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Codzienna strata energii: " textAlignment="CENTER" />
-                                    <Label fx:id="energyLossLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="energyLoss" blockIncrement="1.0" max="50" maxWidth="200.0" value="1.0" />
-                            </VBox>
-
-                            <!-- Parametr: Dlugosc genomu -->
-                            <VBox alignment="CENTER">
-                                <HBox alignment="CENTER">
-                                    <Label alignment="CENTER" text="Dlugosc genomu: " textAlignment="CENTER" />
-                                    <Label fx:id="genomeLenLabel" alignment="CENTER" textAlignment="CENTER" />
-                                </HBox>
-                                <Slider fx:id="genomeLen" blockIncrement="1.0" max="15.0" maxWidth="200.0" min="3.0" value="5.0" />
-                            </VBox>
-                           <VBox alignment="CENTER" layoutX="10.0" layoutY="348.0">
-                              <children>
-                                 <HBox alignment="CENTER">
-                                    <children>
-                                       <Label alignment="CENTER" text="Ilość mutacji:" textAlignment="CENTER" />
-                                       <Label fx:id="mutationLabel" alignment="CENTER" textAlignment="CENTER" />
-                                    </children>
-                                 </HBox>
-                                 <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
-                                    <children>
-                                       <Label text="min:" />
-                                       <TextField fx:id="minMutation" maxWidth="40.0" text="0"/>
-                                       <Label layoutX="112.0" layoutY="14.0" text="max:" />
-                                       <TextField fx:id="maxMutation" layoutX="140.0" layoutY="10.0" maxWidth="40.0" text="5"/>
-
-                                    </children>
-                                 </HBox>
-
-                              </children>
-                           </VBox>
-                            <VBox alignment="CENTER">
-                                <children>
-                                    <ToggleButton fx:id="backAndForth" mnemonicParsing="false" text="Tam i z powrotem" />
-                                </children>
-                            </VBox>
-                            <VBox alignment="CENTER">
-                                <children>
-                                    <Button mnemonicParsing="false" onAction="#onConfigurationSaveClicked" text="Zapisz konfiguracje" />
-                                </children>
-                            </VBox>
-                            <BorderPane.margin>
-                                <Insets />
-                            </BorderPane.margin>
-                        </VBox>
-                     </children>
-                  </HBox>
-                </center>
-
-               <right>
-            
-                  <VBox alignment="CENTER" prefHeight="502.0" prefWidth="328.0" spacing="10.0" BorderPane.alignment="CENTER">
-                     <children>
-                         <Label id="savedLabel" alignment="CENTER" text="Zapisane konfiguracje">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" maxHeight="880.0" maxWidth="1000.0"
+      xmlns="http://javafx.com/javafx" fx:controller="agh.ics.oop.project.presenter.SettingsPresenter">
+    <ScrollPane VBox.vgrow="ALWAYS">
+        <BorderPane>
+            <center>
+                <HBox>
+                    <BorderPane.margin>
+                        <Insets/>
+                    </BorderPane.margin>
+                    <VBox alignment="CENTER" minWidth="250.0" spacing="5.0">
+                        <Label text="Mapa">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
                         </Label>
-                        <ListView fx:id="configurationListView" editable="true" fixedCellSize="170.0" VBox.vgrow="SOMETIMES" />
-                        <Button mnemonicParsing="false" onAction="#onConfigurationDeleteClicked" text="Usuń wybraną konfiguracje" />
-                     </children>
-                      <VBox alignment="CENTER" spacing="5.0">
-                          <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" onAction="#onSimulationStartClicked" prefHeight="39.0" prefWidth="120.0" style="-fx-padding: 1;" text="Start" textAlignment="CENTER">
-                              <padding>
-                                  <Insets left="10.0" />
-                              </padding>
-                              <opaqueInsets>
-                                  <Insets />
-                              </opaqueInsets>
-                          </Button>
-                          <CheckBox fx:id="saveStatsToFile" mnemonicParsing="false" text="Zapisuj statystyki do pliku" />
-                          <padding>
-                              <Insets top="10.0" />
-                          </padding>
-                      </VBox>
-                  </VBox>
-               </right>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </BorderPane>
-         </content>
-      </ScrollPane>
-   </children>
+                        <!-- Parametr: Szerokosc mapy -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Szerokosc mapy: " textAlignment="CENTER"/>
+                                <Label fx:id="sizeXLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="sizeX" max="50" maxWidth="200.0" min="5" value="30.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Wysokosc mapy -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Wysokosc mapy: " textAlignment="CENTER"/>
+                                <Label fx:id="sizeYLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="sizeY" max="50" maxWidth="200.0" min="5" value="30.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Czas dnia w milisekundach -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Czas dnia w milisekundach: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="turnTimeLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="turnTime" max="1000.0" maxWidth="200.0" min="50.0" value="100.0"/>
+                        </VBox>
+                        <Separator prefWidth="200.0"/>
+                        <Label text="Rośliny">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Label>
+
+                        <!-- Parametr: Startowa ilosc roslin -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Startowa ilosc roslin: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="initialPlantCountLabel" alignment="CENTER"
+                                       textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="initialPlantCount" blockIncrement="1.0" max="80.0" maxWidth="200.0"
+                                    min="1.0" value="50.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Energia roslin -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Energia roslin: " textAlignment="CENTER"/>
+                                <Label fx:id="initialPlantEnergyLabel" alignment="CENTER"
+                                       textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="initialPlantEnergy" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    min="1.0" value="5.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Codzienny wzrost roslin -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Codzienny wzrost roslin: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="growPerDayLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="growPerDay" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    value="6.0"/>
+                        </VBox>
+                        <Separator prefWidth="200.0"/>
+                        <Label text="Woda">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Label>
+
+                        <!-- Parametr: Ilość wody -->
+
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Ilość wody: " textAlignment="CENTER"/>
+                                <Label fx:id="initialWaterCountLabel" alignment="CENTER"
+                                       textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="initialWaterCount" max="10" maxWidth="200.0" min="1" value="3"/>
+                        </VBox>
+
+                        <!-- Parametr: Maksymalna ilosc wody w jednym oczku -->
+
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Maksymalny rozmiar wody: "
+                                       textAlignment="CENTER"/>
+
+                                <Label fx:id="waterPoolSizeLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="waterPoolSize" max="40" maxWidth="200.0" min="20" value="20"/>
+                        </VBox>
+
+                        <!-- Parametr: Co ile woda zmienia rozmiar -->
+
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Co ile dni woda zmienia rozmiar: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="waterPoolGrowRateLabel" alignment="CENTER"
+                                       textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="waterPoolGrowRate" maxWidth="200.0" min="10" value="20"/>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <ToggleButton fx:id="water" mnemonicParsing="false" text="Woda"/>
+                        </VBox>
+
+                    </VBox>
+                    <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" minWidth="250.0" spacing="5.0">
+                        <Label text="Zwierzęta">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Label>
+
+                        <!-- Parametr: Ilosc zwierzat -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Ilosc zwierzat: " textAlignment="CENTER"/>
+                                <Label fx:id="animalCountLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="animalCount" blockIncrement="1.0" max="50" maxWidth="200.0" min="1.0"
+                                    prefHeight="14.0" prefWidth="308.0" value="20.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Poczatkowa energia zwierzat -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Poczatkowa energia zwierzat: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="animalEnergyLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="animalEnergy" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    min="1.0" value="30.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Energia potrzebna do rozmnazania -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Energia potrzebna do rozmnazania: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="reproduceEnergyLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="reproduceEnergy" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    min="1.0" value="6.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Strata energii podczas rozmnazania -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Strata energii podczas rozmnazania: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="reproduceLossLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="reproduceLoss" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    value="5.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Codzienna strata energii -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Codzienna strata energii: "
+                                       textAlignment="CENTER"/>
+                                <Label fx:id="energyLossLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="energyLoss" blockIncrement="1.0" max="50" maxWidth="200.0"
+                                    value="1.0"/>
+                        </VBox>
+
+                        <!-- Parametr: Dlugosc genomu -->
+                        <VBox alignment="CENTER">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Dlugosc genomu: " textAlignment="CENTER"/>
+                                <Label fx:id="genomeLenLabel" alignment="CENTER" textAlignment="CENTER"/>
+                            </HBox>
+                            <Slider fx:id="genomeLen" blockIncrement="1.0" max="15.0" maxWidth="200.0" min="3.0"
+                                    value="5.0"/>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="348.0">
+                            <HBox alignment="CENTER">
+                                <Label alignment="CENTER" text="Ilość mutacji:" textAlignment="CENTER"/>
+                            </HBox>
+                            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="5.0">
+                                <Label text="min:"/>
+                                <TextField fx:id="minMutation" maxWidth="40.0" text="0"/>
+                                <Label layoutX="112.0" layoutY="14.0" text="max:"/>
+                                <TextField fx:id="maxMutation" layoutX="140.0" layoutY="10.0"
+                                           maxWidth="40.0" text="5"/>
+
+                            </HBox>
+
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <ToggleButton fx:id="backAndForth" mnemonicParsing="false"
+                                          text="Tam i z powrotem"/>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <Button mnemonicParsing="false" onAction="#onConfigurationSaveClicked"
+                                    text="Zapisz konfiguracje"/>
+                        </VBox>
+                        <BorderPane.margin>
+                            <Insets/>
+                        </BorderPane.margin>
+                    </VBox>
+                </HBox>
+            </center>
+
+            <right>
+
+                <VBox alignment="CENTER" prefHeight="502.0" prefWidth="328.0" spacing="10.0"
+                      BorderPane.alignment="CENTER">
+                    <children>
+                        <Label id="savedLabel" alignment="CENTER" text="Zapisane konfiguracje">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Label>
+                        <ListView fx:id="configurationListView" editable="true" fixedCellSize="170.0"
+                                  VBox.vgrow="SOMETIMES"/>
+                        <Button mnemonicParsing="false" onAction="#onConfigurationDeleteClicked"
+                                text="Usuń wybraną konfiguracje"/>
+                    </children>
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
+                                onAction="#onSimulationStartClicked" prefHeight="39.0" prefWidth="120.0"
+                                style="-fx-padding: 1;" text="Start" textAlignment="CENTER">
+                            <padding>
+                                <Insets left="10.0"/>
+                            </padding>
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                        </Button>
+                        <CheckBox fx:id="saveStatsToFile" mnemonicParsing="false"
+                                  text="Zapisuj statystyki do pliku"/>
+                        <padding>
+                            <Insets top="10.0"/>
+                        </padding>
+                    </VBox>
+                </VBox>
+            </right>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </BorderPane>
+    </ScrollPane>
 </VBox>

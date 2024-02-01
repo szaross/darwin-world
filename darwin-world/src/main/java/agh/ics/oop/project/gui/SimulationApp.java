@@ -13,20 +13,21 @@ public class SimulationApp extends Application {
     private final SimulationConfiguration configuration;
     private final boolean saveStats;
 
-    public SimulationApp(SimulationConfiguration configuration, boolean saveStats){
-        this.configuration=configuration;
-        this.saveStats=saveStats;
+    public SimulationApp(SimulationConfiguration configuration, boolean saveStats) {
+        this.configuration = configuration;
+        this.saveStats = saveStats;
     }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
         HBox viewRoot = loader.load();
         SimulationPresenter presenter = loader.getController();
-        configureStage(primaryStage,viewRoot);
+        configureStage(primaryStage, viewRoot);
 
         // setup simulation
-        Simulation sim = new Simulation(configuration,saveStats);
+        Simulation sim = new Simulation(configuration, saveStats);
         sim.setUp();
         presenter.setSimulation(sim);
         sim.addListener(presenter);
@@ -37,6 +38,7 @@ public class SimulationApp extends Application {
 
 
     }
+
     private void configureStage(Stage primaryStage, HBox viewRoot) {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);

@@ -5,18 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Statistics {
-    private static final DateFormat dateformat =new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss");
+    private static final DateFormat dateformat = new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss");
     private final File CONFIG_FILE_PATH;
+    private final HashMap<Genotype, Integer> genotypeCounts = new HashMap<>();
     private int day = 0;
     private int animalCount;
     private int plantCount;
@@ -27,12 +24,11 @@ public class Statistics {
     private double averageChildrenCount;
     private int deadCount = 0;
 
-    private HashMap<Genotype, Integer> genotypeCounts = new HashMap<>();
-
-    public Statistics(){
+    public Statistics() {
         Date now = new Date();
-        CONFIG_FILE_PATH= new File("src/main/resources/stats" + dateformat.format(now) + ".csv");
+        CONFIG_FILE_PATH = new File("src/main/resources/stats" + dateformat.format(now) + ".csv");
     }
+
     public void updateStats(HashMap<Vector2d, Tile> tiles, Boundary boundary) {
         day += 1;
         genotypeCounts.clear();
@@ -48,7 +44,7 @@ public class Statistics {
             if (tile.getPlant() != null) {
                 plantCount += 1;
             }
-            if(tile.getPlant() != null || !tile.getAnimals().isEmpty()) {
+            if (tile.getPlant() != null || !tile.getAnimals().isEmpty()) {
                 fullTiles += 1;
             }
             List<Animal> animals = tile.getAnimals();
@@ -64,11 +60,10 @@ public class Statistics {
         averageEnergy = averageEnergy / animalCount;
         averageChildrenCount = averageChildrenCount / animalCount;
 
-        int width = boundary.upper_right().getX() - boundary.lower_left().getX() + 1;
-        int height = boundary.upper_right().getY() - boundary.lower_left().getY() + 1;
+        int width = boundary.upper_right().x() - boundary.lower_left().x() + 1;
+        int height = boundary.upper_right().y() - boundary.lower_left().y() + 1;
         int area = width * height;
         freeTiles = area - fullTiles;
-
 
 
     }
@@ -88,11 +83,10 @@ public class Statistics {
         }
 
         if (mostPopularGenotype != null) {
-            if(mostPopularGenotype.getValue() == 1) {
-                return mostPopularGenotype.getValue() +" animal has the same genotype: " + mostPopularGenotype.getKey().toString();
-            }
-            else {
-                return mostPopularGenotype.getValue() +" animals have the same genotype: " + mostPopularGenotype.getKey().toString();
+            if (mostPopularGenotype.getValue() == 1) {
+                return mostPopularGenotype.getValue() + " animal has the same genotype: " + mostPopularGenotype.getKey().toString();
+            } else {
+                return mostPopularGenotype.getValue() + " animals have the same genotype: " + mostPopularGenotype.getKey().toString();
             }
 
         }
@@ -100,12 +94,13 @@ public class Statistics {
         return " ";
 
     }
-    public void saveToCsv(){
-        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH,true)) {
-            if (day==0){
+
+    public void saveToCsv() {
+        try (FileWriter writer = new FileWriter(CONFIG_FILE_PATH, true)) {
+            if (day == 0) {
                 writer.append("day;animalCount;plantCount;freeTiles;averageLifespan;averageEnergy;averageChildrenCount\n");
             }
-            String result="%d;%d;%d;%d;%.2f;%.2f;%.2f\n".formatted(day,animalCount,plantCount,freeTiles,((currentAge + deadAge) / (animalCount + deadCount)),averageEnergy,averageChildrenCount);
+            String result = "%d;%d;%d;%d;%.2f;%.2f;%.2f\n".formatted(day, animalCount, plantCount, freeTiles, ((currentAge + deadAge) / (animalCount + deadCount)), averageEnergy, averageChildrenCount);
 
             writer.append(result);
 
@@ -113,18 +108,19 @@ public class Statistics {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public String toString() {
-        String result="";
+        String result = "";
         result += "Day: " + day + "\n";
-        result +="Animal count: " + animalCount + "\n";
-        result +="Plant count: " + plantCount + "\n";
-        result +="Free tiles: " + freeTiles + "\n";
-        result +="Average lifespan: " + String.format("%.2f", ((currentAge + deadAge) / (animalCount + deadCount))) + "\n";
-        result +="Average energy: " + String.format("%.2f",averageEnergy)+ "\n";
-        result +="Average children count: " + String.format("%.2f",averageChildrenCount)+ "\n";
+        result += "Animal count: " + animalCount + "\n";
+        result += "Plant count: " + plantCount + "\n";
+        result += "Free tiles: " + freeTiles + "\n";
+        result += "Average lifespan: " + String.format("%.2f", ((currentAge + deadAge) / (animalCount + deadCount))) + "\n";
+        result += "Average energy: " + String.format("%.2f", averageEnergy) + "\n";
+        result += "Average children count: " + String.format("%.2f", averageChildrenCount) + "\n";
 
-        result += this.getGenotype()+ "\n";
+        result += this.getGenotype() + "\n";
         return result;
     }
 }

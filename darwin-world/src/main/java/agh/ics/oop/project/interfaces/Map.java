@@ -6,10 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface Map extends MoveValidator {
-    boolean placeAnimal(Animal animal);
-    boolean placePlant(Plant plant);
+    void placeAnimal(Animal animal);
 
-    List<WorldElement> objectsAt(Vector2d position);
+    void placePlant(Plant plant);
 
     boolean isOccupied(Vector2d position);
 
@@ -19,7 +18,7 @@ public interface Map extends MoveValidator {
 
     int getWidth();
 
-    HashMap<Vector2d,Tile> getTiles();
+    HashMap<Vector2d, Tile> getTiles();
 
     Boundary getBoundary();
 }

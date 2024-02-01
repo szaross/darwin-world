@@ -1,85 +1,78 @@
 package agh.ics.oop.project.model;
+
 import agh.ics.oop.project.interfaces.Map;
 import agh.ics.oop.project.interfaces.WorldElement;
-import agh.ics.oop.project.model.util.MapVisualizer;
 
 import java.util.*;
 
-public class WorldMap implements Map{
+public class WorldMap implements Map {
     private final Boundary boundary;
     private final int height;
     private final int width;
-    private HashMap<Vector2d, Tile> tiles;
-    private final int id;
-    private List<WaterPool> waterCenters;
+    private final HashMap<Vector2d, Tile> tiles;
+    private final List<WaterPool> waterCenters;
 
-    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
-    public WorldMap(int width, int height, int id) {
+    public WorldMap(int width, int height) {
         this.height = height;
         this.width = width;
         this.boundary = new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
-        this.id=id;
         this.tiles = new HashMap<>();
         this.waterCenters = new ArrayList<>();
     }
 
-    public void placeWater(int initialWaterCount, int waterPoolSize) {
-        for(int i = 0; i < initialWaterCount ;i++){
+    public void placeWater(int initialWaterCount) {
+        for (int i = 0; i < initialWaterCount; i++) {
             Random random = new Random();
-            int x = random.nextInt(getBoundary().upper_right().getX() - getBoundary().lower_left().getX());
-            int y = random.nextInt(getBoundary().upper_right().getY() - getBoundary().lower_left().getY());
-            Vector2d pos=new Vector2d(x,y);
-            waterCenters.add(new WaterPool(pos,waterPoolSize));
-            if (getTiles().get(pos)==null) getTiles().put(pos,new Tile());
+            int x = random.nextInt(getBoundary().upper_right().x() - getBoundary().lower_left().x());
+            int y = random.nextInt(getBoundary().upper_right().y() - getBoundary().lower_left().y());
+            Vector2d pos = new Vector2d(x, y);
+            waterCenters.add(new WaterPool(pos));
+            if (getTiles().get(pos) == null) getTiles().put(pos, new Tile());
             getTiles().get(pos).addWater();
         }
     }
 
     public void growWater() {
-        for(WaterPool pool : waterCenters){
+        for (WaterPool pool : waterCenters) {
             pool.grow(getTiles(), getBoundary());
         }
     }
 
     public void shrinkWater() {
-        for(WaterPool pool : waterCenters){
+        for (WaterPool pool : waterCenters) {
             pool.shrink(getTiles(), getBoundary());
         }
     }
 
     @Override
-    public boolean placeAnimal(Animal animal) {
+    public void placeAnimal(Animal animal) {
         Vector2d pos = animal.getPosition();
         if (canMoveTo(pos)) {
             if (!getTiles().containsKey(pos)) getTiles().put(pos, new Tile());
             getTiles().get(pos).addAnimal(animal);
-            return true;
         }
-        return false;
     }
 
-    public void removeAnimal(Animal animal){
+    public void removeAnimal(Animal animal) {
         getTiles().get(animal.getPosition()).removeAnimal(animal);
     }
 
     @Override
-    public boolean placePlant(Plant plant) {
+    public void placePlant(Plant plant) {
         Vector2d pos = plant.getPosition();
-        if (!getTiles().containsKey(pos) || getTiles().get(pos).getPlant()==null) {
+        if (!getTiles().containsKey(pos) || getTiles().get(pos).getPlant() == null) {
             if (!getTiles().containsKey(pos)) getTiles().put(pos, new Tile());
             getTiles().get(pos).setPlant(plant);
-            return true;
         }
-        return false;
     }
 
-    public void moveAnimals(boolean backAndForth){
+    public void moveAnimals(boolean backAndForth) {
         Set<Animal> moved = new HashSet<>();
 
-        for (Animal animal : getAnimals()){
+        for (Animal animal : getAnimals()) {
             if (!moved.contains(animal)) {
-                Vector2d old_pos=animal.getPosition();
+                Vector2d old_pos = animal.getPosition();
                 Tile t = getTiles().get(old_pos);
 
                 // move the animal
@@ -87,7 +80,7 @@ public class WorldMap implements Map{
                 animal.move(this);
 
                 // back and forth configuration
-                if (animal.getActiveGene()==0 && backAndForth){
+                if (animal.getActiveGene() == 0 && backAndForth) {
                     animal.getGenotype().reverse();
                 }
 
@@ -106,16 +99,16 @@ public class WorldMap implements Map{
     }
 
     public void eatPlants() {
-        for(Vector2d position : getTiles().keySet()) {
+        for (Vector2d position : getTiles().keySet()) {
             Tile t = getTiles().get(position);
-            if(t.getPlant() != null && !t.getAnimals().isEmpty()) {
+            if (t.getPlant() != null && !t.getAnimals().isEmpty()) {
                 List<Animal> animals = t.getAnimals();
 
                 Animal max_animal = animals.get(0);
                 AnimalComparator comparator = new AnimalComparator();
 
-                for(Animal animal : animals){
-                    if (comparator.compare(max_animal, animal) > 0){
+                for (Animal animal : animals) {
+                    if (comparator.compare(max_animal, animal) > 0) {
                         max_animal = animal;
                     }
                 }
@@ -133,44 +126,32 @@ public class WorldMap implements Map{
         }
     }
 
-    private void updateWater(){
-
-    }
-    public void deleteIfEmpty(Vector2d position){
-        if (getTiles().containsKey(position)){
+    public void deleteIfEmpty(Vector2d position) {
+        if (getTiles().containsKey(position)) {
             Tile t = getTiles().get(position);
             if (t.isEmpty()) {
                 getTiles().remove(position);
             }
         }
     }
-    @Override
-    public synchronized List<WorldElement> objectsAt(Vector2d position) {
-        Tile t = getTiles().get(position);
-        if (t == null) {
-            return new ArrayList<>();
-        }
-        List<WorldElement> result = new ArrayList<>(t.getAnimals());
-        if (t.getPlant() != null) {
-            result.add(t.getPlant());
-        }
-        return result;
-    }
+
 
     @Override
     public synchronized boolean isOccupied(Vector2d position) {
         return getTiles().get(position) != null;
     }
 
-    public synchronized Plant getPlant(Vector2d pos){
-        if (isOccupied(pos)){
+    public synchronized Plant getPlant(Vector2d pos) {
+        if (isOccupied(pos)) {
             return getTiles().get(pos).getPlant();
         }
         return null;
     }
-    public boolean containsWater(Vector2d pos){
+
+    public boolean containsWater(Vector2d pos) {
         return (!isOccupied(pos) || getTiles().get(pos).containsWater());
     }
+
     @Override
     public synchronized List<WorldElement> getElements() {
         List<WorldElement> result = new ArrayList<>();
@@ -181,13 +162,14 @@ public class WorldMap implements Map{
         return result;
     }
 
-    public synchronized List<Animal> getAnimals(){
+    public synchronized List<Animal> getAnimals() {
         List<Animal> result = new ArrayList<>();
         for (Tile t : getTiles().values()) {
             result.addAll(t.getAnimals());
         }
         return result;
     }
+
     @Override
     public int getHeight() {
         return height;
@@ -205,7 +187,6 @@ public class WorldMap implements Map{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        // domyslnie true - dla wody bedzie false
         return (!isOccupied(position) || !getTiles().get(position).containsWater());
     }
 
@@ -214,14 +195,6 @@ public class WorldMap implements Map{
         return boundary;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return mapVisualizer.draw(boundary.lower_left(), boundary.upper_right());
-    }
 
     public List<WaterPool> getWaterCenters() {
         return waterCenters;
