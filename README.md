@@ -7,7 +7,7 @@
 
 <img src="https://github.com/szaross/darwin-world/assets/44586881/5b57c253-242f-4fe6-a8fc-22dbe7c4f086" width="600">
 <img src="https://github.com/szaross/darwin-world/assets/44586881/5598d2b5-1370-4d4e-8b4e-636368b4bdb1" width="600">
-
+<img src="https://github.com/szaross/darwin-world/assets/44586881/a9b9c097-5206-4dd8-a560-99613bbe9486" width="600">
 
 ## Key Features
 
