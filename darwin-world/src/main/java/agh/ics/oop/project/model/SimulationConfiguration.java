@@ -58,7 +58,7 @@ public class SimulationConfiguration {
         this.reproduceEnergyLoss = reproduceEnergyLoss;
         this.energyLossEachDay = energyLossEachDay;
         this.genomeLength = genomeLength;
-        this.turnTimeInMs=turnTimeInMs;
+        this.turnTimeInMs = turnTimeInMs;
         this.backAndForth = backAndForth;
         this.initialWaterCount = initialWaterCount;
         this.waterPoolSize = waterPoolSize;
@@ -67,9 +67,11 @@ public class SimulationConfiguration {
         this.minMutation = minMutation;
         this.maxMutation = maxMutation;
     }
-    public SimulationConfiguration(){ // needed for opencsv beans
+
+    public SimulationConfiguration() { // needed for opencsv beans
 
     }
+
     public int getMapSizeX() {
         return mapSizeX;
     }
@@ -102,9 +104,10 @@ public class SimulationConfiguration {
         return genomeLength;
     }
 
-    public int getInitialPlantEnergy(){
+    public int getInitialPlantEnergy() {
         return initialPlantEnergy;
     }
+
     public int getTurnTimeInMs() {
         return turnTimeInMs;
     }
@@ -112,15 +115,19 @@ public class SimulationConfiguration {
     public int getEnergyLossEachDay() {
         return energyLossEachDay;
     }
+
     public int getReproduceEnergyLoss() {
         return reproduceEnergyLoss;
     }
+
     public int getInitialWaterCount() {
         return initialWaterCount;
     }
+
     public int getWaterPoolSize() {
         return waterPoolSize;
     }
+
     public int getWaterPoolGrowRate() {
         return waterPoolGrowRate;
     }
@@ -128,6 +135,7 @@ public class SimulationConfiguration {
     public boolean isBackAndForth() {
         return backAndForth;
     }
+
     public boolean isWater() {
         return water;
     }
@@ -142,25 +150,7 @@ public class SimulationConfiguration {
 
     @Override
     public String toString() {
-        return "SimulationConfiguration{" +
-               " mapSizeX=" + mapSizeX +
-               ", mapSizeY=" + mapSizeY +
-               ", \ninitialPlantCount=" + initialPlantCount +
-               ", initialPlantEnergy=" + initialPlantEnergy +
-               ", \nnumberOfPlantsGrowingPerDay=" + numberOfPlantsGrowingPerDay +
-               ", initialAnimalCount=" + initialAnimalCount +
-               ", \ninitialAnimalEnergy=" + initialAnimalEnergy +
-               ", readyToReproduceEnergy=" + readyToReproduceEnergy +
-               ", \nreproduceEnergyLoss=" + reproduceEnergyLoss +
-               ", energyLossEachDay=" + energyLossEachDay +
-               ", \ngenomeLength=" + genomeLength +
-               ", turnTimeInMs=" + turnTimeInMs +
-               ", \ninitialWaterCount=" + initialWaterCount +
-               ", waterPoolSize=" + waterPoolSize +
-               ", \nwaterPoolGrowRate=" + waterPoolGrowRate +
-               ", water=" + water +
-               ", \nbackAndForth=" + backAndForth +
-               '}';
+        return "SimulationConfiguration{" + " mapSizeX=" + mapSizeX + ", mapSizeY=" + mapSizeY + ", \ninitialPlantCount=" + initialPlantCount + ", initialPlantEnergy=" + initialPlantEnergy + ", \nnumberOfPlantsGrowingPerDay=" + numberOfPlantsGrowingPerDay + ", initialAnimalCount=" + initialAnimalCount + ", \ninitialAnimalEnergy=" + initialAnimalEnergy + ", readyToReproduceEnergy=" + readyToReproduceEnergy + ", \nreproduceEnergyLoss=" + reproduceEnergyLoss + ", energyLossEachDay=" + energyLossEachDay + ", \ngenomeLength=" + genomeLength + ", turnTimeInMs=" + turnTimeInMs + ", \ninitialWaterCount=" + initialWaterCount + ", waterPoolSize=" + waterPoolSize + ", \nwaterPoolGrowRate=" + waterPoolGrowRate + ", water=" + water + ", \nbackAndForth=" + backAndForth + '}';
     }
 
     @Override

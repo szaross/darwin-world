@@ -16,7 +16,7 @@ public class AnimalTest {
 
     @BeforeEach
     public void setUp() {
-        map = new WorldMap(10, 10, 0);
+        map = new WorldMap(10, 10);
         gen1 = new Genotype(new ArrayList<>(List.of(0)));
     }
 

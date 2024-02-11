@@ -3,7 +3,8 @@ package agh.ics.oop.project.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class Vector2dTest {
     private Vector2d vec1;
@@ -41,23 +42,23 @@ public class Vector2dTest {
 
     @Test
     public void equalsTest() {
-        assertFalse(vec1.equals(vec2));
-        assertTrue(vec1.equals(vec1));
-        assertTrue(vec1.equals(new Vector2d(2,3)));
+        assertNotEquals(vec1, vec2);
+        assertEquals(vec1, vec1);
+        assertEquals(vec1, new Vector2d(2, 3));
     }
 
     @Test
-    public void getTest(){
-        assertEquals(2, vec1.getX());
-        assertEquals(5, vec2.getX());
-        assertEquals(4, vec3.getX());
-        assertEquals(-3, vec3.getY());
-        assertEquals(-3, vec4.getY());
+    public void getTest() {
+        assertEquals(2, vec1.x());
+        assertEquals(5, vec2.x());
+        assertEquals(4, vec3.x());
+        assertEquals(-3, vec3.y());
+        assertEquals(-3, vec4.y());
     }
 
     @Test
-    public void oppositeTest(){
-        assertEquals(new Vector2d(3,2), vec1.opposite());
-        assertEquals(new Vector2d(-3,-1), vec4.opposite());
+    public void oppositeTest() {
+        assertEquals(new Vector2d(3, 2), vec1.opposite());
+        assertEquals(new Vector2d(-3, -1), vec4.opposite());
     }
 }

@@ -1,29 +1,29 @@
 package agh.ics.oop.project.model;
 
 import agh.ics.oop.project.interfaces.SimulationListener;
+
 import java.util.*;
 
 public class Simulation {
-    private int day = 0;
     private final SimulationConfiguration config;
+    private final List<SimulationListener> listeners = new ArrayList<>();
+    private final boolean saveStats;
+    private int day = 0;
     private WorldMap map;
-    private List<SimulationListener> listeners = new ArrayList<>();
     private Statistics stats;
     private Thread thread;
     private boolean isActive;
-    private final boolean saveStats;
+
     public Simulation(SimulationConfiguration config, boolean saveStats) {
         this.config = config;
-        this.saveStats=saveStats;
+        this.saveStats = saveStats;
     }
 
     public void setUp() {
-        map = new WorldMap(config.getMapSizeX(), config.getMapSizeY(), 1);
+        map = new WorldMap(config.getMapSizeX(), config.getMapSizeY());
         stats = new Statistics();
-        if(config.isWater()) map.placeWater(config.getInitialWaterCount(), config.getWaterPoolSize());
+        if (config.isWater()) map.placeWater(config.getInitialWaterCount());
 
-//        this.setListener(new ConsoleSimulationDisplay()); // TODO
-//        listeners.add(new ConsoleSimulationDisplay());
         spawnPlants(config.getInitialPlantCount());
         spawnAnimals(config.getInitialAnimalCount());
 
@@ -43,7 +43,7 @@ public class Simulation {
     public void run() throws InterruptedException {
         setUp();
         notifyListeners();
-        while (true) { // keep this so that thread doesnt stop
+        while (true) { // keep this so that thread doesn't stop
             while (!isSimulationOver() && isActive) {
                 if (saveStats) stats.saveToCsv();
                 increaseDay();
@@ -55,16 +55,19 @@ public class Simulation {
                 reproduceAnimals();
                 spawnPlants(config.getNumberOfPlantsGrowingPerDay());
                 stats.updateStats(map.getTiles(), map.getBoundary());
-
-                if(getDay() % config.getWaterPoolGrowRate() == 0 && config.isWater()){
-                    Random random = new Random();
-                    int x = random.nextInt(3);
-                    if (x % 2 == 0) map.growWater();
-                    else map.shrinkWater();
-                }
+                growWater();
                 notifyListeners();
                 Thread.sleep(config.getTurnTimeInMs());
             }
+        }
+    }
+
+    private void growWater() {
+        if (getDay() % config.getWaterPoolGrowRate() == 0 && config.isWater()) {
+            Random random = new Random();
+            int x = random.nextInt(3);
+            if (x % 2 == 0) map.growWater();
+            else map.shrinkWater();
         }
     }
 
@@ -77,7 +80,7 @@ public class Simulation {
     }
 
     private void spawnPlants(int plantCount) {
-        if(plantCount > 0){
+        if (plantCount > 0) {
             List<Vector2d> availablePositions = getPositionsWithoutPlantsAndWater();
             List<Vector2d> centerList = new ArrayList<>();
             List<Vector2d> outsideList = new ArrayList<>();
@@ -86,7 +89,7 @@ public class Simulation {
             int center = config.getMapSizeY() / 2;
 
             for (Vector2d position : availablePositions) {
-                if (position.getY() > center - border && position.getY() < center + border) {
+                if (position.y() > center - border && position.y() < center + border) {
                     centerList.add(position);
                 } else {
                     outsideList.add(position);
@@ -127,11 +130,7 @@ public class Simulation {
 
         for (Vector2d position : tiles.keySet()) {
             // two strongest animals
-            List<Animal> animalCouple = tiles.get(position).getAnimals().stream()
-                    .filter(animal -> animal.getEnergy() >= config.getReadyToReproduceEnergy())
-                    .sorted(new AnimalComparator())
-                    .limit(2)
-                    .toList();
+            List<Animal> animalCouple = tiles.get(position).getAnimals().stream().filter(animal -> animal.getEnergy() >= config.getReadyToReproduceEnergy()).sorted(new AnimalComparator()).limit(2).toList();
 
             if (animalCouple.size() < 2) continue;
 
@@ -146,7 +145,7 @@ public class Simulation {
             int weaker_len = config.getGenomeLength() - stronger_len;
 
             switch (side) {
-                case 0: // taking left side of steonger genes
+                case 0: // taking left side of stronger genes
                     genes.addAll(stronger.getGenotype().getGenes().subList(0, stronger_len));
                     genes.addAll(weaker.getGenotype().getGenes().subList(config.getGenomeLength() - weaker_len, config.getGenomeLength()));
                     break;
@@ -192,7 +191,7 @@ public class Simulation {
 
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                if (map.getTiles().get(new Vector2d(i,j))==null || (map.getPlant(new Vector2d(i, j)) == null && !map.containsWater(new Vector2d(i,j)))) {
+                if (map.getTiles().get(new Vector2d(i, j)) == null || (map.getPlant(new Vector2d(i, j)) == null && !map.containsWater(new Vector2d(i, j)))) {
                     result.add(new Vector2d(i, j));
                 }
             }
@@ -227,10 +226,9 @@ public class Simulation {
 
     public void increaseDay() {
         day = day + 1;
-//        System.out.println("Dzień: " + day);
     }
 
-    public int getDay(){
+    public int getDay() {
         return day;
     }
 
@@ -238,16 +236,19 @@ public class Simulation {
         thread = new Thread(() -> {
             try {
                 run();
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException ignored) {
+            }
         });
         thread.start();
 
     }
-    public void stopAsync(){
-        if (thread!=null && thread.isAlive()){
+
+    public void stopAsync() {
+        if (thread != null && thread.isAlive()) {
             thread.interrupt();
         }
     }
+
     public Statistics getStats() {
         return stats;
     }
